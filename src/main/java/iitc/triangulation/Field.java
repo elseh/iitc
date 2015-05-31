@@ -9,22 +9,45 @@ import java.util.stream.Collectors;
  * Created by epavlova on 5/29/2015.
  */
 public class Field {
-    private List<Point> main;
+    private GeoUtils.Triple<Point> bases;
     private List<Point> inner;
+    private GeoUtils.Triple<Field> smallerFields;
+    private Point innerPoint;
 
-    public Field(Point p1, Point p2, Point p3, List<Point> other) {
-        main = new ArrayList<>();
-        main.add(p1);
-        main.add(p2);
-        main.add(p3);
-        inner = other.stream().filter(new Predicate<Point>() {
+
+    public Field(GeoUtils.Triple<Point> bases, List<Point> all) {
+        this.bases = bases;
+        inner = all.stream().filter(new Predicate<Point>() {
             @Override
             public boolean test(Point point) {
-                return GeoUtils.isPointInsideField(point, p1, p2, p3);
+                return GeoUtils.isPointInsideField(point, bases);
             }
         }).collect(Collectors.toList());
-
     }
 
+    public List<Point> getInners() {
+        return inner;
+    }
 
+    public GeoUtils.Triple<Point> getBases() {
+        return bases;
+    }
+
+    public GeoUtils.Triple<Field> getSmallerFields() {
+        return smallerFields;
+    }
+
+    public void insertSmallerFields(Point p) {
+        List<GeoUtils.Pair<Point>> pairs = bases.split();
+        smallerFields = GeoUtils.Triple.of(
+                new Field(GeoUtils.Triple.of(p, pairs.get(0)), inner),
+                new Field(GeoUtils.Triple.of(p, pairs.get(1)), inner),
+                new Field(GeoUtils.Triple.of(p, pairs.get(2)), inner)
+        );
+        innerPoint = p;
+    }
+
+    public Point getInnerPoint() {
+        return innerPoint;
+    }
 }
