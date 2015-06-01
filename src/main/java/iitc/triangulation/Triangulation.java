@@ -1,5 +1,8 @@
 package iitc.triangulation;
 
+import iitc.triangulation.shapes.Field;
+import iitc.triangulation.shapes.Triple;
+
 import java.util.*;
 
 /**
@@ -7,48 +10,39 @@ import java.util.*;
  */
 public class Triangulation {
     private Map<Point, Set<Point>> outComingLinks = new HashMap<>();
-    private Map<Point, Integer> outCounters = new HashMap<>();
     private Field baseField;
 
-    public Triangulation(List<Point> allPoints, GeoUtils.Triple<Point> baseTriangle) {
+    public Triangulation(List<Point> allPoints, Triple<Point> baseTriangle) {
         baseField = new Field(baseTriangle, allPoints);
-        add(baseTriangle.v1, baseTriangle.v2);
-        add(baseTriangle.v2, baseTriangle.v3);
-        add(baseTriangle.v3, baseTriangle.v1);
-        /*outCounters.put(baseTriangle.v1, 2);
-        outCounters.put(baseTriangle.v2, 2);
-        outCounters.put(baseTriangle.v3, 2);*/
+        outComingLinks.computeIfAbsent(baseTriangle.v1, k -> new HashSet<>()).add(baseTriangle.v2);
+        outComingLinks.computeIfAbsent(baseTriangle.v1, k -> new HashSet<>()).add(baseTriangle.v3);
+        outComingLinks.computeIfAbsent(baseTriangle.v2, k -> new HashSet<>()).add(baseTriangle.v3);
+        //baseTriangle.split().stream().forEach(p -> outComingLinks.computeIfAbsent(p.v1, k -> new HashSet<>()).add(p.v2));
     }
 
     public boolean triangulateField(Field field) {
         if (field.getInners().isEmpty()) {
             return true;
         }
-        GeoUtils.Triple<Point> bases = field.getBases();
-        if (!checkPoint(bases.v1, 7) || !checkPoint(bases.v2, 7) || !checkPoint(bases.v3, 7)) {
+        Triple<Point> bases = field.getBases();
+
+        if (bases.stream().anyMatch(p -> !checkPoint(p, 7))) {
             return false;
         }
-        /*add(bases.v1, 1);
-        add(bases.v2, 1);
-        add(bases.v3, 1);*/
-        for (Point point : field.getInners()) {
+
+        List<Point> inners = new ArrayList<>(field.getInners());
+        inners.sort(Comparator.comparing(p -> GeoUtils.getDistance(p.getLatlng(), GeoUtils.getCenter(bases.simplify(Point::getLatlng)))));
+        for (Point point : inners) {
             field.insertSmallerFields(point);
-
-            outComingLinks.get(bases.v1).add(point);
-            outComingLinks.get(bases.v2).add(point);
-            outComingLinks.get(bases.v3).add(point);
-
-            GeoUtils.Triple<Field> smallerFields = field.getSmallerFields();
-            if (triangulateField(smallerFields.v1) && triangulateField(smallerFields.v2) && triangulateField(smallerFields.v3)) {
+            bases.stream().forEach(p -> outComingLinks.get(p).add(point));
+            if (field.getSmallerFields().stream().allMatch(this::triangulateField)) {
                 return true;
             }
-            outComingLinks.get(bases.v1).remove(point);
-            outComingLinks.get(bases.v2).remove(point);
-            outComingLinks.get(bases.v3).remove(point);
+
+            field.resetSmallerFields();
+            bases.stream().forEach(p -> outComingLinks.get(p).removeAll(inners));
+            inners.stream().forEach(p -> { if (outComingLinks.containsKey(p)) outComingLinks.get(p).clear();});
         }
-        /*add(bases.v1, -1);
-        add(bases.v2, -1);
-        add(bases.v3, -1);*/
         return false;
     }
 
@@ -57,25 +51,7 @@ public class Triangulation {
     }
 
     public boolean checkPoint(Point p, int amount) {
-        if (!outComingLinks.containsKey(p)) {
-            outComingLinks.put(p, new HashSet<>());
-        }
-        return outComingLinks.get(p).size() <= amount;
-        /*if (!outCounters.containsKey(p)) {
-            outCounters.put(p, 0);
-        }
-        return (outCounters.get(p) <= amount);*/
-    }
-
-    public void add(Point p, int amount) {
-        outCounters.put(p, outCounters.getOrDefault(p, 0) + amount);
-    }
-
-    public void add(Point p1, Point p2) {
-        if (!outComingLinks.containsKey(p1)) {
-            outComingLinks.put(p1, new HashSet<>());
-        }
-        outComingLinks.get(p1).add(p2);
+        return outComingLinks.computeIfAbsent(p, v-> new HashSet<>()).size() <= amount;
     }
 
     public Field getBaseField() {

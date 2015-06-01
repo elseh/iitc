@@ -1,6 +1,7 @@
 package iitc.triangulation;
 
 import com.google.gson.Gson;
+import iitc.triangulation.shapes.Triple;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -21,16 +22,11 @@ public class Main {
     private static Map<String, Point> pointsById = new HashMap<>();
 
     public static void setPoints(List<Point> points) {
-        points.stream().forEach(new Consumer<Point>() {
-            @Override
-            public void accept(Point point) {
-                pointsById.put(point.getId(), point);
-            }
-        });
+        points.stream().forEach(p -> pointsById.put(p.getId(), p));
     }
 
-    public static GeoUtils.Triple<Point> getPoints(GeoUtils.Triple<String> ids) {
-        return GeoUtils.Triple.of(
+    public static Triple<Point> getPoints(Triple<String> ids) {
+        return Triple.of(
                 pointsById.get(ids.v1),
                 pointsById.get(ids.v2),
                 pointsById.get(ids.v3));
@@ -42,7 +38,7 @@ public class Main {
         try (Reader reader = Files.newBufferedReader(resources, Charset.defaultCharset())){
             Point[] points = gson.fromJson(reader, Point[].class);
             setPoints(Arrays.asList(points));
-            GeoUtils.Triple<Point> triple = getPoints(GeoUtils.Triple.of(
+            Triple<Point> triple = getPoints(Triple.of(
                     "bb2bdeda936c45a794d312e2c4e8061a.16",
                     "b7c2a02bf223441bb4ac4424098d4add.16",
                     "0be1cfdf37e84757b8bb348fc2c639e0.16"));

@@ -1,19 +1,19 @@
 package iitc.triangulation;
 
+import iitc.triangulation.shapes.LatLngs;
+
 /**
  * Created by epavlova on 5/29/2015.
  */
 public class Point {
     String id;
     String title;
-    double lat;
-    double lng;
+    LatLngs latlng;
 
-    public Point(String id, String title, double lat, double lng) {
+    public Point(String id, String title, LatLngs latlng) {
         this.id = id;
         this.title = title;
-        this.lat = lat;
-        this.lng = lng;
+        this.latlng = latlng;
     }
 
     public String getId() {
@@ -32,31 +32,12 @@ public class Point {
         this.title = title;
     }
 
-    public double getLat() {
-        return lat;
+    public LatLngs getLatlng() {
+        return latlng;
     }
 
-    public void setLat(double lat) {
-        this.lat = lat;
-    }
-
-    public double getLng() {
-        return lng;
-    }
-
-    public void setLng(double lng) {
-        this.lng = lng;
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("Point{");
-        sb.append("id='").append(id).append('\'');
-        sb.append(", title='").append(title).append('\'');
-        sb.append(", lat=").append(lat);
-        sb.append(", lng=").append(lng);
-        sb.append('}');
-        return sb.toString();
+    public void setLatlng(LatLngs latlng) {
+        this.latlng = latlng;
     }
 
     @Override
