@@ -47,6 +47,8 @@ public class Main {
             FieldSerializer ser = new FieldSerializer();
             ser.insertField(triangulation.getBaseField());
             System.out.println(ser.serialize());
+            DeployOrder deployOrder = new DeployOrder(triangulation.getBaseField());
+            deployOrder.calculate();
         } catch (IOException e) {
             e.printStackTrace();
         }

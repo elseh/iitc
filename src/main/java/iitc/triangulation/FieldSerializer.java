@@ -21,21 +21,27 @@ public class FieldSerializer {
         Triple<Point> bases = field.getBases();
         bases.stream().forEach(v -> counters.put(v, counters.getOrDefault(v, 0) + 2));
         bases.split().stream().forEach(v -> lineList.add(new Drawing("polyline", v.v1, v.v2)));
-        splitField(field);
+        splitField(field, 0);
     }
 
-    private void splitField(Field field) {
+    private void splitField(Field field, int deep) {
         Triple<Point> bases = field.getBases();
         fieldList.add(new Drawing("polygon", bases.v1, bases.v2, bases.v3));
+        Point innerPoint = field.getInnerPoint();
+        writeDown(deep, innerPoint);
         if (field.getInners().isEmpty()) {
             return;
         }
-        Point innerPoint = field.getInnerPoint();
         bases.stream().forEach(v -> lineList.add(new Drawing("polyline", innerPoint, v)));
         bases.stream().forEach(v -> counters.put(v, counters.getOrDefault(v, 0) + 1));
         counters.put(innerPoint, counters.getOrDefault(innerPoint, 0) + 3);
 
-        field.getSmallerFields().stream().forEach(v -> splitField(v));
+        field.getSmallerFields().stream().forEach(v -> splitField(v, deep + 1));
+    }
+
+    public void writeDown(int deep, Point p) {
+        String name = p == null ? "()" : p.getTitle();
+        System.out.printf("%3d %" + (deep*3+1) + "s %s\n", deep, "", name);
     }
 
     public String serialize() {
