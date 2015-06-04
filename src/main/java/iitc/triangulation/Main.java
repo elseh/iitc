@@ -9,10 +9,7 @@ import java.nio.charset.Charset;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
 
 /**
@@ -42,7 +39,18 @@ public class Main {
                     "bb2bdeda936c45a794d312e2c4e8061a.16",
                     "b7c2a02bf223441bb4ac4424098d4add.16",
                     "0be1cfdf37e84757b8bb348fc2c639e0.16"));
-            Triangulation triangulation = new Triangulation(Arrays.asList(points), triple);
+
+
+            Map<Point, Set<Point>> out = new HashMap<>();
+            out.computeIfAbsent(triple.v1, k -> new HashSet<>()).add(triple.v2);
+            out.computeIfAbsent(triple.v1, k -> new HashSet<>()).add(triple.v3);
+            out.computeIfAbsent(triple.v2, k -> new HashSet<>()).add(triple.v3);
+                   /*baseField = new Field(baseTriangle, allPoints);
+        outComingLinks.computeIfAbsent(baseTriangle.v1, k -> new HashSet<>()).add(baseTriangle.v2);
+        outComingLinks.computeIfAbsent(baseTriangle.v1, k -> new HashSet<>()).add(baseTriangle.v3);
+        outComingLinks.computeIfAbsent(baseTriangle.v2, k -> new HashSet<>()).add(baseTriangle.v3);
+ */
+            Triangulation triangulation = new Triangulation(Arrays.asList(points), Collections.singleton(triple), out);
             System.out.println(triangulation.run());
             FieldSerializer ser = new FieldSerializer();
             ser.insertField(triangulation.getBaseField());
