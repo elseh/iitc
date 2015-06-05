@@ -37,4 +37,8 @@ public class Link {
     public boolean isReverse() {
         return isReverse;
     }
+
+    public Pair<String> getLink() {
+        return isReverse ? Pair.of(to, from) : Pair.of(from, to);
+    }
 }

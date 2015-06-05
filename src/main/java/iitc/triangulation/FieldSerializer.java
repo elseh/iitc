@@ -15,12 +15,23 @@ import java.util.stream.Collectors;
 public class FieldSerializer {
     private List<Drawing> fieldList = new ArrayList<>();
     private List<Drawing> lineList = new ArrayList<>();
-    private Map<Point, Integer> counters = new HashMap<>();
+    //private Map<Point, Integer> counters = new HashMap<>();
+
+    private Map<Point, Set<Point>> linksMap = new HashMap<>();
 
     public void insertField(Field field) {
         Triple<Point> bases = field.getBases();
-        bases.stream().forEach(v -> counters.put(v, counters.getOrDefault(v, 0) + 2));
-        bases.split().stream().forEach(v -> lineList.add(new Drawing("polyline", v.v1, v.v2)));
+        bases
+                .split()
+                .forEach(v -> {
+                    linksMap.computeIfAbsent(v.v1, t -> new HashSet<>()).add(v.v2);
+                    linksMap.computeIfAbsent(v.v2, t -> new HashSet<>()).add(v.v1);
+                });
+
+        bases
+                .split()
+                .stream()
+                .forEach(v -> lineList.add(new Drawing("polyline", v.v1, v.v2)));
         splitField(field, 0);
     }
 
@@ -28,14 +39,18 @@ public class FieldSerializer {
         Triple<Point> bases = field.getBases();
         fieldList.add(new Drawing("polygon", bases.v1, bases.v2, bases.v3));
         Point innerPoint = field.getInnerPoint();
-        writeDown(deep, innerPoint);
+        //writeDown(deep, innerPoint);
         if (field.getInners().isEmpty()) {
             return;
         }
-        System.out.println(innerPoint + " " + field.getInners());
+        //System.out.println(innerPoint + " " + field.getInners());
         bases.stream().forEach(v -> lineList.add(new Drawing("polyline", innerPoint, v)));
-        bases.stream().forEach(v -> counters.put(v, counters.getOrDefault(v, 0) + 1));
-        counters.put(innerPoint, counters.getOrDefault(innerPoint, 0) + 3);
+        bases
+                .stream()
+                .forEach(v -> {
+                    linksMap.computeIfAbsent(v, t -> new HashSet<>()).add(innerPoint);
+                    linksMap.computeIfAbsent(innerPoint, t -> new HashSet<>()).add(v);
+                });
 
         field.getSmallerFields().stream().forEach(v -> splitField(v, deep + 1));
     }
@@ -47,9 +62,9 @@ public class FieldSerializer {
 
     public String serialize() {
         Gson gson = new Gson();
-        for (Point key : counters.keySet()) {
-            System.out.println(key.getTitle() + " : " + counters.get(key));
-        }
+        linksMap
+                .forEach((k, v) -> System.out.println(k.getTitle() + " : " + v.size()));
+
         return gson.toJson(fieldList) + "\n" + gson.toJson(lineList) + "\n";
     }
 

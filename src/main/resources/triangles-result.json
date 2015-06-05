@@ -1,0 +1,385 @@
+{
+  "bases": [
+    {
+      "v1": "c9a2b2fae04c49dc8bd2a696330d47c5.16",
+      "v2": "64f2b9d370734ad0aeeab55ca94c0e51.16",
+      "v3": "0be1cfdf37e84757b8bb348fc2c639e0.16"
+    },
+    {
+      "v1": "c9a2b2fae04c49dc8bd2a696330d47c5.16",
+      "v2": "c19f016a8eba4ad5bd8bb4bc8e5769c8.16",
+      "v3": "0be1cfdf37e84757b8bb348fc2c639e0.16"
+    },
+    {
+      "v1": "c19f016a8eba4ad5bd8bb4bc8e5769c8.16",
+      "v2": "bb2bdeda936c45a794d312e2c4e8061a.16",
+      "v3": "0be1cfdf37e84757b8bb348fc2c639e0.16"
+    }
+  ],
+  "points": [
+    {
+      "id": "495fef4316474f5c95a552aef88ea6f5.16",
+      "title": "Stone of Memory",
+      "latlng": {
+        "lat": 59.933381,
+        "lng": 30.406723
+      }
+    },
+    {
+      "id": "e56f53656cb948b59177e06c0100d494.11",
+      "title": "Театр \"Буфф\"",
+      "latlng": {
+        "lat": 59.931263,
+        "lng": 30.417479
+      }
+    },
+    {
+      "id": "8aafe965dedd418b975d7342fcbdbf7e.16",
+      "title": "Тысяча Чертей На Сундук Мертвеца ",
+      "latlng": {
+        "lat": 59.932405,
+        "lng": 30.40573
+      }
+    },
+    {
+      "id": "b7c2a02bf223441bb4ac4424098d4add.16",
+      "title": "Пять шпилек",
+      "latlng": {
+        "lat": 59.934179,
+        "lng": 30.404312
+      }
+    },
+    {
+      "id": "36e2c45bc44f45eb964b6774d1d77376.16",
+      "title": "Tower Of Shaumyan",
+      "latlng": {
+        "lat": 59.932584,
+        "lng": 30.416286
+      }
+    },
+    {
+      "id": "927ce44cd1564c92941c0f6b185064ac.16",
+      "title": "Пустой Элемент",
+      "latlng": {
+        "lat": 59.930784,
+        "lng": 30.406883
+      }
+    },
+    {
+      "id": "d66571bf6cdd4fa2a0bf753a85ac8a57.16",
+      "title": "Олень",
+      "latlng": {
+        "lat": 59.931207,
+        "lng": 30.414838
+      }
+    },
+    {
+      "id": "134586e1865c4de0942814f95cff9169.16",
+      "title": "Скульптура \"Фламенко\"",
+      "latlng": {
+        "lat": 59.932475,
+        "lng": 30.409303
+      }
+    },
+    {
+      "id": "ce01158bf9734d0bbfdf09e826e881e0.16",
+      "title": "Дали созерцающий",
+      "latlng": {
+        "lat": 59.932847,
+        "lng": 30.409061
+      }
+    },
+    {
+      "id": "7a3acf655183463da87dbaff23b616f3.16",
+      "title": "Наскальная живопись",
+      "latlng": {
+        "lat": 59.933073,
+        "lng": 30.412758
+      }
+    },
+    {
+      "id": "8a05cad1fed647a58dd35c801f8f75c4.16",
+      "title": "Спираль",
+      "latlng": {
+        "lat": 59.933299,
+        "lng": 30.411782
+      }
+    },
+    {
+      "id": "aa6448c69c58448fb6cafbd4ed5af9f4.16",
+      "title": "Часовня 3",
+      "latlng": {
+        "lat": 59.932728,
+        "lng": 30.402274
+      }
+    },
+    {
+      "id": "302fae4bdbb741a88dcbe7b0c7cef10c.12",
+      "title": "Look of Angel ... church",
+      "latlng": {
+        "lat": 59.93299,
+        "lng": 30.40315
+      }
+    },
+    {
+      "id": "3b448a795ca64394900f733eb7f754f6.16",
+      "title": "Фонарь-указатель",
+      "latlng": {
+        "lat": 59.931158,
+        "lng": 30.417023
+      }
+    },
+    {
+      "id": "09aa03bee52344f3b1ffc1fad45d6531.16",
+      "title": "Sailing the Green Sea",
+      "latlng": {
+        "lat": 59.932927,
+        "lng": 30.412
+      }
+    },
+    {
+      "id": "f28aedc7cbf74b719878bfa087ea8949.16",
+      "title": "Remember the Fallen",
+      "latlng": {
+        "lat": 59.933024,
+        "lng": 30.405834
+      }
+    },
+    {
+      "id": "fc9fd1ae30544b81ad1f05e4b8df413b.16",
+      "title": "Woman Statue",
+      "latlng": {
+        "lat": 59.933053,
+        "lng": 30.409603
+      }
+    },
+    {
+      "id": "325c67039ba0410f816eafa936ef1dda.16",
+      "title": "Terra Italia",
+      "latlng": {
+        "lat": 59.933536,
+        "lng": 30.408174
+      }
+    },
+    {
+      "id": "bd62ce20752b4356997f3c38db020b05.16",
+      "title": "Лицо",
+      "latlng": {
+        "lat": 59.932007,
+        "lng": 30.400433
+      }
+    },
+    {
+      "id": "246312ec1b0543cfa1e3c1deceed9c3e.16",
+      "title": "Stone of Ocean",
+      "latlng": {
+        "lat": 59.933056,
+        "lng": 30.408682
+      }
+    },
+    {
+      "id": "c19f016a8eba4ad5bd8bb4bc8e5769c8.16",
+      "title": "Bridge mural ",
+      "latlng": {
+        "lat": 59.93429,
+        "lng": 30.406205
+      }
+    },
+    {
+      "id": "c9a2b2fae04c49dc8bd2a696330d47c5.16",
+      "title": "Призма",
+      "latlng": {
+        "lat": 59.934024,
+        "lng": 30.401698
+      }
+    },
+    {
+      "id": "48d70ebb51bf4d99b03662d7f944fbba.16",
+      "title": "Face Looking at Heaven ",
+      "latlng": {
+        "lat": 59.932491,
+        "lng": 30.411233
+      }
+    },
+    {
+      "id": "c4e175810e624ab4abeda3a0def75939.16",
+      "title": "The Ship In Concrete",
+      "latlng": {
+        "lat": 59.930626,
+        "lng": 30.415712
+      }
+    },
+    {
+      "id": "4087783a1fe24e7ca8c82514612e355d.16",
+      "title": "Бизнес-центр",
+      "latlng": {
+        "lat": 59.932187,
+        "lng": 30.402627
+      }
+    },
+    {
+      "id": "902f1e823a294027bde4bd717cdeecad.16",
+      "title": "Детям Беслана",
+      "latlng": {
+        "lat": 59.933486,
+        "lng": 30.402699
+      }
+    },
+    {
+      "id": "0f199c259143481e91b9911200dabf61.16",
+      "title": "Shauman\u0027s Tower",
+      "latlng": {
+        "lat": 59.935078,
+        "lng": 30.416222
+      }
+    },
+    {
+      "id": "bb2bdeda936c45a794d312e2c4e8061a.16",
+      "title": "Angry Dog",
+      "latlng": {
+        "lat": 59.933321,
+        "lng": 30.413749
+      }
+    },
+    {
+      "id": "acd60fc4a26b4e5ea66bf6c0f31b9eb4.16",
+      "title": "Деятель Шаумян С.Г.",
+      "latlng": {
+        "lat": 59.930168,
+        "lng": 30.416766
+      }
+    },
+    {
+      "id": "8e4f01d738e44f26b84752a69c27d867.16",
+      "title": "Храм успения пресвятой Богородицы",
+      "latlng": {
+        "lat": 59.933034,
+        "lng": 30.403704
+      }
+    },
+    {
+      "id": "0be1cfdf37e84757b8bb348fc2c639e0.16",
+      "title": "Ресторан Мама-Рома",
+      "latlng": {
+        "lat": 59.93158,
+        "lng": 30.409072
+      }
+    },
+    {
+      "id": "64f2b9d370734ad0aeeab55ca94c0e51.16",
+      "title": "Центр Образования 1",
+      "latlng": {
+        "lat": 59.93171,
+        "lng": 30.401658
+      }
+    },
+    {
+      "id": "a0549ee21c8b435ca59dc43ad8b158bc.16",
+      "title": "Арт Сказка",
+      "latlng": {
+        "lat": 59.935478,
+        "lng": 30.404816
+      }
+    },
+    {
+      "id": "198583ccb63a432298cd0a1528838d63.16",
+      "title": "Shadow Theatre",
+      "latlng": {
+        "lat": 59.931013,
+        "lng": 30.417758
+      }
+    },
+    {
+      "id": "9a16bf150dc54a259a10408290425f2f.16",
+      "title": "Hercules",
+      "latlng": {
+        "lat": 59.932758,
+        "lng": 30.409833
+      }
+    },
+    {
+      "id": "b64467893e7a4c42b584339785a06e40.16",
+      "title": "A Pair of Yellow Seahorses",
+      "latlng": {
+        "lat": 59.933158,
+        "lng": 30.411966
+      }
+    },
+    {
+      "id": "7c80bcfb2b1143289be9f69dbd875cfe.16",
+      "title": "Stairs on my Mind ",
+      "latlng": {
+        "lat": 59.933257,
+        "lng": 30.408893
+      }
+    },
+    {
+      "id": "74bfc47900324a55a5531927c4d483ae.12",
+      "title": "Blessing Statue ... St-Petersb",
+      "latlng": {
+        "lat": 59.933135,
+        "lng": 30.402882
+      }
+    },
+    {
+      "id": "db097db2c7e04028ae88714248054d23.16",
+      "title": "Аллея Защитников Ленинграда",
+      "latlng": {
+        "lat": 59.933563,
+        "lng": 30.406692
+      }
+    },
+    {
+      "id": "ea59fcee100d492280634316316af911.16",
+      "title": "Resting Sculpture",
+      "latlng": {
+        "lat": 59.933372,
+        "lng": 30.409665
+      }
+    }
+  ],
+  "links": [
+    {
+      "name": "Призма - Центр Образования 1",
+      "from": "c9a2b2fae04c49dc8bd2a696330d47c5.16",
+      "to": "64f2b9d370734ad0aeeab55ca94c0e51.16",
+      "isReverse": false
+    },
+    {
+      "name": "Центр Образования 1 - Ресторан Мама-Рома",
+      "from": "64f2b9d370734ad0aeeab55ca94c0e51.16",
+      "to": "0be1cfdf37e84757b8bb348fc2c639e0.16",
+      "isReverse": false
+    },
+    {
+      "name": "Ресторан Мама-Рома - Призма",
+      "from": "0be1cfdf37e84757b8bb348fc2c639e0.16",
+      "to": "c9a2b2fae04c49dc8bd2a696330d47c5.16",
+      "isReverse": false
+    },
+    {
+      "name": "Призма - Bridge mural ",
+      "from": "c9a2b2fae04c49dc8bd2a696330d47c5.16",
+      "to": "c19f016a8eba4ad5bd8bb4bc8e5769c8.16",
+      "isReverse": false
+    },
+    {
+      "name": "Bridge mural  - Ресторан Мама-Рома",
+      "from": "c19f016a8eba4ad5bd8bb4bc8e5769c8.16",
+      "to": "0be1cfdf37e84757b8bb348fc2c639e0.16",
+      "isReverse": false
+    },
+    {
+      "name": "Bridge mural  - Angry Dog",
+      "from": "c19f016a8eba4ad5bd8bb4bc8e5769c8.16",
+      "to": "bb2bdeda936c45a794d312e2c4e8061a.16",
+      "isReverse": false
+    },
+    {
+      "name": "Angry Dog - Ресторан Мама-Рома",
+      "from": "bb2bdeda936c45a794d312e2c4e8061a.16",
+      "to": "0be1cfdf37e84757b8bb348fc2c639e0.16",
+      "isReverse": false
+    }
+  ]
+}
