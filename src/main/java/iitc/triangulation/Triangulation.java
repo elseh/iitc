@@ -12,13 +12,13 @@ import java.util.stream.Collectors;
  */
 public class Triangulation {
     private Map<Point, Set<Point>> outComingLinks = new HashMap<>();
-    private Set<Point> unprocessedPoints = new HashSet<>();
+    private List<Point> unprocessedPoints = new ArrayList<>();
     private Set<Field> baseFields;
 
     public Triangulation(List<Point> allPoints, Set<Triple<Point>> baseTriangles, Map<Point, Set<Point>> outLinks) {
         baseFields = baseTriangles.stream().map(t -> new Field(t, allPoints)).collect(Collectors.toSet());
         outComingLinks.putAll(outLinks);
-        unprocessedPoints = baseFields.stream().flatMap(f -> f.getInners().stream()).collect(Collectors.toSet());
+        unprocessedPoints = baseFields.stream().flatMap(f -> f.getInners().stream()).collect(Collectors.toList());
     }
 
 
@@ -59,34 +59,36 @@ public class Triangulation {
         return false;
     }
 
-    public boolean triangulateFields(Set<Point> points) {
-        if (unprocessedPoints.isEmpty()) return true;
-        Set<Point> unprocessed = new HashSet<>(points);
+    public boolean triangulateFields(List<Point> points) {
+        if (points.isEmpty()) return true;
+        List<Point> unprocessed = new ArrayList<>(points);
+
         for (Point p : points) {
             unprocessed.remove(p);
             Field field = searchField(p, baseFields);
-            if (field.getBases().stream().allMatch(b -> ! checkPoint(b, 7))) {
+            if (field.getBases().stream().anyMatch(b -> !checkPoint(b, 7))) {
                 return false;
             }
             field.insertSmallerFields(p);
-            field.getBases().stream().forEach(b -> outComingLinks.get(b).add(p));
+            field.getBases().stream().forEach(b -> outComingLinks.computeIfAbsent(b, v -> new HashSet<>()).add(p));
             if (triangulateFields(unprocessed)) {
                 return true;
             } else {
                 unprocessed.add(p);
                 field.resetSmallerFields();
-                field.getBases().stream().forEach(b -> outComingLinks.get(b).removeAll(field.getInners()));
-                field.getInners().stream().forEach(b -> { if (outComingLinks.containsKey(b)) outComingLinks.get(b).clear();});
+                field.getBases().stream().forEach(b -> outComingLinks.get(b).remove(p));
+                //field.getInners().stream().forEach(b -> { if (outComingLinks.containsKey(b)) outComingLinks.get(b).clear();});
             }
         }
         return false;
     }
 
-/*    private double minDistance(Point p) {
-        return baseField.getBases().stream().mapToDouble(b -> GeoUtils.getDistance(p.getLatlng(), b.getLatlng())).min().getAsDouble();
-    }*/
+    private double minDistance(Point p) {
+        return getBaseField().getBases().stream().mapToDouble(b -> GeoUtils.getDistance(p.getLatlng(), b.getLatlng())).min().getAsDouble();
+    }
 
     public boolean run() {
+        unprocessedPoints.sort(Comparator.comparing(this::minDistance));
         return triangulateFields(unprocessedPoints);
     }
 
@@ -96,6 +98,10 @@ public class Triangulation {
 
     public Field getBaseField() {
         return baseFields.stream().findAny().get();
+    }
+
+    public Set<Field> getBaseFields() {
+        return baseFields;
     }
 
     public Field searchField(Point p, Field biggerField) {

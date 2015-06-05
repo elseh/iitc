@@ -32,6 +32,7 @@ public class FieldSerializer {
         if (field.getInners().isEmpty()) {
             return;
         }
+        System.out.println(innerPoint + " " + field.getInners());
         bases.stream().forEach(v -> lineList.add(new Drawing("polyline", innerPoint, v)));
         bases.stream().forEach(v -> counters.put(v, counters.getOrDefault(v, 0) + 1));
         counters.put(innerPoint, counters.getOrDefault(innerPoint, 0) + 3);
@@ -52,7 +53,7 @@ public class FieldSerializer {
         return gson.toJson(fieldList) + "\n" + gson.toJson(lineList) + "\n";
     }
 
-    private class Drawing {
+    public static  class Drawing {
         private String type = "polyline";
         private List<LatLngs> latLngs;
         private String color = "green";
