@@ -47,15 +47,23 @@ public class Main {
         readPoints(resources);
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("input fields");
+        FieldSerializer.Drawing[] drawings = null;
         try {
             String fieldsString = reader.readLine();
-            FieldSerializer.Drawing[] drawings = gson.fromJson(fieldsString, FieldSerializer.Drawing[].class);
-            System.out.println(drawings.length + " " + Arrays.toString(drawings));
+            drawings = gson.fromJson(fieldsString, FieldSerializer.Drawing[].class);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        parseDrawing(drawings);
         //triangulatate();
 
+    }
+
+    private static void parseDrawing(FieldSerializer.Drawing[] drawings) {
+        for (FieldSerializer.Drawing d : drawings) {
+
+        }
     }
 
     private static void triangulatate() {
