@@ -12,3 +12,5 @@ for (var p in window.portals) {
 }
 
 console.info(JSON.stringify(a));
+
+console.info(localStorage['plugin-draw-tools-layer']);

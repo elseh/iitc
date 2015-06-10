@@ -33,9 +33,9 @@ public class SetupSeed {
     }
 
     public static void main(String[] args) {
-        readPoints(FileSystems.getDefault().getPath("src", "main", "resources", "park.json"));
+        readPoints(FileSystems.getDefault().getPath("src", "main", "resources", "bgsl-points.json"));
 
-        BaseSeed seed = parseDrawing(readDrawings(FileSystems.getDefault().getPath("src", "main", "resources", "triangles.json")));
+        BaseSeed seed = parseDrawing(readDrawings(FileSystems.getDefault().getPath("src", "main", "resources", "bgsl-drawings.json")));
         System.out.println(gson.toJson(seed));
     }
 
