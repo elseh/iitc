@@ -6,7 +6,8 @@ import iitc.triangulation.shapes.BaseSeed;
 import iitc.triangulation.shapes.Link;
 import iitc.triangulation.shapes.Triple;
 
-import java.nio.file.FileSystems;
+import java.io.*;
+import java.nio.file.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -19,12 +20,14 @@ public class Main {
     private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     public static void main(String[] args) {
-        BaseSeed seed = gson.fromJson(FileUtils.readFromFile.apply(FileSystems.getDefault().getPath("src", "main", "resources", "bgsl.json")), BaseSeed.class);
-        triangulate(seed);
+        String filename = FileUtils.readFromCMD.apply("Enter area name: ");
+        Path path = FileSystems.getDefault().getPath("areas", filename + ".json");
+        BaseSeed seed = gson.fromJson(FileUtils.readFromFile.apply(path), BaseSeed.class);
+        triangulate(seed, filename);
 
     }
 
-    private static void triangulate(BaseSeed seed) {
+    private static void triangulate(BaseSeed seed, String areaName) {
         List<Point> points = seed.getPoints();
         Map<String, Point> pointById = points
                 .stream()
@@ -42,13 +45,34 @@ public class Main {
 
         /*Triangulation triangulation = new Triangulation(points, bases, links);
         System.out.println(triangulation.run());*/
-        ParallelTriangulation triangulation = new ParallelTriangulation(points, bases, links, 8);
-        System.out.println(triangulation.triangulate());
-        FieldSerializer ser = new FieldSerializer();
-        triangulation.getBaseFields()
-                .stream()
-                .forEach(ser::insertField);
-        System.out.println(ser.serialize());
+        ParallelTriangulation triangulation = new ParallelTriangulation(points, bases, links, 4);
+        boolean triangulateSuccess = triangulation.triangulate();
+        System.out.println(triangulateSuccess);
+        if (triangulateSuccess) {
+            FieldSerializer ser = new FieldSerializer();
+            triangulation.getBaseFields()
+                    .stream()
+                    .forEach(ser::insertField);
+            String serialize = ser.serialize();
+            Path result = FileSystems.getDefault().getPath("areas", areaName + "-result.txt");
+            try {
+
+                try (BufferedWriter bw = Files.newBufferedWriter(result, StandardOpenOption.WRITE, StandardOpenOption.CREATE)) {
+                    bw.write(serialize);
+                    bw.close();
+                }catch (FileNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+
+
+                /*Files.createFile(result);
+                Files.write(result, serialize.getBytes());*/
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println(serialize);
+        }
     }
 
 }

@@ -7,8 +7,12 @@ import iitc.triangulation.shapes.LatLngs;
 import iitc.triangulation.shapes.Link;
 import iitc.triangulation.shapes.Triple;
 
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.FileSystems;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.attribute.FileAttribute;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -33,10 +37,19 @@ public class SetupSeed {
     }
 
     public static void main(String[] args) {
-        readPoints(FileSystems.getDefault().getPath("src", "main", "resources", "bgsl-points.json"));
+        RawData rawData = gson.fromJson(FileUtils.readFromCMD.apply("Enter points: "), RawData.class);
+        setPoints(Arrays.asList(rawData.getPoints()));
+        BaseSeed seed = parseDrawing(rawData.getDrawings());
+        String fileName = FileUtils.readFromCMD.apply("enter area name: ");
 
-        BaseSeed seed = parseDrawing(readDrawings(FileSystems.getDefault().getPath("src", "main", "resources", "bgsl-drawings.json")));
-        System.out.println(gson.toJson(seed));
+        try {
+            Path areas = FileSystems.getDefault().getPath("areas", fileName + ".json");
+            Files.createFile(areas);
+            Files.write(areas, gson.toJson(seed).getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //System.out.println(gson.toJson(seed));
     }
 
     private static BaseSeed parseDrawing(FieldSerializer.Drawing[] drawings) {

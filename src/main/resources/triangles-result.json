@@ -355,7 +355,7 @@
       "name": "Ресторан Мама-Рома - Призма",
       "from": "0be1cfdf37e84757b8bb348fc2c639e0.16",
       "to": "c9a2b2fae04c49dc8bd2a696330d47c5.16",
-      "isReverse": false
+      "isReverse": true
     },
     {
       "name": "Призма - Bridge mural ",
@@ -373,7 +373,7 @@
       "name": "Bridge mural  - Angry Dog",
       "from": "c19f016a8eba4ad5bd8bb4bc8e5769c8.16",
       "to": "bb2bdeda936c45a794d312e2c4e8061a.16",
-      "isReverse": false
+      "isReverse": true
     },
     {
       "name": "Angry Dog - Ресторан Мама-Рома",

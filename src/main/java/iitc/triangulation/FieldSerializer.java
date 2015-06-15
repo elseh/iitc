@@ -62,10 +62,14 @@ public class FieldSerializer {
 
     public String serialize() {
         Gson gson = new Gson();
-        linksMap
-                .forEach((k, v) -> System.out.println(k.getTitle() + " : " + v.size()));
 
-        return gson.toJson(fieldList) + "\n" + gson.toJson(lineList) + "\n";
+        String result = linksMap.entrySet()
+                .stream()
+                .map(e -> e.getKey().getTitle() + " : " + e.getValue().size())
+                .collect(Collectors.joining("\n"));
+
+
+        return result  + "\n" + gson.toJson(fieldList) + "\n" + gson.toJson(lineList) + "\n";
     }
 
     public static  class Drawing {
