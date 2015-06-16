@@ -2,7 +2,10 @@ package iitc.triangulation;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import iitc.triangulation.other.Description;
+import iitc.triangulation.other.TriangulationFull;
 import iitc.triangulation.shapes.BaseSeed;
+import iitc.triangulation.shapes.Field;
 import iitc.triangulation.shapes.Link;
 import iitc.triangulation.shapes.Triple;
 
@@ -42,6 +45,24 @@ public class Main {
                 .map(v -> v.simplify(pointById::get))
                 .collect(Collectors.groupingBy(p -> p.v1, Collectors.mapping(p -> p.v2, Collectors.toSet())));
 
+        TriangulationFull full = new TriangulationFull(points);
+        Triple<Point> pointTriple = bases.stream().findFirst().get();
+        Set<Description> src = full.calculateField(pointTriple.set());
+        Description description = src.stream().min(
+                Comparator
+                        .comparing(Description::getSkipAmount)
+                        .thenComparing(d -> d.getLinkAmount().values().stream().mapToInt(i -> i).sum())
+        ).get();
+        Field f = new Field(pointTriple, points);
+        full.restore(description, f);
+        FieldSerializer serializer = new FieldSerializer();
+        serializer.insertField(f);
+        System.out.println(serializer.serialize());
+        System.out.println(src.size());
+        System.out.println(src.stream().map(Description::toString).collect(Collectors.joining("\n")));
+
+        /*System.out.println(gson.toJson(
+                src));*/
 
         /*Triangulation triangulation = new Triangulation(points, bases, links);
         System.out.println(triangulation.run());*/

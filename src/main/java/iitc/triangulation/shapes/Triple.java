@@ -1,9 +1,10 @@
 package iitc.triangulation.shapes;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toSet;
 
 /**
 * Created by epavlova on 6/1/2015.
@@ -36,5 +37,9 @@ public class Triple<T> {
 
     public Stream<T> stream() {
         return Arrays.asList(v1, v2, v3).stream();
+    }
+
+    public Set<T> set() {
+        return stream().collect(toSet());
     }
 }
