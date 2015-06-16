@@ -44,15 +44,17 @@ public class FieldSerializer {
             return;
         }
         //System.out.println(innerPoint + " " + field.getInners());
-        bases.stream().forEach(v -> lineList.add(new Drawing("polyline", innerPoint, v)));
-        bases
-                .stream()
-                .forEach(v -> {
-                    linksMap.computeIfAbsent(v, t -> new HashSet<>()).add(innerPoint);
-                    linksMap.computeIfAbsent(innerPoint, t -> new HashSet<>()).add(v);
-                });
+        if (innerPoint != null) {
+            bases.stream().forEach(v -> lineList.add(new Drawing("polyline", innerPoint, v)));
+            bases
+                    .stream()
+                    .forEach(v -> {
+                        linksMap.computeIfAbsent(v, t -> new HashSet<>()).add(innerPoint);
+                        linksMap.computeIfAbsent(innerPoint, t -> new HashSet<>()).add(v);
+                    });
 
-        field.getSmallerFields().stream().forEach(v -> splitField(v, deep + 1));
+            field.getSmallerFields().stream().forEach(v -> splitField(v, deep + 1));
+        }
     }
 
     public void writeDown(int deep, Point p) {
@@ -79,7 +81,11 @@ public class FieldSerializer {
 
         public Drawing(String type, Point ... points) {
             this.type = type;
-            this.latLngs = Arrays.asList(points).stream().map(Point::getLatlng).collect(Collectors.toList());
+            this.latLngs = Arrays.asList(points)
+                    .stream()
+                    //.peek(x -> System.out.println(x))
+                    .map(Point::getLatlng)
+                    .collect(Collectors.toList());
         }
 
         public String getType() {

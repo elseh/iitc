@@ -1,15 +1,12 @@
 package iitc.triangulation.other;
 
 import iitc.triangulation.Point;
-import iitc.triangulation.shapes.Field;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import static java.lang.String.join;
 
 /**
  * Created by Sigrlinn on 15.06.2015.
@@ -18,16 +15,23 @@ public class Description {
     private Map<Point, Integer> linkAmount = new HashMap<>();
     private int skipAmount = 0;
 
-    public static Description skipAll(Field field) {
+    public static Description skipAll(Set<Point> pointSet, int amount) {
         Description description = new Description();
-        description.skipAmount = field.getInners().size();
-        field.getBases().stream().forEach(p -> description.linkAmount.put(p, 0));
+        description.skipAmount = amount;
+        //System.out.println("a: " + amount);
+        pointSet.stream().forEach(p -> description.linkAmount.put(p, 0));
         return description;
     }
 
-    public static Description makeBase(Field field) {
+    public static Description makeBase(Set<Point> pointSet) {
         Description description = new Description();
-        field.getBases().stream().forEach(p -> description.linkAmount.put(p, 1));
+        pointSet.stream().forEach(p -> description.linkAmount.put(p, 1));
+        return description;
+    }
+
+    public static Description makeEmptyBase(Set<Point> pointSet) {
+        Description description = new Description();
+        pointSet.stream().forEach(p -> description.linkAmount.put(p, 0));
         return description;
     }
 
@@ -55,9 +59,9 @@ public class Description {
         return a.skipAmount < b.skipAmount ? a : b;
     }
 
-    public static Description reduce(Description a, Field f) {
+    public static Description reduce(Description a, Set<Point> pointSet) {
         Description d = new Description();
-        f.getBases().stream().forEach(p -> d.linkAmount.put(p, a.linkAmount.get(p)));
+        pointSet.stream().forEach(p -> d.linkAmount.put(p, a.linkAmount.get(p)));
         d.skipAmount = a.skipAmount;
         return d;
     }

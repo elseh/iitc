@@ -26,8 +26,53 @@ public class Main {
         String filename = FileUtils.readFromCMD.apply("Enter area name: ");
         Path path = FileSystems.getDefault().getPath("areas", filename + ".json");
         BaseSeed seed = gson.fromJson(FileUtils.readFromFile.apply(path), BaseSeed.class);
-        triangulate(seed, filename);
+        fullTriangulate(seed, filename);
 
+    }
+
+    private static void fullTriangulate(BaseSeed seed, String areaName) {
+        List<Point> points = seed.getPoints();
+        Map<String, Point> pointById = points
+                .stream()
+                .collect(Collectors.toMap(Point::getId, identity()));
+        Set<Triple<Point>> bases = seed.getBases()
+                .stream()
+                .map(t -> t.simplify(pointById::get))
+                .collect(Collectors.toSet());
+        Map<Point, Set<Point>> links = seed.getLinks()
+                .stream()
+                .map(Link::getLink)
+                .map(v -> v.simplify(pointById::get))
+                .collect(Collectors.groupingBy(p -> p.v1, Collectors.mapping(p -> p.v2, Collectors.toSet())));
+
+        TriangulationFull full = new TriangulationFull(points);
+        bases.stream().forEach(b -> full.calculateField(b.set()));
+        Set<Description> descriptions = full.calculateFields(bases.stream().map(Triple::set).collect(Collectors.toSet()));
+        Optional<Description> first = descriptions
+                .stream()
+                .filter(d -> !d.getLinkAmount().values().stream().filter(i -> i > 8).findFirst().isPresent())
+                .sorted(Comparator.comparing(Description::getSkipAmount).thenComparing(d -> d.getLinkAmount().values().stream().mapToInt(i -> i).sum())).findFirst();
+        if (first.isPresent()) {
+            System.out.println(first.get() + "");
+            List<Field> fields = bases.stream().map(b -> new Field(b, points)).collect(Collectors.toList());
+            full.restore(first.get(), fields);
+            FieldSerializer serializer = new FieldSerializer();
+            fields.stream().forEach(serializer::insertField);
+            System.out.println(serializer.serialize());
+        }
+
+        /*Triple<Point> pointTriple = bases.stream().findFirst().get();
+        Set<Description> src = full.calculateField(pointTriple.set());
+        Description description = src.stream().min(
+                Comparator
+                        .comparing(Description::getSkipAmount)
+                        .thenComparing(d -> d.getLinkAmount().values().stream().mapToInt(i -> i).sum())
+        ).get();
+        Field f = new Field(pointTriple, points);
+        full.restore(description, f);*/
+
+        /*System.out.println(src.size());
+        System.out.println(src.stream().map(Description::toString).collect(Collectors.joining("\n")));*/
     }
 
     private static void triangulate(BaseSeed seed, String areaName) {
@@ -45,27 +90,6 @@ public class Main {
                 .map(v -> v.simplify(pointById::get))
                 .collect(Collectors.groupingBy(p -> p.v1, Collectors.mapping(p -> p.v2, Collectors.toSet())));
 
-        TriangulationFull full = new TriangulationFull(points);
-        Triple<Point> pointTriple = bases.stream().findFirst().get();
-        Set<Description> src = full.calculateField(pointTriple.set());
-        Description description = src.stream().min(
-                Comparator
-                        .comparing(Description::getSkipAmount)
-                        .thenComparing(d -> d.getLinkAmount().values().stream().mapToInt(i -> i).sum())
-        ).get();
-        Field f = new Field(pointTriple, points);
-        full.restore(description, f);
-        FieldSerializer serializer = new FieldSerializer();
-        serializer.insertField(f);
-        System.out.println(serializer.serialize());
-        System.out.println(src.size());
-        System.out.println(src.stream().map(Description::toString).collect(Collectors.joining("\n")));
-
-        /*System.out.println(gson.toJson(
-                src));*/
-
-        /*Triangulation triangulation = new Triangulation(points, bases, links);
-        System.out.println(triangulation.run());*/
         ParallelTriangulation triangulation = new ParallelTriangulation(points, bases, links, 4);
         boolean triangulateSuccess = triangulation.triangulate();
         System.out.println(triangulateSuccess);
@@ -84,10 +108,6 @@ public class Main {
                 }catch (FileNotFoundException ex) {
                     ex.printStackTrace();
                 }
-
-
-                /*Files.createFile(result);
-                Files.write(result, serialize.getBytes());*/
             } catch (IOException e) {
                 e.printStackTrace();
             }
