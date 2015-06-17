@@ -2,10 +2,7 @@ package iitc.triangulation.other;
 
 import iitc.triangulation.Point;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -14,6 +11,7 @@ import java.util.stream.Collectors;
 public class Description {
     private Map<Point, Integer> linkAmount = new HashMap<>();
     private int skipAmount = 0;
+    private Set<Description> sumOf = new HashSet<>();
 
     public static Description skipAll(Set<Point> pointSet, int amount) {
         Description description = new Description();
@@ -33,6 +31,13 @@ public class Description {
         Description description = new Description();
         pointSet.stream().forEach(p -> description.linkAmount.put(p, 0));
         return description;
+    }
+
+    public Description insert(Description d) {
+        Description r = sum(this, d);
+        r.sumOf = new HashSet<>(sumOf);
+        r.sumOf.add(d);
+        return r;
     }
 
     public static Description sum(Description a, Description b) {
@@ -63,9 +68,13 @@ public class Description {
         Description d = new Description();
         pointSet.stream().forEach(p -> d.linkAmount.put(p, a.linkAmount.get(p)));
         d.skipAmount = a.skipAmount;
+        d.sumOf = a.sumOf;
         return d;
     }
 
+    public Set<Description> getSumOf() {
+        return sumOf;
+    }
 
     public Map<Point, Integer> getLinkAmount() {
         return linkAmount;
