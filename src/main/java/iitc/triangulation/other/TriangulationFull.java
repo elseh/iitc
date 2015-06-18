@@ -6,7 +6,6 @@ import iitc.triangulation.shapes.Triple;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 /**
  * Created by Sigrlinn on 16.06.2015.
@@ -30,10 +29,15 @@ public class TriangulationFull {
         Set<Description> values = new HashSet<>(field.getInners()
                 .stream()
                 .flatMap(p -> sumFields(field, p).stream())
-                .filter(element -> element.getLinkAmount().values().stream().allMatch(links -> links <= 8))
+                .filter(this::goodDescription)
                 .collect(Collectors.toMap(Description::getLinkAmount, a -> a, Description::min)).values());
-        values.add(Description.skipAll(set, field.getInners().size()));
+        if (field.getInners().size() < 1) {
+            values.add(Description.skipAll(set, field.getInners().size()));
+        }
         allDescriptions.put(set, values);
+        if (allDescriptions.size() % 100 == 0) {
+            System.out.println("size: " + allDescriptions.size() + " " + new Date());
+        }
         return values;
     }
 
@@ -64,19 +68,28 @@ public class TriangulationFull {
                                     .stream()
                                     .map(e1 -> element.insert(e1)))
                             .filter(this::goodDescription)
-                            .map(d -> Description.reduce(d, pointSet))
-
-                            .collect(Collectors.toMap(Description::getLinkAmount, a -> a, Description::min))
-                            .values();
+                            .collect(Collectors.toMap(
+                                    Description::getLinkAmount,
+                                    a -> a,
+                                    (a, b) -> Description.min( //!
+                                            Description.reduce(a, pointSet),
+                                            Description.reduce(b, pointSet))
+                                    )
+                            )
+                                    .values();
                     base.clear();
                     base.addAll(values);
                 }
         );
-        return base;
+        return new HashSet<>(base
+                .stream()
+                .map(d -> Description.reduce(d, pointSet))
+                .collect(Collectors.toMap(Description::getLinkAmount, a -> a, Description::min))
+                .values());
     }
 
     private boolean goodDescription(Description d) {
-        return !d.getLinkAmount().values().stream().filter(i -> i > 8).findFirst().isPresent();
+        return !d.getLinkAmount().values().stream().filter(i -> i > 8).findFirst().isPresent() && d.getSkipAmount() < 15;
     }
 
     public void restore(Description d, Field f) {
@@ -88,8 +101,10 @@ public class TriangulationFull {
         if (!calculateField(set).contains(d)) {
             return;
         }
-
-        Set<Point> allPoints = d.getSumOf().stream().flatMap(s -> s.getLinkAmount().keySet().stream()).collect(Collectors.toSet());
+        Set<Point> allPoints = d.getSumOf()
+                .stream()
+                .flatMap(s -> s.getLinkAmount().keySet().stream())
+                .collect(Collectors.toSet());
         allPoints.removeAll(d.getLinkAmount().keySet());
         Point p = allPoints.stream().findFirst().get();
         f.insertSmallerFields(p);

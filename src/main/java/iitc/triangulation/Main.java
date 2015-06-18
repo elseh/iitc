@@ -45,6 +45,9 @@ public class Main {
                 .map(v -> v.simplify(pointById::get))
                 .collect(Collectors.groupingBy(p -> p.v1, Collectors.mapping(p -> p.v2, Collectors.toSet())));
 
+        bases.stream().forEach(b -> {
+            System.out.println(new Field(b, new ArrayList<>(pointById.values())).getInners().size());
+        });
         TriangulationFull full = new TriangulationFull(points);
         bases.stream().forEach(b -> full.calculateField(b.set()));
         Set<Description> descriptions = full.calculateFields(bases.stream().map(Triple::set).collect(Collectors.toSet()));
@@ -58,21 +61,8 @@ public class Main {
             full.restore(first.get(), fields);
             FieldSerializer serializer = new FieldSerializer();
             fields.stream().forEach(serializer::insertField);
-            System.out.println(serializer.serialize());
+            writeToFile(areaName, serializer.serialize());
         }
-
-        /*Triple<Point> pointTriple = bases.stream().findFirst().get();
-        Set<Description> src = full.calculateField(pointTriple.set());
-        Description description = src.stream().min(
-                Comparator
-                        .comparing(Description::getSkipAmount)
-                        .thenComparing(d -> d.getLinkAmount().values().stream().mapToInt(i -> i).sum())
-        ).get();
-        Field f = new Field(pointTriple, points);
-        full.restore(description, f);*/
-
-        /*System.out.println(src.size());
-        System.out.println(src.stream().map(Description::toString).collect(Collectors.joining("\n")));*/
     }
 
     private static void triangulate(BaseSeed seed, String areaName) {
@@ -99,21 +89,25 @@ public class Main {
                     .stream()
                     .forEach(ser::insertField);
             String serialize = ser.serialize();
-            Path result = FileSystems.getDefault().getPath("areas", areaName + "-result.txt");
-            try {
-
-                try (BufferedWriter bw = Files.newBufferedWriter(result, StandardOpenOption.WRITE, StandardOpenOption.CREATE)) {
-                    bw.write(serialize);
-                    bw.close();
-                }catch (FileNotFoundException ex) {
-                    ex.printStackTrace();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            System.out.println(serialize);
+            writeToFile(areaName, serialize);
         }
+    }
+
+    private static void writeToFile(String areaName, String serialize) {
+        Path result = FileSystems.getDefault().getPath("areas", areaName + "-result.txt");
+        try {
+
+            try (BufferedWriter bw = Files.newBufferedWriter(result, StandardOpenOption.WRITE, StandardOpenOption.CREATE)) {
+                bw.write(serialize);
+                bw.close();
+            }catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(serialize);
     }
 
 }

@@ -4,6 +4,7 @@ import iitc.triangulation.Point;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Created by Sigrlinn on 15.06.2015.
@@ -42,22 +43,30 @@ public class Description {
 
     public static Description sum(Description a, Description b) {
         Description description = new Description();
-        description.linkAmount = new HashMap<>(a.linkAmount);
-        Set<Point> keys = new HashSet<>();
+        /*description.linkAmount = new HashMap<>(a.linkAmount);*/
+        /*Set<Point> keys = new HashSet<>();
         keys.addAll(a.linkAmount.keySet());
-        keys.addAll(b.linkAmount.keySet());
-
-        for (Point p : keys) {
+        keys.addAll(b.linkAmount.keySet());*/
+        description.linkAmount = Stream.of(a, b)
+                .flatMap(x -> x.linkAmount.entrySet().stream())
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, Description::sum));
+        /*for (Point p : keys) {
             Integer a1 = a.linkAmount.get(p);
             Integer a2 = b.linkAmount.get(p);
             description.linkAmount.put(p, Integer.sum(
                             (a1 != null) ? a1 : 0,
                             (a2 != null) ? a2 : 0)
             );
-        }
+        }*/
 
         description.skipAmount = a.skipAmount + b.skipAmount;
         return description;
+    }
+
+    private static int sum(Integer a, Integer b) {
+        a = a==null? 0 : a;
+        b = b==null? 0 : b;
+        return a+b;
     }
 
     public static Description min(Description a, Description b) {
