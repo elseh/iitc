@@ -16,6 +16,7 @@ public class FieldSerializer {
     private List<Drawing> fieldList = new ArrayList<>();
     private List<Drawing> lineList = new ArrayList<>();
     //private Map<Point, Integer> counters = new HashMap<>();
+    private Map<Point, List<Point>> linksOrder = new HashMap<>();
 
     private Map<Point, Set<Point>> linksMap = new HashMap<>();
 
@@ -45,6 +46,8 @@ public class FieldSerializer {
         }
         //System.out.println(innerPoint + " " + field.getInners());
         if (innerPoint != null) {
+            bases.stream().forEach(v -> linksOrder.computeIfAbsent(v, a-> new ArrayList<>()).add(innerPoint));
+            linksOrder.computeIfAbsent(innerPoint, a-> new ArrayList<>());
             bases.stream().forEach(v -> lineList.add(new Drawing("polyline", innerPoint, v)));
             bases
                     .stream()
@@ -70,10 +73,42 @@ public class FieldSerializer {
                 .map(e -> e.getKey().getTitle() + " : " + e.getValue().size())
                 .collect(Collectors.joining("\n"));
 
-
-        return result  + "\n" + gson.toJson(fieldList) + "\n" + gson.toJson(lineList) + "\n";
+        List<Point> pointsOrder = extractOrder();
+        return new StringBuilder()
+                .append("linksAmount : \n").append(result).append("\n")
+                .append("fields: \n").append(gson.toJson(fieldList)).append("\n")
+                .append("links: \n").append(gson.toJson(lineList)).append("\n")
+                .append("links order: \n").append(
+                        pointsOrder
+                                .stream()
+                                .filter(p -> linksOrder.get(p).size() > 0)
+                                .map(p -> p.getTitle() + " : \n    "
+                                        + linksOrder.get(p)
+                                        .stream()
+                                        .map(Point::getTitle)
+                                        .collect(Collectors.joining("\n     ")))
+                                .collect(Collectors.joining("\n"))
+                ).append("\n")
+                .append("points order: \n").append(gson.toJson(new Drawing[]{new Drawing("polyline", pointsOrder.toArray(new Point[0]))})).append("\n")
+                .toString();
     }
 
+    private List<Point> extractOrder() {
+        List<Point> result = new ArrayList<>();
+        Map<Point, List<Point>> copy = new HashMap<>();
+        linksOrder.forEach((k, v) -> copy.put(k, new ArrayList<>(v)));
+        while (result.size() < linksOrder.size()) {
+            List<Point> toRemove = copy.entrySet()
+                    .stream()
+                    .filter(e -> e.getValue().size() == 0)
+                    .map(Map.Entry::getKey)
+                    .collect(Collectors.toList());
+            result.addAll(toRemove);
+            toRemove.forEach(copy::remove);
+            toRemove.forEach(p -> copy.values().stream().forEach(v -> v.remove(p)));
+        }
+        return result;
+    }
     public static  class Drawing {
         private String type = "polyline";
         private List<LatLngs> latLngs;
