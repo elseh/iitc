@@ -27,6 +27,7 @@ public class Main {
         Path path = FileSystems.getDefault().getPath("areas", filename + ".json");
         BaseSeed seed = gson.fromJson(FileUtils.readFromFile.apply(path), BaseSeed.class);
         fullTriangulate(seed, filename);
+        //triangulate(seed, filename);
 
     }
 

@@ -52,7 +52,8 @@ public class ParallelTriangulation {
                 .stream()
                 .map((field) -> field.getInners()
                         .stream()
-                        .filter(p -> calculateGoodness(field, p) < goodnesTreshold).sorted(Comparator.comparing(p -> calculateGoodness(field, p)))
+                        /*.filter(p -> calculateGoodness(field, p) < goodnesTreshold)*/
+                        .sorted(Comparator.comparing((Point p) -> calculateGoodness(field, p)).reversed())
                         .collect(toList()))
                 .collect(toList());
     }
