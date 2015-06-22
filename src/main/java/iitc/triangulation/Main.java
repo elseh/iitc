@@ -3,6 +3,7 @@ package iitc.triangulation;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import iitc.triangulation.other.Description;
+import iitc.triangulation.other.FrameGenerator;
 import iitc.triangulation.other.TriangulationFull;
 import iitc.triangulation.shapes.BaseSeed;
 import iitc.triangulation.shapes.Field;
@@ -56,12 +57,20 @@ public class Main {
                 .stream()
                 .filter(d -> !d.getLinkAmount().values().stream().filter(i -> i > 8).findFirst().isPresent())
                 .sorted(Comparator.comparing(Description::getSkipAmount).thenComparing(d -> d.getLinkAmount().values().stream().mapToInt(i -> i).sum())).findFirst();
+        FrameGenerator g = new FrameGenerator();
+        Optional<Map<Point, Set<Point>>> pointSetMap = g.makeFrame(first.get(), new ArrayList<>(bases));
+        if (pointSetMap.isPresent()) {
+            System.out.println(pointSetMap.get());
+        } else {
+            System.out.println("oops");
+        }
         if (first.isPresent()) {
             System.out.println(first.get() + "");
             List<Field> fields = bases.stream().map(b -> new Field(b, points)).collect(Collectors.toList());
             full.restore(first.get(), fields);
             FieldSerializer serializer = new FieldSerializer();
-            serializer.insertFrame(links);
+            //serializer.insertFrame(links);
+            serializer.insertFrame(pointSetMap.get());
             fields.stream().forEach(serializer::insertField);
             writeToFile(areaName, serializer.serialize());
         }

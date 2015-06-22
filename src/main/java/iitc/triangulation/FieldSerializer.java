@@ -92,7 +92,7 @@ public class FieldSerializer {
                         pointsOrder
                                 .stream()
                                 .filter(p -> linksOrder.get(p).size() > 0)
-                                .map(p -> p.getTitle() + " : \n    "
+                                .map(p -> p.getTitle() + " : " + linksOrder.get(p).size() + "\n    "
                                         + linksOrder.get(p)
                                         .stream()
                                         .map(Point::getTitle)
