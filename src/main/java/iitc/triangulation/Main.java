@@ -61,6 +61,7 @@ public class Main {
             List<Field> fields = bases.stream().map(b -> new Field(b, points)).collect(Collectors.toList());
             full.restore(first.get(), fields);
             FieldSerializer serializer = new FieldSerializer();
+            serializer.insertFrame(links);
             fields.stream().forEach(serializer::insertField);
             writeToFile(areaName, serializer.serialize());
         }

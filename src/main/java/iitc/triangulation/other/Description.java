@@ -1,6 +1,7 @@
 package iitc.triangulation.other;
 
 import iitc.triangulation.Point;
+import sun.security.krb5.internal.crypto.Des;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -43,23 +44,17 @@ public class Description {
 
     public static Description sum(Description a, Description b) {
         Description description = new Description();
-        /*description.linkAmount = new HashMap<>(a.linkAmount);*/
-        /*Set<Point> keys = new HashSet<>();
-        keys.addAll(a.linkAmount.keySet());
-        keys.addAll(b.linkAmount.keySet());*/
         description.linkAmount = Stream.of(a, b)
                 .flatMap(x -> x.linkAmount.entrySet().stream())
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, Description::sum));
-        /*for (Point p : keys) {
-            Integer a1 = a.linkAmount.get(p);
-            Integer a2 = b.linkAmount.get(p);
-            description.linkAmount.put(p, Integer.sum(
-                            (a1 != null) ? a1 : 0,
-                            (a2 != null) ? a2 : 0)
-            );
-        }*/
 
         description.skipAmount = a.skipAmount + b.skipAmount;
+        return description;
+    }
+
+    public static Description reverse(Description d) {
+        Description description = new Description();
+        d.linkAmount.forEach((k, v) -> description.linkAmount.put(k, 8-v));
         return description;
     }
 

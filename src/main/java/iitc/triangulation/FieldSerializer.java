@@ -20,6 +20,16 @@ public class FieldSerializer {
 
     private Map<Point, Set<Point>> linksMap = new HashMap<>();
 
+    public void insertFrame(Map<Point, Set<Point>> frame) {
+        frame.entrySet()
+                .stream()
+                .forEach((e) -> {
+                    linksOrder
+                            .computeIfAbsent(e.getKey(), a -> new ArrayList<>())
+                            .addAll(e.getValue());
+                });
+    }
+
     public void insertField(Field field) {
         Triple<Point> bases = field.getBases();
         bases
@@ -97,7 +107,9 @@ public class FieldSerializer {
         List<Point> result = new ArrayList<>();
         Map<Point, List<Point>> copy = new HashMap<>();
         linksOrder.forEach((k, v) -> copy.put(k, new ArrayList<>(v)));
-        while (result.size() < linksOrder.size()) {
+        boolean hasChanges = true ;
+        while (result.size() < linksOrder.size() && hasChanges) {
+            hasChanges = false;
             List<Point> toRemove = copy.entrySet()
                     .stream()
                     .filter(e -> e.getValue().size() == 0)
@@ -106,7 +118,9 @@ public class FieldSerializer {
             result.addAll(toRemove);
             toRemove.forEach(copy::remove);
             toRemove.forEach(p -> copy.values().stream().forEach(v -> v.remove(p)));
+            hasChanges = toRemove.size() > 0;
         }
+        result.addAll(copy.keySet());
         return result;
     }
     public static  class Drawing {
