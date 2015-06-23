@@ -41,11 +41,6 @@ public class Main {
                 .stream()
                 .map(t -> t.simplify(pointById::get))
                 .collect(Collectors.toSet());
-        Map<Point, Set<Point>> links = seed.getLinks()
-                .stream()
-                .map(Link::getLink)
-                .map(v -> v.simplify(pointById::get))
-                .collect(Collectors.groupingBy(p -> p.v1, Collectors.mapping(p -> p.v2, Collectors.toSet())));
 
         bases.stream().forEach(b -> {
             System.out.println(new Field(b, new ArrayList<>(pointById.values())).getInners().size());
@@ -53,12 +48,17 @@ public class Main {
         TriangulationFull full = new TriangulationFull(points);
         bases.stream().forEach(b -> full.calculateField(b.set()));
         Set<Description> descriptions = full.calculateFields(bases.stream().map(Triple::set).collect(Collectors.toSet()));
+        FrameGenerator g = new FrameGenerator();
         Optional<Description> first = descriptions
                 .stream()
                 .filter(d -> !d.getLinkAmount().values().stream().filter(i -> i > 8).findFirst().isPresent())
-                .sorted(Comparator.comparing(Description::getSkipAmount).thenComparing(d -> d.getLinkAmount().values().stream().mapToInt(i -> i).sum())).findFirst();
-        FrameGenerator g = new FrameGenerator();
-        Optional<Map<Point, Set<Point>>> pointSetMap = g.makeFrame(first.get(), new ArrayList<>(bases));
+                .sorted(Comparator
+                        .comparing(Description::getSkipAmount)
+                        .thenComparing(d -> d.getLinkAmount().values().stream().mapToInt(i -> i).sum()))
+                .filter(d -> g.makeFrame(d, bases).isPresent())
+                .findFirst();
+
+        Optional<Map<Point, Set<Point>>> pointSetMap = g.makeFrame(first.get(), bases);
         if (pointSetMap.isPresent()) {
             System.out.println(pointSetMap.get());
         } else {
