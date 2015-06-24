@@ -44,8 +44,18 @@ public class FieldSerializer {
                 .stream()
                 .forEach(v -> lineList.add(new Drawing("polyline", v.v1, v.v2)));
         splitField(field, 0);
+        bases.stream().forEach(p -> {
+                    if (pointsOrder.contains(p)) {
+                        pointsOrder.remove(p);
+                    }
+                    if (!linksOrder.get(p).isEmpty()) {
+                        pointsOrder.add(p);
+                    }
+                }
+        );
     }
 
+    private List<Point> pointsOrder = new ArrayList<>();
     private void splitField(Field field, int deep) {
         Triple<Point> bases = field.getBases();
         fieldList.add(new Drawing("polygon", bases.v1, bases.v2, bases.v3));
@@ -67,6 +77,13 @@ public class FieldSerializer {
                     });
 
             field.getSmallerFields().stream().forEach(v -> splitField(v, deep + 1));
+
+            if (pointsOrder.contains(innerPoint)) {
+                pointsOrder.remove(innerPoint);
+            }
+            if (!linksOrder.get(innerPoint).isEmpty()) {
+                pointsOrder.add(innerPoint);
+            }
         }
     }
 
@@ -83,7 +100,7 @@ public class FieldSerializer {
                 .map(e -> e.getKey().getTitle() + " : " + e.getValue().size())
                 .collect(Collectors.joining("\n"));
 
-        List<Point> pointsOrder = extractOrder();
+        //List<Point> pointsOrder = extractOrder();
         return new StringBuilder()
                 .append("linksAmount : \n").append(result).append("\n")
                 .append("fields: \n").append(gson.toJson(fieldList)).append("\n")
@@ -123,6 +140,7 @@ public class FieldSerializer {
         result.addAll(copy.keySet());
         return result;
     }
+
     public static  class Drawing {
         private String type = "polyline";
         private List<LatLngs> latLngs;

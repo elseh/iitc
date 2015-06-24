@@ -16,21 +16,21 @@ fields:
 links: 
 [{"type":"polyline","latLngs":[{"lat":59.964624,"lng":30.312906},{"lat":59.963183,"lng":30.312472}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.963183,"lng":30.312472},{"lat":59.96282,"lng":30.314221}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.96282,"lng":30.314221},{"lat":59.964624,"lng":30.312906}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.963355,"lng":30.312608},{"lat":59.964624,"lng":30.312906}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.963355,"lng":30.312608},{"lat":59.963183,"lng":30.312472}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.963355,"lng":30.312608},{"lat":59.96282,"lng":30.314221}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.96306,"lng":30.313111},{"lat":59.963355,"lng":30.312608}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.96306,"lng":30.313111},{"lat":59.963183,"lng":30.312472}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.96306,"lng":30.313111},{"lat":59.96282,"lng":30.314221}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.963673,"lng":30.313444},{"lat":59.963355,"lng":30.312608}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.963673,"lng":30.313444},{"lat":59.96282,"lng":30.314221}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.963673,"lng":30.313444},{"lat":59.964624,"lng":30.312906}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.96313,"lng":30.313882},{"lat":59.963673,"lng":30.313444}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.96313,"lng":30.313882},{"lat":59.963355,"lng":30.312608}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.96313,"lng":30.313882},{"lat":59.96282,"lng":30.314221}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.963248,"lng":30.313248},{"lat":59.96313,"lng":30.313882}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.963248,"lng":30.313248},{"lat":59.963673,"lng":30.313444}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.963248,"lng":30.313248},{"lat":59.963355,"lng":30.312608}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.96342,"lng":30.313459},{"lat":59.963248,"lng":30.313248}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.96342,"lng":30.313459},{"lat":59.96313,"lng":30.313882}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.96342,"lng":30.313459},{"lat":59.963673,"lng":30.313444}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.963065,"lng":30.313504},{"lat":59.96313,"lng":30.313882}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.963065,"lng":30.313504},{"lat":59.963355,"lng":30.312608}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.963065,"lng":30.313504},{"lat":59.96282,"lng":30.314221}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.963795,"lng":30.312922},{"lat":59.963673,"lng":30.313444}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.963795,"lng":30.312922},{"lat":59.964624,"lng":30.312906}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.963795,"lng":30.312922},{"lat":59.963355,"lng":30.312608}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.963526,"lng":30.312822},{"lat":59.963795,"lng":30.312922}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.963526,"lng":30.312822},{"lat":59.963355,"lng":30.312608}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.963526,"lng":30.312822},{"lat":59.963673,"lng":30.313444}],"color":"green"}]
 links order: 
-Орел на балконе (Eagle on the balcony) : 
-    «Скрипка-Женщина». сквер компо
-«Скрипка-Лебедь». сквер композ : 
+«Скрипка-Лебедь». сквер композ : 1
     Скрипка – Яблоко
-Светильник. Привет из древности : 
+Светильник. Привет из древности : 3
     «Скрипка-Лебедь». сквер композ
      Скрипка – Яблоко
      Даниил Хармс
-Сквер Петрова : 
+Орел на балконе (Eagle on the balcony) : 1
+    «Скрипка-Женщина». сквер компо
+Сквер Петрова : 5
     Светильник. Привет из древности
      «Скрипка-Лебедь». сквер композ
      Скрипка – Яблоко
      Орел на балконе (Eagle on the balcony)
      «Скрипка-Женщина». сквер компо
-«Скрипка-Граммофон» : 
+«Скрипка-Граммофон» : 7
     Дмитрий Шостакович
      Сквер Петрова
      Светильник. Привет из древности
@@ -38,16 +38,16 @@ links order:
      Даниил Хармс
      Орел на балконе (Eagle on the balcony)
      «Скрипка-Женщина». сквер компо
-Atlant Facade Monument : 
+Atlant Facade Monument : 4
     Скрипка-Кресло
      «Скрипка-Граммофон»
      Сквер Петрова
      Орел на балконе (Eagle on the balcony)
-Скрипка-Кресло : 
+Скрипка-Кресло : 3
     Григорий Федоров
      «Скрипка-Граммофон»
      Дмитрий Шостакович
-Григорий Федоров : 
+Григорий Федоров : 6
     Atlant Facade Monument
      «Скрипка-Граммофон»
      Дмитрий Шостакович
@@ -55,5 +55,6 @@ Atlant Facade Monument :
      Светильник. Привет из древности
      Даниил Хармс
 points order: 
-[{"type":"polyline","latLngs":[{"lat":59.963526,"lng":30.312822},{"lat":59.963065,"lng":30.313504},{"lat":59.96342,"lng":30.313459},{"lat":59.96306,"lng":30.313111},{"lat":59.963795,"lng":30.312922},{"lat":59.963248,"lng":30.313248},{"lat":59.96313,"lng":30.313882},{"lat":59.963673,"lng":30.313444},{"lat":59.963355,"lng":30.312608},{"lat":59.964624,"lng":30.312906},{"lat":59.963183,"lng":30.312472},{"lat":59.96282,"lng":30.314221}],"color":"green"}]
+[{"type":"polyline","latLngs":[{"lat":59.963248,"lng":30.313248},{"lat":59.96313,"lng":30.313882},{"lat":59.963795,"lng":30.312922},{"lat":59.963673,"lng":30.313444},{"lat":59.963355,"lng":30.312608},{"lat":59.964624,"lng":30.312906},{"lat":59.963183,"lng":30.312472},{"lat":59.96282,"lng":30.314221}],"color":"green"}]
+2608},{"lat":59.964624,"lng":30.312906},{"lat":59.963183,"lng":30.312472},{"lat":59.96282,"lng":30.314221}],"color":"green"}]
 },{"lat":59.96282,"lng":30.314221}],"color":"green"}]

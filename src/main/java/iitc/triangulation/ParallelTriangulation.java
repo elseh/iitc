@@ -105,7 +105,7 @@ public class ParallelTriangulation {
                 .collect(groupingBy(Function.<Point>identity(), counting()));
 
         for (Point p : requiredLinks.keySet()) {
-            if (outComingLinks.computeIfAbsent(p, v -> new HashSet<>()).size() + requiredLinks.get(p) > 8) {
+            if (outComingLinks.computeIfAbsent(p, v -> new HashSet<>()).size() + requiredLinks.get(p) > p.getMaxLinks()) {
                 return false;
             }
         }

@@ -5,7 +5,7 @@ for (var p in window.portals) {
         var port = window.portals[p];
         var ll = port._latlng;
         if (map.getBounds().contains(ll)) {
-            a.push({id: p, latlng: ll, title: port.options.data.title});
+            a.push({id: p, latlng: ll, title: port.options.data.title, maxLinks: 8});
         }
     }
 }

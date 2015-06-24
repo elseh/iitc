@@ -1,7 +1,10 @@
-package iitc.triangulation;
+package iitc.triangulation.runnables;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import iitc.triangulation.FieldSerializer;
+import iitc.triangulation.ParallelTriangulation;
+import iitc.triangulation.Point;
 import iitc.triangulation.other.Description;
 import iitc.triangulation.other.FrameGenerator;
 import iitc.triangulation.other.TriangulationFull;
@@ -41,11 +44,6 @@ public class Main {
                 .stream()
                 .map(t -> t.simplify(pointById::get))
                 .collect(Collectors.toSet());
-        Map<Point, Set<Point>> links = seed.getLinks()
-                .stream()
-                .map(Link::getLink)
-                .map(v -> v.simplify(pointById::get))
-                .collect(Collectors.groupingBy(p -> p.v1, Collectors.mapping(p -> p.v2, Collectors.toSet())));
 
         bases.stream().forEach(b -> {
             System.out.println(new Field(b, new ArrayList<>(pointById.values())).getInners().size());
@@ -53,24 +51,29 @@ public class Main {
         TriangulationFull full = new TriangulationFull(points);
         bases.stream().forEach(b -> full.calculateField(b.set()));
         Set<Description> descriptions = full.calculateFields(bases.stream().map(Triple::set).collect(Collectors.toSet()));
+        FrameGenerator g = new FrameGenerator();
         Optional<Description> first = descriptions
                 .stream()
-                .filter(d -> !d.getLinkAmount().values().stream().filter(i -> i > 8).findFirst().isPresent())
-                .sorted(Comparator.comparing(Description::getSkipAmount).thenComparing(d -> d.getLinkAmount().values().stream().mapToInt(i -> i).sum())).findFirst();
-        FrameGenerator g = new FrameGenerator();
+                .filter(d -> !d.getLinkAmount().entrySet()
+                        .stream().filter(e -> e.getValue() > e.getKey().getMaxLinks()).findFirst().isPresent())
+                .sorted(Comparator.comparing(d -> d.getLinkAmount().values().stream().mapToInt(i -> i).sum()))
+                .filter(d -> g.makeFrame(d, new ArrayList<>(bases)).isPresent())
+                .findFirst();
+
         Optional<Map<Point, Set<Point>>> pointSetMap = g.makeFrame(first.get(), new ArrayList<>(bases));
         if (pointSetMap.isPresent()) {
             System.out.println(pointSetMap.get());
         } else {
-            System.out.println("oops");
+            System.out.println("oops no frame");
         }
         if (first.isPresent()) {
             System.out.println(first.get() + "");
             List<Field> fields = bases.stream().map(b -> new Field(b, points)).collect(Collectors.toList());
             full.restore(first.get(), fields);
             FieldSerializer serializer = new FieldSerializer();
-            //serializer.insertFrame(links);
-            serializer.insertFrame(pointSetMap.get());
+            if (pointSetMap.isPresent()) {
+                serializer.insertFrame(pointSetMap.get());
+            }
             fields.stream().forEach(serializer::insertField);
             writeToFile(areaName, serializer.serialize());
         }

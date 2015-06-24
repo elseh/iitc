@@ -32,7 +32,7 @@ public class TriangulationFull {
                 .filter(this::goodDescription)
                 .collect(Collectors.toMap(Description::getLinkAmount, a -> a, Description::min)).values());
         if (field.getInners().size() < 1) {
-            values.add(Description.skipAll(set, field.getInners().size()));
+            values.add(Description.skipAll(set));
         }
         allDescriptions.put(set, values);
         if (allDescriptions.size() % 100 == 0) {
@@ -69,11 +69,9 @@ public class TriangulationFull {
                                     .map(e1 -> element.insert(e1)))
                             .filter(this::goodDescription)
                             .collect(Collectors.toMap(
-                                    Description::getLinkAmount,
-                                    a -> a,
-                                    (a, b) -> Description.min( //!
-                                            Description.reduce(a, pointSet),
-                                            Description.reduce(b, pointSet))
+                                            Description::getLinkAmount,
+                                            a -> a,
+                                            Description::min
                                     )
                             )
                                     .values();
@@ -89,13 +87,16 @@ public class TriangulationFull {
     }
 
     private boolean goodDescription(Description d) {
-        return !d.getLinkAmount().values().stream().filter(i -> i > 8).findFirst().isPresent() && d.getSkipAmount() < 15;
+        return !d.getLinkAmount().entrySet()
+                .stream()
+                .filter(e -> e.getValue() > e.getKey().getMaxLinks())
+                .findFirst().isPresent()/* && d.checkSumInTheInnerPoint()*/;
     }
 
     public void restore(Description d, Field f) {
         Set<Point> set = d.getLinkAmount().keySet();
 
-        if (d.getSkipAmount() == f.getInners().size()) {
+        if (0 == f.getInners().size()) {
             return;
         }
         if (!calculateField(set).contains(d)) {

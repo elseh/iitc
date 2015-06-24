@@ -1,4 +1,4 @@
-package iitc.triangulation;
+package iitc.triangulation.runnables;
 
 import java.io.BufferedReader;
 import java.io.IOException;

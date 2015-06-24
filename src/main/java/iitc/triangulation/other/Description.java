@@ -12,13 +12,10 @@ import java.util.stream.Stream;
  */
 public class Description {
     private Map<Point, Integer> linkAmount = new HashMap<>();
-    private int skipAmount = 0;
     private Set<Description> sumOf = new HashSet<>();
 
-    public static Description skipAll(Set<Point> pointSet, int amount) {
+    public static Description skipAll(Set<Point> pointSet) {
         Description description = new Description();
-        description.skipAmount = amount;
-        //System.out.println("a: " + amount);
         pointSet.stream().forEach(p -> description.linkAmount.put(p, 0));
         return description;
     }
@@ -47,14 +44,12 @@ public class Description {
         description.linkAmount = Stream.of(a, b)
                 .flatMap(x -> x.linkAmount.entrySet().stream())
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, Description::sum));
-
-        description.skipAmount = a.skipAmount + b.skipAmount;
         return description;
     }
 
     public static Description reverse(Description d) {
         Description description = new Description();
-        d.linkAmount.forEach((k, v) -> description.linkAmount.put(k, 8-v));
+        d.linkAmount.forEach((k, v) -> description.linkAmount.put(k, k.getMaxLinks()-v));
         return description;
     }
 
@@ -64,14 +59,48 @@ public class Description {
         return a+b;
     }
 
+    public boolean checkSumInTheInnerPoint() {
+        Set<Point> allPoints = getSumOf()
+                .stream()
+                .flatMap(s -> s.getLinkAmount().keySet().stream())
+                .collect(Collectors.toSet());
+        allPoints.removeAll(getLinkAmount().keySet());
+        Optional<Point> first = allPoints.stream().findFirst();
+        if (first.isPresent() && allPoints.size() == 1) {
+            Point p = first.get();
+            int sum = getSumOf().stream().mapToInt(i -> i.getLinkAmount().get(p)).sum();
+            boolean b = sum <= p.getMaxLinks();
+            if (!b) {
+                System.out.println("fail in: " + this + " " + sum);
+            }
+            return b;
+        }
+        return true;
+    }
+
+    public int getSumInTheInnerPoint() {
+        Set<Point> allPoints = getSumOf()
+                .stream()
+                .flatMap(s -> s.getLinkAmount().keySet().stream())
+                .collect(Collectors.toSet());
+        allPoints.removeAll(getLinkAmount().keySet());
+        Optional<Point> first = allPoints.stream().findFirst();
+        if (first.isPresent() && allPoints.size() == 1) {
+            Point p = first.get();
+            return getSumOf().stream().mapToInt(i -> i.getLinkAmount().get(p)).sum();
+        }
+        return 0;
+    }
+
+
+
     public static Description min(Description a, Description b) {
-        return a.skipAmount < b.skipAmount ? a : b;
+        return a.getSumInTheInnerPoint() < b.getSumInTheInnerPoint() ? a : b;
     }
 
     public static Description reduce(Description a, Set<Point> pointSet) {
         Description d = new Description();
         pointSet.stream().forEach(p -> d.linkAmount.put(p, a.linkAmount.get(p)));
-        d.skipAmount = a.skipAmount;
         d.sumOf = a.sumOf;
         return d;
     }
@@ -82,10 +111,6 @@ public class Description {
 
     public Map<Point, Integer> getLinkAmount() {
         return linkAmount;
-    }
-
-    public int getSkipAmount() {
-        return skipAmount;
     }
 
     @Override
@@ -106,7 +131,7 @@ public class Description {
 
     @Override
     public String toString() {
-        return "[" + skipAmount + "=" + String.join(", ", linkAmount.values().stream().map(i -> i + "").collect(Collectors.joining(", ")) + "]");
+        return "[" + String.join(", ", linkAmount.values().stream().map(i -> i + "").collect(Collectors.joining(", ")) + "]");
     }
 }
 

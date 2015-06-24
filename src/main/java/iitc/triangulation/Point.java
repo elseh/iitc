@@ -9,6 +9,7 @@ public class Point {
     String id;
     String title;
     LatLngs latlng;
+    int maxLinks = 8;
 
     public Point(String id, String title, LatLngs latlng) {
         this.id = id;
@@ -38,6 +39,14 @@ public class Point {
 
     public void setLatlng(LatLngs latlng) {
         this.latlng = latlng;
+    }
+
+    public void setMaxLinks(int maxLinks) {
+        this.maxLinks = maxLinks;
+    }
+
+    public int getMaxLinks() {
+        return maxLinks;
     }
 
     @Override
