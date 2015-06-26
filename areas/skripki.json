@@ -10,7 +10,7 @@
     {
       "id": "78fad8b59735436e8a2fe867ac7001f1.12",
       "title": "«Скрипка-Женщина». сквер компо",
-      "latlng": {
+      "maxLinks": 8, "latlng": {
         "lat": 59.963526,
         "lng": 30.312822
       }
@@ -18,7 +18,7 @@
     {
       "id": "c993c96fa7464d52b64227d272ca4ef1.12",
       "title": "Низами, Восточный Мудрец",
-      "latlng": {
+      "maxLinks": 8, "latlng": {
         "lat": 59.9638,
         "lng": 30.314376
       }
@@ -26,7 +26,7 @@
     {
       "id": "eff3a745cd9449faa1b77775870bb048.12",
       "title": "Скрипка – Яблоко",
-      "latlng": {
+      "maxLinks": 8, "latlng": {
         "lat": 59.96342,
         "lng": 30.313459
       }
@@ -34,7 +34,7 @@
     {
       "id": "9229c3f1bfb4435a87ab3db2a6cb90b7.16",
       "title": "Памятник Архитектуры",
-      "latlng": {
+      "maxLinks": 8, "latlng": {
         "lat": 59.962613,
         "lng": 30.314497
       }
@@ -42,7 +42,7 @@
     {
       "id": "120cb80148a045fea0c74b54a40cf61d.16",
       "title": "Купидон",
-      "latlng": {
+      "maxLinks": 8, "latlng": {
         "lat": 59.96333,
         "lng": 30.316336
       }
@@ -50,7 +50,7 @@
     {
       "id": "79ad7e7a8e5f4438841c7f694ff530f9.12",
       "title": "«Скрипка-Граммофон»",
-      "latlng": {
+      "maxLinks": 8, "latlng": {
         "lat": 59.963355,
         "lng": 30.312608
       }
@@ -58,7 +58,7 @@
     {
       "id": "a36196249c9348ada04691a2f752205e.16",
       "title": "Хармс",
-      "latlng": {
+      "maxLinks": 8, "latlng": {
         "lat": 59.963276,
         "lng": 30.314201
       }
@@ -66,7 +66,7 @@
     {
       "id": "5b51bbfbd0cf4ae3b572a9d66461681e.16",
       "title": "Art-Deco Tower",
-      "latlng": {
+      "maxLinks": 8, "latlng": {
         "lat": 59.964476,
         "lng": 30.310115
       }
@@ -74,7 +74,7 @@
     {
       "id": "bf661b6b7ed14dcc8650f76b6566767e.12",
       "title": "Atlant Facade Monument",
-      "latlng": {
+      "maxLinks": 8, "latlng": {
         "lat": 59.964624,
         "lng": 30.312906
       }
@@ -82,7 +82,7 @@
     {
       "id": "adb373aadf254c13a0d464e5392684fc.16",
       "title": "Орел на балконе (Eagle on the balcony)",
-      "latlng": {
+      "maxLinks": 8, "latlng": {
         "lat": 59.963795,
         "lng": 30.312922
       }
@@ -90,7 +90,7 @@
     {
       "id": "d7574f794350474eab39d2c8957528ad.16",
       "title": "Даниил Хармс",
-      "latlng": {
+      "maxLinks": 8, "latlng": {
         "lat": 59.963065,
         "lng": 30.313504
       }
@@ -98,7 +98,7 @@
     {
       "id": "00e5bf39ddc84e708c7c7042adc74455.12",
       "title": "Скрипка-Кресло",
-      "latlng": {
+      "maxLinks": 8, "latlng": {
         "lat": 59.963183,
         "lng": 30.312472
       }
@@ -106,7 +106,7 @@
     {
       "id": "fc7f3db028b04a798806978f3e3b8bc9.16",
       "title": "Boy Sculpture",
-      "latlng": {
+      "maxLinks": 8, "latlng": {
         "lat": 59.963216,
         "lng": 30.316151
       }
@@ -114,7 +114,7 @@
     {
       "id": "d8f6ba9a1b844e9fbca6a80884ac7255.16",
       "title": "Сквер Петрова",
-      "latlng": {
+      "maxLinks": 8, "latlng": {
         "lat": 59.963673,
         "lng": 30.313444
       }
@@ -122,7 +122,7 @@
     {
       "id": "97ce27a7a3de44509740c048ae18baf5.16",
       "title": "Вивьен ЛС",
-      "latlng": {
+      "maxLinks": 8, "latlng": {
         "lat": 59.96309,
         "lng": 30.310333
       }
@@ -130,7 +130,7 @@
     {
       "id": "7ff467bd06f94aada6a11bbb6f852728.16",
       "title": "Светильник. Привет из древности",
-      "latlng": {
+      "maxLinks": 8, "latlng": {
         "lat": 59.96313,
         "lng": 30.313882
       }
@@ -138,7 +138,7 @@
     {
       "id": "86bea50672a942b38c3999049bd2f624.16",
       "title": "Шостакович",
-      "latlng": {
+      "maxLinks": 8, "latlng": {
         "lat": 59.962874,
         "lng": 30.310375
       }
@@ -146,7 +146,7 @@
     {
       "id": "17584f75e85f40daa98ff8b64298c230.12",
       "title": "«Скрипка-Лебедь». сквер композ",
-      "latlng": {
+      "maxLinks": 8, "latlng": {
         "lat": 59.963248,
         "lng": 30.313248
       }
@@ -154,7 +154,7 @@
     {
       "id": "8c100a1433a040c0865258dc3143acee.16",
       "title": "Академик Вернадский",
-      "latlng": {
+      "maxLinks": 8, "latlng": {
         "lat": 59.962871,
         "lng": 30.315311
       }
@@ -162,7 +162,7 @@
     {
       "id": "36790ec24acd4c52814f3ecf3384391d.16",
       "title": "Григорий Федоров",
-      "latlng": {
+      "maxLinks": 8, "latlng": {
         "lat": 59.96282,
         "lng": 30.314221
       }
@@ -170,7 +170,7 @@
     {
       "id": "ce417f92e6b542cb9c52fa724dcd630a.16",
       "title": "Дмитрий Шостакович",
-      "latlng": {
+      "maxLinks": 8, "latlng": {
         "lat": 59.96306,
         "lng": 30.313111
       }
