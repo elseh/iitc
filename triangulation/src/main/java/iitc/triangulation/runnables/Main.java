@@ -62,10 +62,10 @@ public class Main {
                 .filter(d -> !d.getLinkAmount().entrySet()
                         .stream().filter(e -> e.getValue() > e.getKey().getMaxLinks()).findFirst().isPresent())
                 .sorted(Comparator.comparing(d -> d.getLinkAmount().values().stream().mapToInt(i -> i).sum()))
-                .filter(d -> g.makeFrame(d, new ArrayList<>(bases)).isPresent())
+                .filter(d -> g.makeFrame(d, new HashSet<>(bases)).isPresent())
                 .findFirst();
 
-        Optional<Map<Point, Set<Point>>> pointSetMap = g.makeFrame(first.get(), new ArrayList<>(bases));
+        Optional<Map<Point, Set<Point>>> pointSetMap = g.makeFrame(first.get(), new HashSet<>(bases));
         if (pointSetMap.isPresent()) {
             System.out.println(pointSetMap.get());
         } else {
