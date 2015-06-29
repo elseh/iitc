@@ -44,6 +44,11 @@ public class Main {
                 .stream()
                 .map(t -> t.simplify(pointById::get))
                 .collect(Collectors.toSet());
+        Map<Point, Set<Point>> links = seed.getLinks()
+                .stream()
+                .map(Link::getLink)
+                .map(v -> v.simplify(pointById::get))
+                .collect(Collectors.groupingBy(p -> p.v1, Collectors.mapping(p -> p.v2, Collectors.toSet())));
 
         bases.stream().forEach(b -> {
             System.out.println(new Field(b, new ArrayList<>(pointById.values())).getInners().size());

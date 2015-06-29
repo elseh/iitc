@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
  * Created by Sigrlinn on 21.06.2015.
  */
 public class FrameGenerator {
-    public Optional<Map<Point, Set<Point>>> makeFrame(Description d, List<Triple<Point>> bases) {
+    public Optional<Map<Point, Set<Point>>> makeFrame(Description d, Set<Triple<Point>> bases) {
         Description reverse = Description.reverse(d);
         Set<LinkSmall> links = bases
                 .stream()
