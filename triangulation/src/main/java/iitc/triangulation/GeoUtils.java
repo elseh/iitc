@@ -1,12 +1,9 @@
 package iitc.triangulation;
 
-import iitc.triangulation.shapes.LatLngs;
 import iitc.triangulation.shapes.Pair;
 import iitc.triangulation.shapes.Triple;
+import iitc.triangulation.shapes.LatLngs;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**

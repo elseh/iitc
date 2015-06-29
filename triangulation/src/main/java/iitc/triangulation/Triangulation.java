@@ -1,7 +1,7 @@
 package iitc.triangulation;
 
-import iitc.triangulation.shapes.Field;
 import iitc.triangulation.shapes.Triple;
+import iitc.triangulation.shapes.Field;
 
 import java.util.*;
 import java.util.stream.Collectors;

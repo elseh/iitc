@@ -2,10 +2,10 @@ package iitc.triangulation.runnables;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import iitc.triangulation.FieldSerializer;
 import iitc.triangulation.Point;
-import iitc.triangulation.RawData;
 import iitc.triangulation.shapes.BaseSeed;
+import iitc.triangulation.FieldSerializer;
+import iitc.triangulation.RawData;
 import iitc.triangulation.shapes.LatLngs;
 import iitc.triangulation.shapes.Link;
 import iitc.triangulation.shapes.Triple;

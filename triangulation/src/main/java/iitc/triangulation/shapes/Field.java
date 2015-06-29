@@ -4,7 +4,6 @@ import iitc.triangulation.GeoUtils;
 import iitc.triangulation.Point;
 
 import java.util.List;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**

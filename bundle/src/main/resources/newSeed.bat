@@ -1,0 +1,1 @@
+java -cp "lib\*" iitc.triangulation.runnables.SetupSeed

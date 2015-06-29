@@ -1,10 +1,8 @@
 package iitc.triangulation.other;
 
 import iitc.triangulation.Point;
-import iitc.triangulation.shapes.Link;
-import iitc.triangulation.shapes.Pair;
 import iitc.triangulation.shapes.Triple;
-import sun.security.krb5.internal.crypto.Des;
+import iitc.triangulation.shapes.Pair;
 
 import java.util.*;
 import java.util.stream.Collectors;
