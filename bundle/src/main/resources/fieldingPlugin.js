@@ -1,7 +1,7 @@
 // ==UserScript==
 // @id             iitc-plugin-fielding@elseh
 // @name           IITC plugin: fielding tools
-// @version        0.0.1
+// @version        0.1.1
 // @namespace      https://github.com/jonatkins/ingress-intel-total-conversion
 // @updateURL      http://rawgit.com/elseh/iitc/master/bundle/src/main/resources/fieldingPlugin.js
 // @downloadURL    http://rawgit.com/elseh/iitc/master/bundle/src/main/resources/fieldingPlugin.js
