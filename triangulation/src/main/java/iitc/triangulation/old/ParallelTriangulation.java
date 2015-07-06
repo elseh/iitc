@@ -1,5 +1,6 @@
-package iitc.triangulation;
+package iitc.triangulation.old;
 
+import iitc.triangulation.Point;
 import iitc.triangulation.shapes.Field;
 import iitc.triangulation.shapes.Triple;
 

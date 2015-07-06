@@ -2,20 +2,24 @@ package iitc.triangulation.runnables;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonReader;
 import iitc.triangulation.Point;
 import iitc.triangulation.shapes.BaseSeed;
 import iitc.triangulation.FieldSerializer;
-import iitc.triangulation.RawData;
 import iitc.triangulation.shapes.LatLngs;
 import iitc.triangulation.shapes.Link;
 import iitc.triangulation.shapes.Triple;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.util.function.Function.identity;
 
@@ -27,30 +31,32 @@ public class SetupSeed {
     private static Map<LatLngs, Point> pointsByLat = new HashMap<>();
     private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-    public static void setPoints(List<Point> points) {
-        pointsById = points.stream().collect(Collectors.toMap(Point::getId, identity(), (a,b) -> a));
-        pointsByLat = points.stream().collect(Collectors.toMap(Point::getLatlng, identity(),  (a,b) -> a));
-    }
-
-    private static void readPoints(Path path) {
-        Point[] points = gson.fromJson(FileUtils.readFromFile.apply(path), Point[].class);
-        setPoints(Arrays.asList(points));
+    public static void setPoints(Point[] points) {
+        pointsById = Stream.of(points)
+                .collect(Collectors.toMap(Point::getId, identity(), (a, b) -> a));
+        pointsByLat = Stream.of(points)
+                .collect(Collectors.toMap(Point::getLatlng, identity(), (a, b) -> a));
     }
 
     public static void main(String[] args) {
-        RawData rawData = gson.fromJson(FileUtils.readFromCMD.apply("Enter points: "), RawData.class);
-        setPoints(Arrays.asList(rawData.getPoints()));
-        BaseSeed seed = parseDrawing(rawData.getDrawings());
-        String fileName = FileUtils.readFromCMD.apply("enter area name: ");
-
-        try {
-            Path areas = FileSystems.getDefault().getPath("areas", fileName + ".json");
-            Files.createFile(areas);
-            Files.write(areas, gson.toJson(seed).getBytes());
+        String fileName = "";
+        BaseSeed seed = null;
+        try(JsonReader reader = new JsonReader(FileUtils.IN)) {
+            reader.beginArray();
+                setPoints(gson.fromJson(reader, Point[].class));
+                seed = parseDrawing(gson.fromJson(reader, FieldSerializer.Drawing[].class));
+                fileName = gson.fromJson(reader, String.class);
+            reader.endArray();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //System.out.println(gson.toJson(seed));
+        Path areas = FileSystems.getDefault().getPath("areas", fileName + ".json");
+        try (BufferedWriter bw = Files.newBufferedWriter(areas, Charset.forName("UTF-8"), StandardOpenOption.WRITE, StandardOpenOption.CREATE)) {
+            bw.write(gson.toJson(seed));
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private static BaseSeed parseDrawing(FieldSerializer.Drawing[] drawings) {
@@ -72,8 +78,6 @@ public class SetupSeed {
         }
         return new BaseSeed(triples, new ArrayList<>(pointsById.values()), links);
     }
-
-    private static FieldSerializer.Drawing[] readDrawings(Path path) {
-        return gson.fromJson(FileUtils.readFromFile.apply(path), FieldSerializer.Drawing[].class);
-    }
 }
+
+

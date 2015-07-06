@@ -36,7 +36,7 @@ public class Triple<T> {
     }
 
     public Stream<T> stream() {
-        return Arrays.asList(v1, v2, v3).stream();
+        return Stream.of(v1,v2,v3);
     }
 
     public Set<T> set() {

@@ -19,7 +19,7 @@ public class TriangulationFull {
         this.allPoints = allPoints;
     }
 
-    public Set<Description> calculateField(Set<Point> set) {
+    public Set<Description> analyseSingleField(Set<Point> set) {
         Field field = get(set);
 
         if (allDescriptions.containsKey(set)) {
@@ -61,7 +61,7 @@ public class TriangulationFull {
         base.add(baseDescription);
         bases
                 .stream()
-                .map(this::calculateField).forEach(
+                .map(this::analyseSingleField).forEach(
                 set -> {
                     Collection<Description> values = base.stream()
                             .flatMap(element -> set
@@ -99,7 +99,7 @@ public class TriangulationFull {
         if (0 == f.getInners().size()) {
             return;
         }
-        if (!calculateField(set).contains(d)) {
+        if (!analyseSingleField(set).contains(d)) {
             return;
         }
         Set<Point> allPoints = d.getSumOf()

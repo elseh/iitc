@@ -28,6 +28,6 @@ public class Pair<T> {
     }
 
     public Stream<T> stream() {
-        return Arrays.asList(v1, v2).stream();
+        return Stream.of(v1, v2);
     }
 }

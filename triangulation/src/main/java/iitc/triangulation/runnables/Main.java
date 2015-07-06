@@ -3,7 +3,7 @@ package iitc.triangulation.runnables;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import iitc.triangulation.FieldSerializer;
-import iitc.triangulation.ParallelTriangulation;
+import iitc.triangulation.old.ParallelTriangulation;
 import iitc.triangulation.Point;
 import iitc.triangulation.other.Description;
 import iitc.triangulation.other.FrameGenerator;
@@ -14,6 +14,7 @@ import iitc.triangulation.shapes.Link;
 import iitc.triangulation.shapes.Triple;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.nio.file.*;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -44,17 +45,12 @@ public class Main {
                 .stream()
                 .map(t -> t.simplify(pointById::get))
                 .collect(Collectors.toSet());
-        Map<Point, Set<Point>> links = seed.getLinks()
-                .stream()
-                .map(Link::getLink)
-                .map(v -> v.simplify(pointById::get))
-                .collect(Collectors.groupingBy(p -> p.v1, Collectors.mapping(p -> p.v2, Collectors.toSet())));
 
         bases.stream().forEach(b -> {
             System.out.println(new Field(b, new ArrayList<>(pointById.values())).getInners().size());
         });
         TriangulationFull full = new TriangulationFull(points);
-        bases.stream().forEach(b -> full.calculateField(b.set()));
+        bases.stream().forEach(b -> full.analyseSingleField(b.set()));
         Set<Description> descriptions = full.calculateFields(bases.stream().map(Triple::set).collect(Collectors.toSet()));
         FrameGenerator g = new FrameGenerator();
         Optional<Description> first = descriptions
@@ -116,7 +112,7 @@ public class Main {
         Path result = FileSystems.getDefault().getPath("areas", areaName + "-result.txt");
         try {
 
-            try (BufferedWriter bw = Files.newBufferedWriter(result, StandardOpenOption.WRITE, StandardOpenOption.CREATE)) {
+            try (BufferedWriter bw = Files.newBufferedWriter(result, Charset.forName("UTF-8"), StandardOpenOption.WRITE, StandardOpenOption.CREATE)) {
                 bw.write(serialize);
                 bw.close();
             }catch (FileNotFoundException ex) {
