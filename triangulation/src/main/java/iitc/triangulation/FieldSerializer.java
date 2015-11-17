@@ -8,16 +8,18 @@ import iitc.triangulation.shapes.Triple;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static iitc.triangulation.DeployOrder.*;
+
 /**
  * Created by Sigrlinn on 31.05.2015.
  */
 public class FieldSerializer {
     private List<Drawing> fieldList = new ArrayList<>();
     private List<Drawing> lineList = new ArrayList<>();
-    //private Map<Point, Integer> counters = new HashMap<>();
     private Map<Point, List<Point>> linksOrder = new HashMap<>();
 
     private Map<Point, Set<Point>> linksMap = new HashMap<>();
+    private List<Point> pointsOrder;
 
     public void insertFrame(Map<Point, Set<Point>> frame) {
         frame.entrySet()
@@ -42,20 +44,10 @@ public class FieldSerializer {
                 .split()
                 .stream()
                 .forEach(v -> lineList.add(new Drawing("polyline", v.v1, v.v2)));
-        splitField(field, 0);
-        bases.stream().forEach(p -> {
-                    if (pointsOrder.contains(p)) {
-                        pointsOrder.remove(p);
-                    }
-                    if (!linksOrder.get(p).isEmpty()) {
-                        pointsOrder.add(p);
-                    }
-                }
-        );
+        splitField(field);
     }
 
-    private List<Point> pointsOrder = new ArrayList<>();
-    private void splitField(Field field, int deep) {
+    private void splitField(Field field) {
         Triple<Point> bases = field.getBases();
         fieldList.add(new Drawing("polygon", bases.v1, bases.v2, bases.v3));
         Point innerPoint = field.getInnerPoint();
@@ -75,20 +67,54 @@ public class FieldSerializer {
                         linksMap.computeIfAbsent(innerPoint, t -> new HashSet<>()).add(v);
                     });
 
-            field.getSmallerFields().stream().forEach(v -> splitField(v, deep + 1));
-
-            if (pointsOrder.contains(innerPoint)) {
-                pointsOrder.remove(innerPoint);
-            }
-            if (!linksOrder.get(innerPoint).isEmpty()) {
-                pointsOrder.add(innerPoint);
-            }
+            field.getSmallerFields().stream().forEach(this::splitField);
         }
     }
 
-    public void writeDown(int deep, Point p) {
-        String name = p == null ? "()" : p.getTitle();
-        System.out.printf("%3d %" + (deep*3+1) + "s %s\n", deep, "", name);
+    public String serialiseSVG() {
+        String pattern = "<svg height=\"70%%\" width=\"70%%\" id = \"test\">\n" +
+                "%s \n" +
+                "%s\n" +
+                "</svg>\n" +
+                "<style>\n" +
+                "line {stroke-width:3; stroke:gray;}\n" +
+                ".path {stroke-width:3; stroke:green;}\n" +
+                ".apath .path{display:initial;}\n" +
+                "%s\n" +
+                "</style>\n" +
+                "<button onClick=\"add();\">click</button>\n" +
+                "<button onClick=\"hidePath();\">toggle path</button>\n" +
+                "<button onClick=\"cl();\">clear</button>" +
+                "<script>var i = 0;\n" +
+                "\n" +
+                "function add() {\n" +
+                "\tdocument.body.className += \" active\" + i;\n" +
+                "\ti++;\n" +
+                "};\n" +
+                "\n" +
+                "var v=true;\n" +
+                "function hidePath() {\n" +
+                "\tif (v) {\n" +
+                "\t\tdocument.body.className = document.body.className.replace(\" p \", \" apath \");\n" +
+                "\t} else {\n" +
+                "\t\tdocument.body.className = document.body.className.replace(\" apath \", \" p \");\n" +
+                "\t}\n" +
+                "\tv = !v;\n" +
+                "};\n" +
+                "\n" +
+                "function cl() {\n" +
+                "\ti = 0;\n" +
+                "\tv = true;\n" +
+                "\tdocument.body.className = \" p \";\n" +
+                "};\n</script>";
+
+        SVGSerializer serializer = new SVGSerializer(linksOrder, pointsOrder);
+
+        return String.format(pattern,
+                serializer.makePoints(),
+                serializer.makeLines(),
+                serializer.makeStyles()
+        );
     }
 
     public String serialize() {
@@ -99,45 +125,45 @@ public class FieldSerializer {
                 .map(e -> e.getKey().getTitle() + " : " + e.getValue().size())
                 .collect(Collectors.joining("\n"));
 
-        //List<Point> pointsOrder = extractOrder();
+        String noLinks = linksMap.entrySet()
+                .stream()
+                .filter(e -> e.getValue().size() == 3)
+                .map(e -> e.getKey().getTitle())
+                .sorted()
+                .collect(Collectors.joining("\n"));
+
+        String withLinks = linksMap.entrySet()
+                .stream()
+                .filter(e -> e.getValue().size() > 3)
+                .map(e -> e.getKey().getTitle())
+                .sorted()
+                .collect(Collectors.joining("\n"));
+
+        DeployOrder dOrder = new DeployOrder(linksOrder);
+
+       pointsOrder = dOrder.extractPointOrder();
+
+
         return new StringBuilder()
-                .append("linksAmount : \n").append(result).append("\n")
-                .append("fields: \n").append(gson.toJson(fieldList)).append("\n")
-                .append("links: \n").append(gson.toJson(lineList)).append("\n")
-                .append("links order: \n").append(
+                .append("\n linksAmount : \n").append(result).append("\n")
+                .append("\n inners : \n").append(noLinks).append("\n")
+                .append("\n bases : \n").append(withLinks).append("\n")
+                .append("\n fields: \n").append(gson.toJson(fieldList)).append("\n")
+                .append("\n links: \n").append(gson.toJson(lineList)).append("\n")
+                .append("\n links order: \n").append(
                         pointsOrder
                                 .stream()
                                 .filter(p -> linksOrder.get(p).size() > 0)
-                                .map(p -> p.getTitle() + " : " + linksOrder.get(p).size() + "\n    "
+                                .map(p -> p.getTitle() + " : " + linksOrder.get(p).size() + "\n\t"
                                         + linksOrder.get(p)
                                         .stream()
                                         .map(Point::getTitle)
-                                        .collect(Collectors.joining("\n     ")))
+                                        .collect(Collectors.joining("\n\t")))
                                 .collect(Collectors.joining("\n"))
                 ).append("\n")
-                .append("points order: \n").append(gson.toJson(new Drawing[]{new Drawing("polyline", pointsOrder.toArray(new Point[0]))})).append("\n")
+                .append("\n points order: \n").append(gson.toJson(new Drawing[]{new Drawing("polyline", pointsOrder.toArray(new Point[pointsOrder.size()]))})).append("\n")
+                .append("length: ").append(length(pointsOrder)).append("\n")
                 .toString();
-    }
-
-    private List<Point> extractOrder() {
-        List<Point> result = new ArrayList<>();
-        Map<Point, List<Point>> copy = new HashMap<>();
-        linksOrder.forEach((k, v) -> copy.put(k, new ArrayList<>(v)));
-        boolean hasChanges = true ;
-        while (result.size() < linksOrder.size() && hasChanges) {
-            hasChanges = false;
-            List<Point> toRemove = copy.entrySet()
-                    .stream()
-                    .filter(e -> e.getValue().size() == 0)
-                    .map(Map.Entry::getKey)
-                    .collect(Collectors.toList());
-            result.addAll(toRemove);
-            toRemove.forEach(copy::remove);
-            toRemove.forEach(p -> copy.values().stream().forEach(v -> v.remove(p)));
-            hasChanges = toRemove.size() > 0;
-        }
-        result.addAll(copy.keySet());
-        return result;
     }
 
     public static  class Drawing {
