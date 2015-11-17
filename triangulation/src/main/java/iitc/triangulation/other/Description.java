@@ -132,6 +132,21 @@ public class Description {
     public String toString() {
         return "[" + String.join(", ", linkAmount.values().stream().map(i -> i + "").collect(Collectors.joining(", ")) + "]");
     }
+
+    public void test() {
+        ArrayList<Point> list = new ArrayList<>(linkAmount.keySet());
+        linkAmount.put(list.get(0), 7);
+        linkAmount.put(list.get(1), 8);
+        linkAmount.put(list.get(2), 2);
+    }
+
+    public Description testAdd(Map<Point, Set<Point>> pointSetMap) {
+        Description description = new Description();
+        linkAmount.forEach((k, v) -> description.linkAmount.put(k, k.getMaxLinks()));
+        pointSetMap.forEach((k, v) -> description.linkAmount.put(k, v.size() + linkAmount.get(k)));
+        return description;
+
+    }
 }
 
 

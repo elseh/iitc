@@ -28,6 +28,7 @@ public class Main {
     private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     public static void main(String[] args) {
+        Locale.setDefault(Locale.ENGLISH);
         String filename = FileUtils.readFromCMD.apply("Enter area name: ");
         Path path = FileSystems.getDefault().getPath("areas", filename + ".json");
         BaseSeed seed = gson.fromJson(FileUtils.readFromFile.apply(path), BaseSeed.class);
@@ -52,61 +53,63 @@ public class Main {
         TriangulationFull full = new TriangulationFull(points);
         bases.stream().forEach(b -> full.analyseSingleField(b.set()));
         Set<Description> descriptions = full.calculateFields(bases.stream().map(Triple::set).collect(Collectors.toSet()));
-        FrameGenerator g = new FrameGenerator();
-        Optional<Description> first = descriptions
-                .stream()
+
+/*        FrameGenerator g = new FrameGenerator();
+        Description testD = Description.makeEmptyBase(bases.stream().findAny().get().set());
+        testD.test();
+        for (int i = 0; i < 10; i++) {
+            System.out.println(testD.testAdd(g.makeFrame(testD, new HashSet<>(bases)).get()));
+        }*/
+
+        System.out.println(descriptions.size());
+        List<Field> fields = bases.stream().map(b -> new Field(b, points)).collect(Collectors.toList());
+
+
+        List<FieldSerializer> serializers = descriptions.stream()
                 .filter(d -> !d.getLinkAmount().entrySet()
                         .stream().filter(e -> e.getValue() > e.getKey().getMaxLinks()).findFirst().isPresent())
                 .sorted(Comparator.comparing(d -> d.getLinkAmount().values().stream().mapToInt(i -> i).sum()))
-                .filter(d -> g.makeFrame(d, new HashSet<>(bases)).isPresent())
-                .findFirst();
+                .limit(100)
+                .map(d -> process(d, bases, full, fields))
+                .filter(s -> s != null)
+                .collect(Collectors.toList());
+        System.out.println(serializers.size());
+        Map<FieldSerializer, Double> map = new HashMap<>();
+        for (FieldSerializer serializer : serializers) {
+            map.put(serializer, serializer.preSerialize());
+        }
+        FieldSerializer goodSerializer = map.entrySet().stream()
+        .sorted(Comparator.comparingDouble(Map.Entry::getValue))
+                .findFirst().get().getKey();
 
-        Optional<Map<Point, Set<Point>>> pointSetMap = g.makeFrame(first.get(), new HashSet<>(bases));
-        if (pointSetMap.isPresent()) {
-            System.out.println(pointSetMap.get());
-        } else {
-            System.out.println("oops no frame");
-        }
-        if (first.isPresent()) {
-            System.out.println(first.get() + "");
-            List<Field> fields = bases.stream().map(b -> new Field(b, points)).collect(Collectors.toList());
-            full.restore(first.get(), fields);
-            FieldSerializer serializer = new FieldSerializer();
-            if (pointSetMap.isPresent()) {
-                serializer.insertFrame(pointSetMap.get());
-            }
-            fields.stream().forEach(serializer::insertField);
-            writeToFile(areaName, serializer.serialize(), "-result.txt", true);
-            writeToFile(areaName, serializer.serialiseSVG(), ".html", false);
-        }
+            writeToFile(areaName, goodSerializer.serialize(), "-result.txt", true);
+            writeToFile(areaName, goodSerializer.serialiseSVG(), ".html", false);
+
     }
 
-    private static void triangulate(BaseSeed seed, String areaName) {
-        List<Point> points = seed.getPoints();
-        Map<String, Point> pointById = points
-                .stream()
-                .collect(Collectors.toMap(Point::getId, identity()));
-        Set<Triple<Point>> bases = seed.getBases()
-                .stream()
-                .map(t -> t.simplify(pointById::get))
-                .collect(Collectors.toSet());
-        Map<Point, Set<Point>> links = seed.getLinks()
-                .stream()
-                .map(Link::getLink)
-                .map(v -> v.simplify(pointById::get))
-                .collect(Collectors.groupingBy(p -> p.v1, Collectors.mapping(p -> p.v2, Collectors.toSet())));
+    private static FieldSerializer process(Description description,
+                                           Set<Triple<Point>> bases,
+                                           TriangulationFull full,
+                                           List<Field> fields) {
+        FrameGenerator g = new FrameGenerator();
+        long current = System.currentTimeMillis();
+        System.out.println("frame for : " + description);
+        Optional<Map<Point, Set<Point>>> frame = g.makeFrame(description, bases);
+        System.out.println(frame.isPresent() + "fraME: " + (System.currentTimeMillis() - current));
 
-        ParallelTriangulation triangulation = new ParallelTriangulation(points, bases, links, 4);
-        boolean triangulateSuccess = triangulation.triangulate();
-        System.out.println(triangulateSuccess);
-        if (triangulateSuccess) {
-            FieldSerializer ser = new FieldSerializer();
-            triangulation.getBaseFields()
-                    .stream()
-                    .forEach(ser::insertField);
-            String serialize = ser.serialize();
-            writeToFile(areaName, serialize, "-result.txt", true);
-        }
+        if (!frame.isPresent()) return null;
+
+        FieldSerializer serializer = new FieldSerializer();
+        serializer.insertFrame(frame.get());
+
+        current = System.currentTimeMillis();
+
+        full.restore(description, fields);
+        System.out.println("restore: " + (System.currentTimeMillis() - current));
+        current = System.currentTimeMillis();
+        fields.stream().forEach(serializer::insertField);
+        System.out.println("setup: " + (System.currentTimeMillis() - current));
+        return serializer;
     }
 
     private static void writeToFile(String areaName, String serialize, String end, boolean show) {

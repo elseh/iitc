@@ -13,8 +13,6 @@ public class DeployOrder {
 
     private Map<Point, List<Point>> linksOrder;
 
-    private Map<Point, Set<Point>> affects = new HashMap<>();
-
     private Map<Point, Set<Point>> links = new HashMap<>();
 
     public DeployOrder(Map<Point, List<Point>> linksOrder) {
@@ -42,22 +40,6 @@ public class DeployOrder {
         return l;
     }
 
-    private void fillAffects(Set<Point> all) {
-        all.stream().forEach(p -> getAffectsFor(all, p));
-    }
-
-    private Set<Point> getAffectsFor(Set<Point> all, Point point) {
-        if (affects.get(point) == null) {
-            affects.put(point, linksOrder.get(point)
-                    .stream()
-                    .map(p -> getAffectsFor(all, p))
-                    .flatMap(Collection::stream)
-                    .filter(all::contains)
-                    .collect(Collectors.toSet()));
-        }
-        return affects.get(point);
-    }
-
     private Set<Point> getAllPoints() {
         return Stream.concat(linksOrder.values().stream().flatMap(Collection::stream), linksOrder.keySet().stream())
                 .distinct()
@@ -67,7 +49,6 @@ public class DeployOrder {
 
     public List<Point> extractPointOrder() {
         Set<Point> all = getAllPoints();
-        fillAffects(all);
         return all
                 .stream()
                 .map(this::extractPointOrder)

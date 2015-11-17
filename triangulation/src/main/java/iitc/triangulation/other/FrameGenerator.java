@@ -71,7 +71,7 @@ public class FrameGenerator {
                 .collect(Collectors.toSet());
         Set<LinkSmall> outLinks = unprocessed
                 .stream()
-                .filter(l -> outPoints.contains(l.pair.v1) || outPoints.contains(l.pair.v2))
+                .filter(l -> outPoints.contains(l.pair.v2) || outPoints.contains(l.pair.v1))
                 .collect(Collectors.toSet());
         outLinks
                 .stream()
@@ -88,12 +88,12 @@ public class FrameGenerator {
                 .collect(Collectors.toSet());
         Set<LinkSmall> inLinks = unprocessed
                 .stream()
-                .filter(l -> inPoints.contains(l.pair.v1) || inPoints.contains(l.pair.v2))
+                .filter(l -> inPoints.contains(l.pair.v1)/* || inPoints.contains(l.pair.v2)*/)
                 .collect(Collectors.toSet());
-        inLinks
+        /*inLinks
                 .stream()
                 .filter(l -> inPoints.contains(l.pair.v2))
-                .forEach(l -> l.pair = l.pair.reverse());
+                .forEach(l -> l.pair = l.pair.reverse());*/
         return inLinks;
     }
 

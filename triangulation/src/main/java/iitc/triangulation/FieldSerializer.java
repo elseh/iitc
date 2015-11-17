@@ -78,7 +78,7 @@ public class FieldSerializer {
                 "</svg>\n" +
                 "<style>\n" +
                 "line {stroke-width:3; stroke:gray;}\n" +
-                ".path {stroke-width:3; stroke:green;}\n" +
+                ".path {stroke-width:3; stroke:green; display:none;}\n" +
                 ".apath .path{display:initial;}\n" +
                 "%s\n" +
                 "</style>\n" +
@@ -117,7 +117,15 @@ public class FieldSerializer {
         );
     }
 
+    public double preSerialize() {
+        DeployOrder dOrder = new DeployOrder(linksOrder);
+        pointsOrder = dOrder.extractPointOrder();
+        return length(pointsOrder);
+    }
+
     public String serialize() {
+
+
         Gson gson = new Gson();
 
         String result = linksMap.entrySet()
@@ -138,11 +146,6 @@ public class FieldSerializer {
                 .map(e -> e.getKey().getTitle())
                 .sorted()
                 .collect(Collectors.joining("\n"));
-
-        DeployOrder dOrder = new DeployOrder(linksOrder);
-
-       pointsOrder = dOrder.extractPointOrder();
-
 
         return new StringBuilder()
                 .append("\n linksAmount : \n").append(result).append("\n")
