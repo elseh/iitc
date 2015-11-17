@@ -50,9 +50,9 @@ public class Main {
                 .map(v -> v.simplify(pointById::get))
                 .collect(Collectors.groupingBy(p -> p.v1, Collectors.mapping(p -> p.v2, Collectors.toSet())));
 
-        bases.stream().forEach(b -> {
-            System.out.println(new Field(b, new ArrayList<>(pointById.values())).getInners().size());
-        });
+        bases.stream().forEach(b ->
+            System.out.println(new Field(b, new ArrayList<>(pointById.values())).getInners().size())
+        );
         TriangulationFull full = new TriangulationFull(points);
         bases.stream().forEach(b -> full.calculateField(b.set()));
         Set<Description> descriptions = full.calculateFields(bases.stream().map(Triple::set).collect(Collectors.toSet()));
@@ -80,7 +80,8 @@ public class Main {
                 serializer.insertFrame(pointSetMap.get());
             }
             fields.stream().forEach(serializer::insertField);
-            writeToFile(areaName, serializer.serialize());
+            writeToFile(areaName, serializer.serialize(), "-result.txt", true);
+            writeToFile(areaName, serializer.serialiseSVG(), ".html", false);
         }
     }
 
@@ -108,15 +109,15 @@ public class Main {
                     .stream()
                     .forEach(ser::insertField);
             String serialize = ser.serialize();
-            writeToFile(areaName, serialize);
+            writeToFile(areaName, serialize, "-result.txt", true);
         }
     }
 
-    private static void writeToFile(String areaName, String serialize) {
-        Path result = FileSystems.getDefault().getPath("areas", areaName + "-result.txt");
+    private static void writeToFile(String areaName, String serialize, String end, boolean show) {
+        Path result = FileSystems.getDefault().getPath("areas", areaName + end);
         try {
 
-            try (BufferedWriter bw = Files.newBufferedWriter(result, StandardOpenOption.WRITE, StandardOpenOption.CREATE)) {
+            try (BufferedWriter bw = Files.newBufferedWriter(result, StandardOpenOption.WRITE, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
                 bw.write(serialize);
                 bw.close();
             }catch (FileNotFoundException ex) {
@@ -126,7 +127,9 @@ public class Main {
             e.printStackTrace();
         }
 
-        System.out.println(serialize);
+        if (show) {
+            System.out.println(serialize);
+        }
     }
 
 }

@@ -10,10 +10,13 @@ import iitc.triangulation.shapes.LatLngs;
 import iitc.triangulation.shapes.Link;
 import iitc.triangulation.shapes.Triple;
 
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -43,13 +46,14 @@ public class SetupSeed {
         BaseSeed seed = parseDrawing(rawData.getDrawings());
         String fileName = FileUtils.readFromCMD.apply("enter area name: ");
 
-        try {
+        writeToFile(fileName, gson.toJson(seed));
+        /*try {
             Path areas = FileSystems.getDefault().getPath("areas", fileName + ".json");
             Files.createFile(areas);
             Files.write(areas, gson.toJson(seed).getBytes());
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
         //System.out.println(gson.toJson(seed));
     }
 
@@ -75,5 +79,20 @@ public class SetupSeed {
 
     private static FieldSerializer.Drawing[] readDrawings(Path path) {
         return gson.fromJson(FileUtils.readFromFile.apply(path), FieldSerializer.Drawing[].class);
+    }
+
+    private static void writeToFile(String areaName, String serialize) {
+        Path result = FileSystems.getDefault().getPath("areas", areaName + ".json");
+        try {
+
+            try (BufferedWriter bw = Files.newBufferedWriter(result, StandardOpenOption.WRITE, StandardOpenOption.CREATE)) {
+                bw.write(serialize);
+                bw.close();
+            }catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
