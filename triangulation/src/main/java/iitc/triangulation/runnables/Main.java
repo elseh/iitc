@@ -93,9 +93,9 @@ public class Main {
                                            List<Field> fields) {
         FrameGenerator g = new FrameGenerator();
         long current = System.currentTimeMillis();
-        System.out.println("frame for : " + description);
+        //System.out.println("frame for : " + description);
         Optional<Map<Point, Set<Point>>> frame = g.makeFrame(description, bases);
-        System.out.println(frame.isPresent() + "fraME: " + (System.currentTimeMillis() - current));
+        //System.out.println(frame.isPresent() + "fraME: " + (System.currentTimeMillis() - current));
 
         if (!frame.isPresent()) return null;
 
@@ -105,10 +105,10 @@ public class Main {
         current = System.currentTimeMillis();
 
         full.restore(description, fields);
-        System.out.println("restore: " + (System.currentTimeMillis() - current));
+        //System.out.println("restore: " + (System.currentTimeMillis() - current));
         current = System.currentTimeMillis();
         fields.stream().forEach(serializer::insertField);
-        System.out.println("setup: " + (System.currentTimeMillis() - current));
+        //System.out.println("setup: " + (System.currentTimeMillis() - current));
         return serializer;
     }
 

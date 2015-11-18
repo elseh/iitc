@@ -1,0 +1,63 @@
+<body class=" p ">
+<svg height="70%" width="70%" viewBox="$view">
+<g transform="translate(0, $height) scale(1, -1)" >
+#foreach($point in $points)
+#set($tPoint = $s.transform($point))
+<circle cx="$tPoint.lng" cy="$tPoint.lat"  r="$radius"/>
+#end
+
+#set($p1 = $s.transform($first))
+#foreach($point in $order)
+#if($velocityCount > 0)
+#set($p2 = $s.transform($point))
+<line x1="$p1.lng" y1="$p1.lat" x2="$p2.lng" y2="$p2.lat" class="path"/>
+#set($p1 = $p2)
+#end
+#end
+
+#foreach($point in $order)
+#set($p1 = $s.transform($point))
+#set($style = 'st' + $velocityCount)
+#foreach($link in $lines.get($point))
+#set($p2 = $s.transform($link))
+<line x1="$p1.lng" y1="$p1.lat" x2="$p2.lng" y2="$p2.lat" class="$style"/>
+#end
+#end
+</g>
+</svg>
+<style>
+    line {stroke-width:$radius; stroke:gray;}
+    .path {stroke-width:$radius; stroke:green; display:none;}
+    .apath .path{display:initial;}
+        #foreach($point in $order) .st$velocityCount#if($velocityHasNext),#end#end
+    {display:none;}
+        #foreach($point in $order) .active$velocityCount .st$velocityCount#if($velocityHasNext),#end#end
+    {display:initial;}
+
+</style>
+<button onClick="add();">click</button>
+<button onClick="hidePath();">toggle path</button>
+<button onClick="cl();">clear</button><script>var i = 0;
+
+function add() {
+    document.body.className += " active" + i;
+    i++;
+};
+
+var v=true;
+function hidePath() {
+    if (v) {
+        document.body.className = document.body.className.replace(" p ", " apath ");
+    } else {
+        document.body.className = document.body.className.replace(" apath ", " p ");
+    }
+    v = !v;
+};
+
+function cl() {
+    i = 0;
+    v = true;
+    document.body.className = " p ";
+};
+</script>
+</body>

@@ -1,0 +1,29 @@
+-------------------------------
+Total points:
+$linksMap.size()
+
+links amount:
+#foreach($linksE in $linksOrder.entrySet())
+    $linksE.key : $linksE.value.size()
+#end
+
+Links order:
+#foreach($point in $points)
+    #set($subpoints = $linksOrder.get($point))
+$point.title : $subpoints.size()
+#foreach($point1 in $subpoints)    $point1.title
+#end
+#end
+
+Fields drawing:
+$gson.toJson($fields)
+
+Links drawing:
+$gson.toJson($links)
+
+Path drawing:
+[$gson.toJson($path)]
+
+Length of path:
+$numberTool.format("0", $length)m
+--------------------------------

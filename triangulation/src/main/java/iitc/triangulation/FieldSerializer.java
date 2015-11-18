@@ -4,7 +4,13 @@ import com.google.gson.Gson;
 import iitc.triangulation.shapes.Field;
 import iitc.triangulation.shapes.LatLngs;
 import iitc.triangulation.shapes.Triple;
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.Velocity;
+import org.apache.velocity.tools.generic.NumberTool;
 
+import java.io.IOException;
+import java.io.StringWriter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -14,6 +20,15 @@ import static iitc.triangulation.DeployOrder.*;
  * Created by Sigrlinn on 31.05.2015.
  */
 public class FieldSerializer {
+
+    static {
+        try {
+            Velocity.init();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private List<Drawing> fieldList = new ArrayList<>();
     private List<Drawing> lineList = new ArrayList<>();
     private Map<Point, List<Point>> linksOrder = new HashMap<>();
@@ -72,49 +87,18 @@ public class FieldSerializer {
     }
 
     public String serialiseSVG() {
-        String pattern = "<svg height=\"70%%\" width=\"70%%\" id = \"test\">\n" +
-                "%s \n" +
-                "%s\n" +
-                "</svg>\n" +
-                "<style>\n" +
-                "line {stroke-width:3; stroke:gray;}\n" +
-                ".path {stroke-width:3; stroke:green; display:none;}\n" +
-                ".apath .path{display:initial;}\n" +
-                "%s\n" +
-                "</style>\n" +
-                "<button onClick=\"add();\">click</button>\n" +
-                "<button onClick=\"hidePath();\">toggle path</button>\n" +
-                "<button onClick=\"cl();\">clear</button>" +
-                "<script>var i = 0;\n" +
-                "\n" +
-                "function add() {\n" +
-                "\tdocument.body.className += \" active\" + i;\n" +
-                "\ti++;\n" +
-                "};\n" +
-                "\n" +
-                "var v=true;\n" +
-                "function hidePath() {\n" +
-                "\tif (v) {\n" +
-                "\t\tdocument.body.className = document.body.className.replace(\" p \", \" apath \");\n" +
-                "\t} else {\n" +
-                "\t\tdocument.body.className = document.body.className.replace(\" apath \", \" p \");\n" +
-                "\t}\n" +
-                "\tv = !v;\n" +
-                "};\n" +
-                "\n" +
-                "function cl() {\n" +
-                "\ti = 0;\n" +
-                "\tv = true;\n" +
-                "\tdocument.body.className = \" p \";\n" +
-                "};\n</script>";
-
         SVGSerializer serializer = new SVGSerializer(linksOrder, pointsOrder);
-
-        return String.format(pattern,
-                serializer.makePoints(),
-                serializer.makeLines(),
-                serializer.makeStyles()
-        );
+        VelocityContext context = serializer.makeTemplate();
+        Template template = null;
+        try {
+            StringWriter sw = new StringWriter();
+            template = Velocity.getTemplate("templates/html.vm");
+            template.merge(context, sw);
+            return sw.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     public double preSerialize() {
@@ -125,48 +109,27 @@ public class FieldSerializer {
 
     public String serialize() {
 
+        VelocityContext context = new VelocityContext();
+        context.put("linksMap", linksMap);
+        context.put("fields", fieldList);
+        context.put("links", lineList);
+        context.put("points", pointsOrder);
+        context.put("linksOrder", linksOrder);
+        context.put("path", new Drawing("polyline", pointsOrder.toArray(new Point[pointsOrder.size()])));
+        context.put("length", length(pointsOrder));
+        context.put("numberTool", new NumberTool());
+        context.put("gson", new Gson());
 
-        Gson gson = new Gson();
-
-        String result = linksMap.entrySet()
-                .stream()
-                .map(e -> e.getKey().getTitle() + " : " + e.getValue().size())
-                .collect(Collectors.joining("\n"));
-
-        String noLinks = linksMap.entrySet()
-                .stream()
-                .filter(e -> e.getValue().size() == 3)
-                .map(e -> e.getKey().getTitle())
-                .sorted()
-                .collect(Collectors.joining("\n"));
-
-        String withLinks = linksMap.entrySet()
-                .stream()
-                .filter(e -> e.getValue().size() > 3)
-                .map(e -> e.getKey().getTitle())
-                .sorted()
-                .collect(Collectors.joining("\n"));
-
-        return new StringBuilder()
-                .append("\n linksAmount : \n").append(result).append("\n")
-                .append("\n inners : \n").append(noLinks).append("\n")
-                .append("\n bases : \n").append(withLinks).append("\n")
-                .append("\n fields: \n").append(gson.toJson(fieldList)).append("\n")
-                .append("\n links: \n").append(gson.toJson(lineList)).append("\n")
-                .append("\n links order: \n").append(
-                        pointsOrder
-                                .stream()
-                                .filter(p -> linksOrder.get(p).size() > 0)
-                                .map(p -> p.getTitle() + " : " + linksOrder.get(p).size() + "\n\t"
-                                        + linksOrder.get(p)
-                                        .stream()
-                                        .map(Point::getTitle)
-                                        .collect(Collectors.joining("\n\t")))
-                                .collect(Collectors.joining("\n"))
-                ).append("\n")
-                .append("\n points order: \n").append(gson.toJson(new Drawing[]{new Drawing("polyline", pointsOrder.toArray(new Point[pointsOrder.size()]))})).append("\n")
-                .append("length: ").append(length(pointsOrder)).append("\n")
-                .toString();
+        Template template = null;
+        try {
+            StringWriter sw = new StringWriter();
+            template = Velocity.getTemplate("templates/result.txt.vm");
+            template.merge(context, sw);
+            return sw.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     public static  class Drawing {
