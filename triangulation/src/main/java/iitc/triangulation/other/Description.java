@@ -77,7 +77,9 @@ public class Description {
         return true;
     }
 
+    private int sumInInner = 0;
     public int getSumInTheInnerPoint() {
+        if (sumInInner != 0) return sumInInner;
         Set<Point> allPoints = getSumOf()
                 .stream()
                 .flatMap(s -> s.getLinkAmount().keySet().stream())
@@ -86,9 +88,9 @@ public class Description {
         Optional<Point> first = allPoints.stream().findFirst();
         if (first.isPresent() && allPoints.size() == 1) {
             Point p = first.get();
-            return getSumOf().stream().mapToInt(i -> i.getLinkAmount().get(p)).sum();
+            sumInInner = getSumOf().stream().mapToInt(i -> i.getLinkAmount().get(p)).sum();
         }
-        return 0;
+        return sumInInner;
     }
 
 

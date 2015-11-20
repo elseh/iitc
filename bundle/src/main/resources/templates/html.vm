@@ -1,17 +1,36 @@
-<body class=" p ">
+<body onload="initialize();">
+<form class = "operationForm" onsubmit="return false;">
+    <fieldset>
+        <label><input type="checkbox" onchange="show(this);" value="showpath">Show path</label>
+        <label><input type="checkbox" onchange="show(this);" value="showframe">Show frame</label>
+    </fieldset>
+    <fieldset>
+        <button onclick="addPoint();">+</button>
+        <button onclick="removePoint();">-</button>
+        <button onclick="clearAll();">clear</button>
+    </fieldset>
+    <fieldset class="operationForm--points" id="pointList">
+        #foreach($point in $order)
+            <p><label><input type="checkbox" onchange="show(this);" value="active$velocityCount">$point.title</label></p>
+        #end
+    </fieldset>
+
+</form>
+
 <svg height="70%" width="70%" viewBox="$view">
 <g transform="translate(0, $height) scale(1, -1)" >
 #foreach($point in $points)
 #set($tPoint = $s.transform($point))
-<circle cx="$tPoint.lng" cy="$tPoint.lat"  r="$radius"/>
+<circle cx="$tPoint.lng" cy="$tPoint.lat"  r="$radius"><title>$point.title</title></circle>
+##<text x="$tPoint.lng" y="$tPoint.lat" text-anchor="middle" >$point.title</text>
 #end
 
-#set($p1 = $s.transform($first))
+
 #foreach($point in $order)
-#if($velocityCount > 0)
+#if($velocityHasNext)
+#set($p1 = $s.transform($order.get($velocityCount)))
 #set($p2 = $s.transform($point))
 <line x1="$p1.lng" y1="$p1.lat" x2="$p2.lng" y2="$p2.lat" class="path"/>
-#set($p1 = $p2)
 #end
 #end
 
@@ -23,41 +42,72 @@
 <line x1="$p1.lng" y1="$p1.lat" x2="$p2.lng" y2="$p2.lat" class="$style"/>
 #end
 #end
+
+#foreach($point in $frame.keySet())
+#set($p1 = $s.transform($point))
+#foreach($link in $frame.get($point))
+#set($p2 = $s.transform($link))
+<line x1="$p1.lng" y1="$p1.lat" x2="$p2.lng" y2="$p2.lat" class="frame"/>
+#end
+#end
 </g>
 </svg>
+
 <style>
-    line {stroke-width:$radius; stroke:gray;}
-    .path {stroke-width:$radius; stroke:green; display:none;}
-    .apath .path{display:initial;}
+    .operationForm {width: 30%; float: right;}
+    .operationForm--points {height: 50%; overflow-y: scroll;}
+    line {stroke-width:$math.mul($radius, 0.3); stroke:gray; text-anchor:middle;}
+    .path {stroke-width:$math.mul($radius, 0.3); stroke:red; display:none;}
+    .frame {stroke-width:$math.mul($radius, 0.3); stroke:green; display:none;}
+    .showFrame .frame {display: initial;}
+    .showpath .path{display:initial;}
         #foreach($point in $order) .st$velocityCount#if($velocityHasNext),#end#end
     {display:none;}
         #foreach($point in $order) .active$velocityCount .st$velocityCount#if($velocityHasNext),#end#end
     {display:initial;}
 
 </style>
-<button onClick="add();">click</button>
-<button onClick="hidePath();">toggle path</button>
-<button onClick="cl();">clear</button><script>var i = 0;
 
-function add() {
-    document.body.className += " active" + i;
-    i++;
-};
-
-var v=true;
-function hidePath() {
-    if (v) {
-        document.body.className = document.body.className.replace(" p ", " apath ");
-    } else {
-        document.body.className = document.body.className.replace(" apath ", " p ");
+<script>
+    function show(cp) {
+        if (cp.checked) {
+            document.body.className += cp.value + " ";
+        } else {
+            document.body.className = document.body.className.replace(cp.value + " ", "");
+        }
     }
-    v = !v;
-};
 
-function cl() {
-    i = 0;
-    v = true;
-    document.body.className = " p ";
-};
+    var position;
+    var pointNodeList;
+    function initialize() {
+        pointNodeList = document.getElementById("pointList").getElementsByTagName("input");
+        position = 0;
+    }
+
+    function addPoint() {
+        if (position < pointNodeList.length && position >= 0) {
+            pointNodeList[position].checked = true;
+            show(pointNodeList[position]);
+            position ++;
+        }
+
+    }
+
+    function removePoint() {
+        if (position <= pointNodeList.length && position > 0) {
+            position --;
+            pointNodeList[position].checked = false;
+            show(pointNodeList[position]);
+        }
+    }
+
+    function clearAll() {
+        position = 0;
+        for (i = 0; i <	pointNodeList.length; i++){
+            pointNodeList[i].checked = false;
+            show(pointNodeList[i]);
+        }
+    }
+
 </script>
 </body>

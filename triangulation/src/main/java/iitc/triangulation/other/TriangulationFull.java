@@ -102,12 +102,11 @@ public class TriangulationFull {
         if (!analyseSingleField(set).contains(d)) {
             return;
         }
-        Set<Point> allPoints = d.getSumOf()
+        Point p = d.getSumOf()
                 .stream()
                 .flatMap(s -> s.getLinkAmount().keySet().stream())
-                .collect(Collectors.toSet());
-        allPoints.removeAll(d.getLinkAmount().keySet());
-        Point p = allPoints.stream().findFirst().get();
+                .filter(s -> !set.contains(s))
+                .findAny().get();
         f.insertSmallerFields(p);
         Map<Set<Point>, Description> small = d.getSumOf().stream().collect(Collectors.toMap(desc -> desc.getLinkAmount().keySet(), desc -> desc));
         f.getSmallerFields().stream().forEach(sm -> restore(small.get(sm.getBases().set()), sm));

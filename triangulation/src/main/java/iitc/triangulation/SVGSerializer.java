@@ -1,16 +1,12 @@
 package iitc.triangulation;
 
-import com.google.gson.Gson;
 import iitc.triangulation.shapes.LatLngs;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.tools.generic.NumberTool;
+import org.apache.velocity.tools.generic.MathTool;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
-
-import static iitc.triangulation.DeployOrder.length;
 
 /**
  * Created by epavlova on 12-Nov-15.
@@ -18,6 +14,7 @@ import static iitc.triangulation.DeployOrder.length;
 public class SVGSerializer {
     private Map<Point, List<Point>> linksOrder;
     private List<Point> pointOrder;
+    private Map<Point, Set<Point>> frame;
 
     private Set<Point> all;
 
@@ -26,9 +23,10 @@ public class SVGSerializer {
     private double width;
     private double height;
 
-    public SVGSerializer(Map<Point, List<Point>> linksOrder, List<Point> pointOrder) {
+    public SVGSerializer(Map<Point, List<Point>> linksOrder, List<Point> pointOrder, Map<Point, Set<Point>> frame) {
         this.linksOrder = linksOrder;
         this.pointOrder = pointOrder;
+        this.frame = frame;
         width = pointOrder.stream().map(p -> transform(p).getLng()).max(Comparator.<Double>naturalOrder()).get() -
                 pointOrder.stream().map(p -> transform(p).getLng()).min(Comparator.<Double>naturalOrder()).get();
         height = pointOrder.stream().map(p -> transform(p).getLat()).max(Comparator.<Double>naturalOrder()).get() -
@@ -52,12 +50,13 @@ public class SVGSerializer {
         VelocityContext context = new VelocityContext();
         context.put("points", all);
         context.put("order", pointOrder);
-        context.put("first", pointOrder.get(0));
         context.put("lines", linksOrder);
         context.put("s", this);
         context.put("view", dx  + " " + 0 + " " + (width) + " " + (height));
         context.put("height", height + dy) ;
-        context.put("radius", Math.min(width, height) / 300);
+        context.put("radius", Math.min(width, height) / 150);
+        context.put("frame", frame);
+        context.put("math", new MathTool());
         return context;
     }
 }

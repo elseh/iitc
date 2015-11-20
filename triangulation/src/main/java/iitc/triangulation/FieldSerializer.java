@@ -35,6 +35,7 @@ public class FieldSerializer {
 
     private Map<Point, Set<Point>> linksMap = new HashMap<>();
     private List<Point> pointsOrder;
+    private Map<Point, Set<Point>> frame;
 
     public void insertFrame(Map<Point, Set<Point>> frame) {
         frame.entrySet()
@@ -44,6 +45,7 @@ public class FieldSerializer {
                             .computeIfAbsent(e.getKey(), a -> new ArrayList<>())
                             .addAll(e.getValue());
                 });
+        this.frame = frame;
     }
 
     public void insertField(Field field) {
@@ -87,7 +89,7 @@ public class FieldSerializer {
     }
 
     public String serialiseSVG() {
-        SVGSerializer serializer = new SVGSerializer(linksOrder, pointsOrder);
+        SVGSerializer serializer = new SVGSerializer(linksOrder, pointsOrder, frame);
         VelocityContext context = serializer.makeTemplate();
         Template template = null;
         try {

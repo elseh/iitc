@@ -69,7 +69,7 @@ public class Main {
                 .filter(d -> !d.getLinkAmount().entrySet()
                         .stream().filter(e -> e.getValue() > e.getKey().getMaxLinks()).findFirst().isPresent())
                 .sorted(Comparator.comparing(d -> d.getLinkAmount().values().stream().mapToInt(i -> i).sum()))
-                .limit(100)
+//                .limit(100)
                 .map(d -> process(d, bases, full, fields))
                 .filter(s -> s != null)
                 .collect(Collectors.toList());
@@ -82,7 +82,7 @@ public class Main {
         .sorted(Comparator.comparingDouble(Map.Entry::getValue))
                 .findFirst().get().getKey();
 
-            writeToFile(areaName, goodSerializer.serialize(), "-result.txt", true);
+            writeToFile(areaName, goodSerializer.serialize(), "-result.txt", false);
             writeToFile(areaName, goodSerializer.serialiseSVG(), ".html", false);
 
     }

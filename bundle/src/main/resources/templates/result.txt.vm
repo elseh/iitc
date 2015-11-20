@@ -1,6 +1,10 @@
 -------------------------------
+
 Total points:
 $linksMap.size()
+
+Length of path:
+$numberTool.format("0", $length)m
 
 links amount:
 #foreach($linksE in $linksOrder.entrySet())
@@ -15,6 +19,8 @@ $point.title : $subpoints.size()
 #end
 #end
 
+-------------------------------
+
 Fields drawing:
 $gson.toJson($fields)
 
@@ -24,6 +30,4 @@ $gson.toJson($links)
 Path drawing:
 [$gson.toJson($path)]
 
-Length of path:
-$numberTool.format("0", $length)m
 --------------------------------
