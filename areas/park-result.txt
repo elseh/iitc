@@ -1,0 +1,170 @@
+
+ linksAmount : 
+Stone of Memory : 3
+Тысяча Чертей На Сундук Мертвеца  : 6
+Скульптура "Фламенко" : 11
+Дали созерцающий : 7
+Наскальная живопись : 4
+Спираль : 3
+Часовня 3 : 7
+Look of Angel ... church : 3
+Sailing the Green Sea : 3
+Remember the Fallen : 5
+Woman Statue : 3
+Terra Italia : 9
+Stone of Ocean : 3
+Bridge mural  : 8
+Face Looking at Heaven  : 5
+Призма : 5
+Бизнес-центр : 3
+Детям Беслана : 7
+Angry Dog : 8
+Храм успения пресвятой Богородицы : 5
+Центр Образования 1 : 6
+Ресторан Мама-Рома : 11
+Hercules : 3
+A Pair of Yellow Seahorses : 8
+Blessing Statue ... St-Petersb : 4
+Stairs on my Mind  : 3
+Аллея Защитников Ленинграда : 4
+Resting Sculpture : 5
+
+ inners : 
+Hercules
+Look of Angel ... church
+Sailing the Green Sea
+Stairs on my Mind 
+Stone of Memory
+Stone of Ocean
+Woman Statue
+Бизнес-центр
+Спираль
+
+ bases : 
+A Pair of Yellow Seahorses
+Angry Dog
+Blessing Statue ... St-Petersb
+Bridge mural 
+Face Looking at Heaven 
+Remember the Fallen
+Resting Sculpture
+Terra Italia
+Аллея Защитников Ленинграда
+Дали созерцающий
+Детям Беслана
+Наскальная живопись
+Призма
+Ресторан Мама-Рома
+Скульптура "Фламенко"
+Тысяча Чертей На Сундук Мертвеца 
+Храм успения пресвятой Богородицы
+Центр Образования 1
+Часовня 3
+
+ fields: 
+[{"type":"polygon","latLngs":[{"lat":59.934024,"lng":30.401698},{"lat":59.93429,"lng":30.406205},{"lat":59.93158,"lng":30.409072}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.933024,"lng":30.405834},{"lat":59.934024,"lng":30.401698},{"lat":59.93429,"lng":30.406205}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.933024,"lng":30.405834},{"lat":59.93429,"lng":30.406205},{"lat":59.93158,"lng":30.409072}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.933563,"lng":30.406692},{"lat":59.933024,"lng":30.405834},{"lat":59.93429,"lng":30.406205}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.933563,"lng":30.406692},{"lat":59.93429,"lng":30.406205},{"lat":59.93158,"lng":30.409072}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.933563,"lng":30.406692},{"lat":59.93158,"lng":30.409072},{"lat":59.933024,"lng":30.405834}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.933381,"lng":30.406723},{"lat":59.933563,"lng":30.406692},{"lat":59.93158,"lng":30.409072}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.933381,"lng":30.406723},{"lat":59.93158,"lng":30.409072},{"lat":59.933024,"lng":30.405834}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.933381,"lng":30.406723},{"lat":59.933024,"lng":30.405834},{"lat":59.933563,"lng":30.406692}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.933024,"lng":30.405834},{"lat":59.93158,"lng":30.409072},{"lat":59.934024,"lng":30.401698}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.93429,"lng":30.406205},{"lat":59.933321,"lng":30.413749},{"lat":59.93158,"lng":30.409072}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.932475,"lng":30.409303},{"lat":59.93429,"lng":30.406205},{"lat":59.933321,"lng":30.413749}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.933536,"lng":30.408174},{"lat":59.932475,"lng":30.409303},{"lat":59.93429,"lng":30.406205}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.933056,"lng":30.408682},{"lat":59.933536,"lng":30.408174},{"lat":59.932475,"lng":30.409303}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.933056,"lng":30.408682},{"lat":59.932475,"lng":30.409303},{"lat":59.93429,"lng":30.406205}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.933056,"lng":30.408682},{"lat":59.93429,"lng":30.406205},{"lat":59.933536,"lng":30.408174}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.933536,"lng":30.408174},{"lat":59.93429,"lng":30.406205},{"lat":59.933321,"lng":30.413749}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.933536,"lng":30.408174},{"lat":59.933321,"lng":30.413749},{"lat":59.932475,"lng":30.409303}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.933158,"lng":30.411966},{"lat":59.933536,"lng":30.408174},{"lat":59.933321,"lng":30.413749}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.933299,"lng":30.411782},{"lat":59.933158,"lng":30.411966},{"lat":59.933536,"lng":30.408174}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.933299,"lng":30.411782},{"lat":59.933536,"lng":30.408174},{"lat":59.933321,"lng":30.413749}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.933299,"lng":30.411782},{"lat":59.933321,"lng":30.413749},{"lat":59.933158,"lng":30.411966}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.933158,"lng":30.411966},{"lat":59.933321,"lng":30.413749},{"lat":59.932475,"lng":30.409303}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.933158,"lng":30.411966},{"lat":59.932475,"lng":30.409303},{"lat":59.933536,"lng":30.408174}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.932847,"lng":30.409061},{"lat":59.933158,"lng":30.411966},{"lat":59.932475,"lng":30.409303}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.932758,"lng":30.409833},{"lat":59.932847,"lng":30.409061},{"lat":59.933158,"lng":30.411966}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.932758,"lng":30.409833},{"lat":59.933158,"lng":30.411966},{"lat":59.932475,"lng":30.409303}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.932758,"lng":30.409833},{"lat":59.932475,"lng":30.409303},{"lat":59.932847,"lng":30.409061}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.932847,"lng":30.409061},{"lat":59.932475,"lng":30.409303},{"lat":59.933536,"lng":30.408174}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.932847,"lng":30.409061},{"lat":59.933536,"lng":30.408174},{"lat":59.933158,"lng":30.411966}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.933372,"lng":30.409665},{"lat":59.932847,"lng":30.409061},{"lat":59.933536,"lng":30.408174}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.933257,"lng":30.408893},{"lat":59.933372,"lng":30.409665},{"lat":59.932847,"lng":30.409061}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.933257,"lng":30.408893},{"lat":59.932847,"lng":30.409061},{"lat":59.933536,"lng":30.408174}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.933257,"lng":30.408893},{"lat":59.933536,"lng":30.408174},{"lat":59.933372,"lng":30.409665}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.933372,"lng":30.409665},{"lat":59.933536,"lng":30.408174},{"lat":59.933158,"lng":30.411966}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.933372,"lng":30.409665},{"lat":59.933158,"lng":30.411966},{"lat":59.932847,"lng":30.409061}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.933053,"lng":30.409603},{"lat":59.933372,"lng":30.409665},{"lat":59.933158,"lng":30.411966}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.933053,"lng":30.409603},{"lat":59.933158,"lng":30.411966},{"lat":59.932847,"lng":30.409061}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.933053,"lng":30.409603},{"lat":59.932847,"lng":30.409061},{"lat":59.933372,"lng":30.409665}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.932475,"lng":30.409303},{"lat":59.933321,"lng":30.413749},{"lat":59.93158,"lng":30.409072}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.932491,"lng":30.411233},{"lat":59.932475,"lng":30.409303},{"lat":59.933321,"lng":30.413749}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.933073,"lng":30.412758},{"lat":59.932491,"lng":30.411233},{"lat":59.932475,"lng":30.409303}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.932927,"lng":30.412},{"lat":59.933073,"lng":30.412758},{"lat":59.932491,"lng":30.411233}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.932927,"lng":30.412},{"lat":59.932491,"lng":30.411233},{"lat":59.932475,"lng":30.409303}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.932927,"lng":30.412},{"lat":59.932475,"lng":30.409303},{"lat":59.933073,"lng":30.412758}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.933073,"lng":30.412758},{"lat":59.932475,"lng":30.409303},{"lat":59.933321,"lng":30.413749}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.933073,"lng":30.412758},{"lat":59.933321,"lng":30.413749},{"lat":59.932491,"lng":30.411233}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.932491,"lng":30.411233},{"lat":59.933321,"lng":30.413749},{"lat":59.93158,"lng":30.409072}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.932491,"lng":30.411233},{"lat":59.93158,"lng":30.409072},{"lat":59.932475,"lng":30.409303}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.932475,"lng":30.409303},{"lat":59.93158,"lng":30.409072},{"lat":59.93429,"lng":30.406205}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.934024,"lng":30.401698},{"lat":59.93171,"lng":30.401658},{"lat":59.93158,"lng":30.409072}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.933486,"lng":30.402699},{"lat":59.934024,"lng":30.401698},{"lat":59.93171,"lng":30.401658}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.933486,"lng":30.402699},{"lat":59.93171,"lng":30.401658},{"lat":59.93158,"lng":30.409072}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.932405,"lng":30.40573},{"lat":59.933486,"lng":30.402699},{"lat":59.93171,"lng":30.401658}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.932728,"lng":30.402274},{"lat":59.932405,"lng":30.40573},{"lat":59.933486,"lng":30.402699}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.933034,"lng":30.403704},{"lat":59.932728,"lng":30.402274},{"lat":59.932405,"lng":30.40573}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.933034,"lng":30.403704},{"lat":59.932405,"lng":30.40573},{"lat":59.933486,"lng":30.402699}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.933034,"lng":30.403704},{"lat":59.933486,"lng":30.402699},{"lat":59.932728,"lng":30.402274}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.933135,"lng":30.402882},{"lat":59.933034,"lng":30.403704},{"lat":59.933486,"lng":30.402699}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.933135,"lng":30.402882},{"lat":59.933486,"lng":30.402699},{"lat":59.932728,"lng":30.402274}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.933135,"lng":30.402882},{"lat":59.932728,"lng":30.402274},{"lat":59.933034,"lng":30.403704}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.93299,"lng":30.40315},{"lat":59.933135,"lng":30.402882},{"lat":59.932728,"lng":30.402274}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.93299,"lng":30.40315},{"lat":59.932728,"lng":30.402274},{"lat":59.933034,"lng":30.403704}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.93299,"lng":30.40315},{"lat":59.933034,"lng":30.403704},{"lat":59.933135,"lng":30.402882}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.932728,"lng":30.402274},{"lat":59.933486,"lng":30.402699},{"lat":59.93171,"lng":30.401658}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.932728,"lng":30.402274},{"lat":59.93171,"lng":30.401658},{"lat":59.932405,"lng":30.40573}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.932187,"lng":30.402627},{"lat":59.932728,"lng":30.402274},{"lat":59.93171,"lng":30.401658}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.932187,"lng":30.402627},{"lat":59.93171,"lng":30.401658},{"lat":59.932405,"lng":30.40573}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.932187,"lng":30.402627},{"lat":59.932405,"lng":30.40573},{"lat":59.932728,"lng":30.402274}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.932405,"lng":30.40573},{"lat":59.93171,"lng":30.401658},{"lat":59.93158,"lng":30.409072}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.932405,"lng":30.40573},{"lat":59.93158,"lng":30.409072},{"lat":59.933486,"lng":30.402699}],"color":"green"},{"type":"polygon","latLngs":[{"lat":59.933486,"lng":30.402699},{"lat":59.93158,"lng":30.409072},{"lat":59.934024,"lng":30.401698}],"color":"green"}]
+
+ links: 
+[{"type":"polyline","latLngs":[{"lat":59.934024,"lng":30.401698},{"lat":59.93429,"lng":30.406205}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.93429,"lng":30.406205},{"lat":59.93158,"lng":30.409072}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.93158,"lng":30.409072},{"lat":59.934024,"lng":30.401698}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933024,"lng":30.405834},{"lat":59.934024,"lng":30.401698}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933024,"lng":30.405834},{"lat":59.93429,"lng":30.406205}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933024,"lng":30.405834},{"lat":59.93158,"lng":30.409072}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933563,"lng":30.406692},{"lat":59.933024,"lng":30.405834}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933563,"lng":30.406692},{"lat":59.93429,"lng":30.406205}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933563,"lng":30.406692},{"lat":59.93158,"lng":30.409072}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933381,"lng":30.406723},{"lat":59.933563,"lng":30.406692}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933381,"lng":30.406723},{"lat":59.93158,"lng":30.409072}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933381,"lng":30.406723},{"lat":59.933024,"lng":30.405834}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.93429,"lng":30.406205},{"lat":59.933321,"lng":30.413749}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933321,"lng":30.413749},{"lat":59.93158,"lng":30.409072}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.93158,"lng":30.409072},{"lat":59.93429,"lng":30.406205}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.932475,"lng":30.409303},{"lat":59.93429,"lng":30.406205}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.932475,"lng":30.409303},{"lat":59.933321,"lng":30.413749}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.932475,"lng":30.409303},{"lat":59.93158,"lng":30.409072}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933536,"lng":30.408174},{"lat":59.932475,"lng":30.409303}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933536,"lng":30.408174},{"lat":59.93429,"lng":30.406205}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933536,"lng":30.408174},{"lat":59.933321,"lng":30.413749}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933056,"lng":30.408682},{"lat":59.933536,"lng":30.408174}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933056,"lng":30.408682},{"lat":59.932475,"lng":30.409303}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933056,"lng":30.408682},{"lat":59.93429,"lng":30.406205}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933158,"lng":30.411966},{"lat":59.933536,"lng":30.408174}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933158,"lng":30.411966},{"lat":59.933321,"lng":30.413749}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933158,"lng":30.411966},{"lat":59.932475,"lng":30.409303}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933299,"lng":30.411782},{"lat":59.933158,"lng":30.411966}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933299,"lng":30.411782},{"lat":59.933536,"lng":30.408174}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933299,"lng":30.411782},{"lat":59.933321,"lng":30.413749}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.932847,"lng":30.409061},{"lat":59.933158,"lng":30.411966}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.932847,"lng":30.409061},{"lat":59.932475,"lng":30.409303}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.932847,"lng":30.409061},{"lat":59.933536,"lng":30.408174}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.932758,"lng":30.409833},{"lat":59.932847,"lng":30.409061}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.932758,"lng":30.409833},{"lat":59.933158,"lng":30.411966}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.932758,"lng":30.409833},{"lat":59.932475,"lng":30.409303}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933372,"lng":30.409665},{"lat":59.932847,"lng":30.409061}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933372,"lng":30.409665},{"lat":59.933536,"lng":30.408174}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933372,"lng":30.409665},{"lat":59.933158,"lng":30.411966}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933257,"lng":30.408893},{"lat":59.933372,"lng":30.409665}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933257,"lng":30.408893},{"lat":59.932847,"lng":30.409061}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933257,"lng":30.408893},{"lat":59.933536,"lng":30.408174}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933053,"lng":30.409603},{"lat":59.933372,"lng":30.409665}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933053,"lng":30.409603},{"lat":59.933158,"lng":30.411966}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933053,"lng":30.409603},{"lat":59.932847,"lng":30.409061}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.932491,"lng":30.411233},{"lat":59.932475,"lng":30.409303}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.932491,"lng":30.411233},{"lat":59.933321,"lng":30.413749}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.932491,"lng":30.411233},{"lat":59.93158,"lng":30.409072}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933073,"lng":30.412758},{"lat":59.932491,"lng":30.411233}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933073,"lng":30.412758},{"lat":59.932475,"lng":30.409303}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933073,"lng":30.412758},{"lat":59.933321,"lng":30.413749}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.932927,"lng":30.412},{"lat":59.933073,"lng":30.412758}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.932927,"lng":30.412},{"lat":59.932491,"lng":30.411233}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.932927,"lng":30.412},{"lat":59.932475,"lng":30.409303}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.934024,"lng":30.401698},{"lat":59.93171,"lng":30.401658}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.93171,"lng":30.401658},{"lat":59.93158,"lng":30.409072}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.93158,"lng":30.409072},{"lat":59.934024,"lng":30.401698}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933486,"lng":30.402699},{"lat":59.934024,"lng":30.401698}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933486,"lng":30.402699},{"lat":59.93171,"lng":30.401658}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933486,"lng":30.402699},{"lat":59.93158,"lng":30.409072}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.932405,"lng":30.40573},{"lat":59.933486,"lng":30.402699}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.932405,"lng":30.40573},{"lat":59.93171,"lng":30.401658}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.932405,"lng":30.40573},{"lat":59.93158,"lng":30.409072}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.932728,"lng":30.402274},{"lat":59.932405,"lng":30.40573}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.932728,"lng":30.402274},{"lat":59.933486,"lng":30.402699}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.932728,"lng":30.402274},{"lat":59.93171,"lng":30.401658}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933034,"lng":30.403704},{"lat":59.932728,"lng":30.402274}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933034,"lng":30.403704},{"lat":59.932405,"lng":30.40573}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933034,"lng":30.403704},{"lat":59.933486,"lng":30.402699}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933135,"lng":30.402882},{"lat":59.933034,"lng":30.403704}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933135,"lng":30.402882},{"lat":59.933486,"lng":30.402699}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.933135,"lng":30.402882},{"lat":59.932728,"lng":30.402274}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.93299,"lng":30.40315},{"lat":59.933135,"lng":30.402882}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.93299,"lng":30.40315},{"lat":59.932728,"lng":30.402274}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.93299,"lng":30.40315},{"lat":59.933034,"lng":30.403704}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.932187,"lng":30.402627},{"lat":59.932728,"lng":30.402274}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.932187,"lng":30.402627},{"lat":59.93171,"lng":30.401658}],"color":"green"},{"type":"polyline","latLngs":[{"lat":59.932187,"lng":30.402627},{"lat":59.932405,"lng":30.40573}],"color":"green"}]
+
+ links order: 
+Face Looking at Heaven  : 2
+	Наскальная живопись
+	Sailing the Green Sea
+A Pair of Yellow Seahorses : 5
+	Спираль
+	Дали созерцающий
+	Hercules
+	Resting Sculpture
+	Woman Statue
+Наскальная живопись : 1
+	Sailing the Green Sea
+Angry Dog : 7
+	Ресторан Мама-Рома
+	Скульптура "Фламенко"
+	Terra Italia
+	A Pair of Yellow Seahorses
+	Спираль
+	Face Looking at Heaven 
+	Наскальная живопись
+Resting Sculpture : 2
+	Stairs on my Mind 
+	Woman Statue
+Дали созерцающий : 4
+	Hercules
+	Resting Sculpture
+	Stairs on my Mind 
+	Woman Statue
+Скульптура "Фламенко" : 8
+	Terra Italia
+	Stone of Ocean
+	A Pair of Yellow Seahorses
+	Дали созерцающий
+	Hercules
+	Face Looking at Heaven 
+	Наскальная живопись
+	Sailing the Green Sea
+Ресторан Мама-Рома : 8
+	Призма
+	Remember the Fallen
+	Аллея Защитников Ленинграда
+	Stone of Memory
+	Скульптура "Фламенко"
+	Face Looking at Heaven 
+	Детям Беслана
+	Тысяча Чертей На Сундук Мертвеца 
+Тысяча Чертей На Сундук Мертвеца  : 3
+	Часовня 3
+	Храм успения пресвятой Богородицы
+	Бизнес-центр
+Remember the Fallen : 2
+	Аллея Защитников Ленинграда
+	Stone of Memory
+Аллея Защитников Ленинграда : 1
+	Stone of Memory
+Terra Italia : 6
+	Stone of Ocean
+	A Pair of Yellow Seahorses
+	Спираль
+	Дали созерцающий
+	Resting Sculpture
+	Stairs on my Mind 
+Bridge mural  : 7
+	Ресторан Мама-Рома
+	Angry Dog
+	Remember the Fallen
+	Аллея Защитников Ленинграда
+	Скульптура "Фламенко"
+	Terra Italia
+	Stone of Ocean
+Храм успения пресвятой Богородицы : 2
+	Blessing Statue ... St-Petersb
+	Look of Angel ... church
+Blessing Statue ... St-Petersb : 1
+	Look of Angel ... church
+Детям Беслана : 4
+	Тысяча Чертей На Сундук Мертвеца 
+	Часовня 3
+	Храм успения пресвятой Богородицы
+	Blessing Statue ... St-Petersb
+Призма : 5
+	Центр Образования 1
+	Ресторан Мама-Рома
+	Bridge mural 
+	Remember the Fallen
+	Детям Беслана
+Часовня 3 : 4
+	Храм успения пресвятой Богородицы
+	Blessing Statue ... St-Petersb
+	Look of Angel ... church
+	Бизнес-центр
+Центр Образования 1 : 5
+	Ресторан Мама-Рома
+	Детям Беслана
+	Тысяча Чертей На Сундук Мертвеца 
+	Часовня 3
+	Бизнес-центр
+
+ points order: 
+[{"type":"polyline","latLngs":[{"lat":59.932491,"lng":30.411233},{"lat":59.933158,"lng":30.411966},{"lat":59.933073,"lng":30.412758},{"lat":59.933321,"lng":30.413749},{"lat":59.933372,"lng":30.409665},{"lat":59.932847,"lng":30.409061},{"lat":59.932475,"lng":30.409303},{"lat":59.93158,"lng":30.409072},{"lat":59.932405,"lng":30.40573},{"lat":59.933024,"lng":30.405834},{"lat":59.933563,"lng":30.406692},{"lat":59.933536,"lng":30.408174},{"lat":59.93429,"lng":30.406205},{"lat":59.933034,"lng":30.403704},{"lat":59.933135,"lng":30.402882},{"lat":59.933486,"lng":30.402699},{"lat":59.934024,"lng":30.401698},{"lat":59.932728,"lng":30.402274},{"lat":59.93171,"lng":30.401658}],"color":"green"}]
+length: 1836.3712312366165
