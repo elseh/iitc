@@ -1,0 +1,18 @@
+<form>
+    <textarea id="text" rows="20" cols="50"></textarea>
+    <input type="button" value="Cut" onclick="count(text);"/>
+</form>
+
+<script>
+    var count = function(t) {
+        s = t.value;
+        arr = s.split("\n");
+        var result = "";
+        arr.forEach(function(a, i) {
+            sp = a.trim().split(" ");
+            result += eval(sp[1]) + " #" + (i+1) + " " + sp[1] + "\n";
+        });
+        t.value = result;
+        return false;
+    }
+</script>
