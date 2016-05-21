@@ -82,6 +82,7 @@ public class Main {
         .sorted(Comparator.comparingDouble(Map.Entry::getValue))
                 .findFirst().get().getKey();
 
+            writeToFile(areaName, goodSerializer.serializeMaxField(), "-maxField.json", false);
             writeToFile(areaName, goodSerializer.serialize(), "-result.txt", false);
             writeToFile(areaName, goodSerializer.serialiseSVG(), ".html", false);
 

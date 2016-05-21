@@ -3,7 +3,9 @@ package iitc.triangulation;
 import com.google.gson.Gson;
 import iitc.triangulation.shapes.Field;
 import iitc.triangulation.shapes.LatLngs;
+import iitc.triangulation.shapes.Link;
 import iitc.triangulation.shapes.Triple;
+import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -110,18 +112,18 @@ public class FieldSerializer {
     }
 
     public String serialize() {
-
+        int i = 0;
         VelocityContext context = new VelocityContext();
         context.put("linksMap", linksMap);
         context.put("fields", fieldList);
         context.put("links", lineList);
         context.put("points", pointsOrder);
         context.put("linksOrder", linksOrder);
-        context.put("path", new Drawing("polyline", pointsOrder.toArray(new Point[pointsOrder.size()])));
+        context.put("path", new Drawing("polyline", pointsOrder.toArray(new Point[pointsOrder.size()])).setColor("pink"));
         context.put("length", length(pointsOrder));
         context.put("numberTool", new NumberTool());
+        context.put("util", new Utils());
         context.put("gson", new Gson());
-
         Template template = null;
         try {
             StringWriter sw = new StringWriter();
@@ -132,6 +134,112 @@ public class FieldSerializer {
             e.printStackTrace();
         }
         return "";
+    }
+
+    public String serializeMaxField() {
+        // Brunnen; https://www.ingress.com/intel?ll=52.357459,9.660858&z=17&pll=52.357459,9.660858
+        // Link, Agent, MapNumOrigin, OriginName, MapNumDestination, DestinationName
+        List<Point> points = new ArrayList<>();
+        HashMap<Point, Integer> pointsIndex = new HashMap<>();
+        HashMap<Point, Integer> keys = new HashMap<>();
+        for (Point p : linksOrder.keySet()) {
+            points.add(p);
+        }
+
+        int i = 20;
+        List<NumberedLink> links = new ArrayList<>();
+        for (Point from: pointsOrder) {
+            int stage = i++;
+            pointsIndex.putIfAbsent(from, stage);
+            for (Point to : linksOrder.get(from)) {
+                pointsIndex.putIfAbsent(to, stage);
+                links.add(new NumberedLink(from, to, i++));
+                keys.putIfAbsent(to, 0);
+                keys.compute(to, (p, value) -> value+1);
+            }
+        }
+
+        VelocityContext context = new VelocityContext();
+        context.put("links", links);
+        context.put("points", points);
+        context.put("index", pointsIndex);
+        context.put("util", new Utils());
+        context.put("keys", keys);
+        Template template = null;
+        try {
+            StringWriter sw = new StringWriter();
+            template = Velocity.getTemplate("templates/result-maxField.txt.vm");
+            template.merge(context, sw);
+            return sw.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "";
+    }
+
+    public static class Task {
+        /*
+        var task = {
+        id: -1,
+        guid: guid,
+        title: portal.options.data.title,
+        description: "",
+        actionText: "",
+        status: 0,
+        portalUrl: "https://www.ingress.com" + "/intel?ll=" + lat + "," + lng + "&z=17&pll=" + lat + "," + lng + "",
+        lat: lat,
+        lon: lng,
+        action: action,
+        flowOrder: window.plugin.iclight.flowOrder,
+        executorTeam: executorTeam,
+        beginTime: 0,
+        endTime: 0,
+        type: 0,
+        team: 0,
+        linkTitle: "",
+        linkLat: 0,
+        linkLon: 0,
+        linkUrl: "",
+        remoteCommands: "",
+        childTasks: {}
+    };
+        * */
+    }
+
+    public static class NumberedLink {
+        public NumberedLink(Point from, Point to, int linkNumber) {
+            this.from = from;
+            this.to = to;
+            this.linkNumber = linkNumber;
+        }
+
+        Point from,to;
+        int linkNumber;
+
+        public Point getFrom() {
+            return from;
+        }
+
+        public Point getTo() {
+            return to;
+        }
+
+        public int getLinkNumber() {
+            return linkNumber;
+        }
+    }
+
+    public static class  Utils {
+        public String toURL(Point p) {
+            return "https://www.ingress.com/intel?ll={0},{1}&z=17&pll={0},{1}"
+                    .replaceAll("[{]0[}]", p.latlng.getLat() + "")
+                    .replaceAll("[{]1[}]", p.latlng.getLng() + "");
+        }
+
+        public double length(Point p1, Point p2) {
+            return DeployOrder.length(p1, p2);
+        }
     }
 
     public static  class Drawing {
@@ -158,6 +266,11 @@ public class FieldSerializer {
 
         public String getColor() {
             return color;
+        }
+
+        public Drawing setColor(String color) {
+            this.color = color;
+            return this;
         }
     }
 

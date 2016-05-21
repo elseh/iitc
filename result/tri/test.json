@@ -1,0 +1,497 @@
+[
+  [
+    {
+      "id": "0551e2bbc7024241b2ee775ae113faa0.16",
+      "latlng": {
+        "lat": 48.181325,
+        "lng": 11.531712
+      },
+      "title": "Circular Play Structure",
+      "maxLinks": 8
+    },
+    {
+      "id": "2b75a90db6334d93970596686a5a00a6.16",
+      "latlng": {
+        "lat": 48.184764,
+        "lng": 11.533808
+      },
+      "title": "Kletterrutsche",
+      "maxLinks": 8
+    },
+    {
+      "id": "fe6e973807ec4f70ae1c97aec8023289.16",
+      "latlng": {
+        "lat": 48.185076,
+        "lng": 11.532722
+      },
+      "title": "Der Kletterstein ",
+      "maxLinks": 8
+    },
+    {
+      "id": "fca8b6d448d747439390809450cecda3.16",
+      "latlng": {
+        "lat": 48.186084,
+        "lng": 11.54225
+      },
+      "title": "Eingang Olympiapark",
+      "maxLinks": 8
+    },
+    {
+      "id": "d069901001c04959a1ed0209e9c119fc.16",
+      "latlng": {
+        "lat": 48.183727,
+        "lng": 11.547116
+      },
+      "title": "Parkour Rote Stadt",
+      "maxLinks": 8
+    },
+    {
+      "id": "62c2a6817d1a45f9bec1afac114ee1c8.16",
+      "latlng": {
+        "lat": 48.186394,
+        "lng": 11.546396
+      },
+      "title": "Knorr Bremse",
+      "maxLinks": 8
+    },
+    {
+      "id": "58d58fc2a1a0482995c846dfbf05c537.16",
+      "latlng": {
+        "lat": 48.186274,
+        "lng": 11.539864
+      },
+      "title": "Entrance Olympiapark",
+      "maxLinks": 8
+    },
+    {
+      "id": "860b19607c9e4a598eea0d08d7d6b760.16",
+      "latlng": {
+        "lat": 48.186062,
+        "lng": 11.543554
+      },
+      "title": "Sv Olympiadorf",
+      "maxLinks": 8
+    },
+    {
+      "id": "e97f8b5a51b24993a14ba494e14d6fe8.16",
+      "latlng": {
+        "lat": 48.186239,
+        "lng": 11.549193
+      },
+      "title": "U Bahn Station Oberwiesenfeld",
+      "maxLinks": 8
+    },
+    {
+      "id": "901fc3dfe6ee491bae09595f11f4e775.16",
+      "latlng": {
+        "lat": 48.181795,
+        "lng": 11.529952
+      },
+      "title": "Spielhaus \"boomerang\" ",
+      "maxLinks": 8
+    },
+    {
+      "id": "fd1886d230d14215b3bae576d20e4127.16",
+      "latlng": {
+        "lat": 48.180612,
+        "lng": 11.530235
+      },
+      "title": "Kirchenfenster",
+      "maxLinks": 8
+    },
+    {
+      "id": "566974788de14d9cb17a6b0a92edd329.16",
+      "latlng": {
+        "lat": 48.184957,
+        "lng": 11.530844
+      },
+      "title": "Just Music",
+      "maxLinks": 8
+    },
+    {
+      "id": "dab8951f1a81445fa5d55e3fe38bba88.16",
+      "latlng": {
+        "lat": 48.181379,
+        "lng": 11.531122
+      },
+      "title": "Basketball Court",
+      "maxLinks": 8
+    },
+    {
+      "id": "413f3a7ebb4c4d108c06a51c7a7b8a5f.16",
+      "latlng": {
+        "lat": 48.181793,
+        "lng": 11.530825
+      },
+      "title": "Kaskadenbrunnen",
+      "maxLinks": 8
+    },
+    {
+      "id": "5e6f0c3f7f9f42bb9fbdcb7182701ecd.16",
+      "latlng": {
+        "lat": 48.182497,
+        "lng": 11.533265
+      },
+      "title": "OEZ Froschbrunnen 2",
+      "maxLinks": 8
+    },
+    {
+      "id": "4a38fc817c1d49eeaa88cab1191bdee4.16",
+      "latlng": {
+        "lat": 48.181199,
+        "lng": 11.536913
+      },
+      "title": "Sports Center",
+      "maxLinks": 8
+    },
+    {
+      "id": "faca05063c12454d9c78f9ac26a54e23.16",
+      "latlng": {
+        "lat": 48.184905,
+        "lng": 11.532852
+      },
+      "title": "Äthiopisch-Orthodoxe Kirche",
+      "maxLinks": 8
+    },
+    {
+      "id": "da4ef5c067fd4f33966f054ee0b86a5a.16",
+      "latlng": {
+        "lat": 48.179769,
+        "lng": 11.532489
+      },
+      "title": "Fountain",
+      "maxLinks": 8
+    },
+    {
+      "id": "0592031e2cfb482b900ba786c8a7ab17.16",
+      "latlng": {
+        "lat": 48.184172,
+        "lng": 11.531281
+      },
+      "title": "Spielhaus",
+      "maxLinks": 8
+    },
+    {
+      "id": "f0165a697a2e4fd69708594d90b0b6d2.11",
+      "latlng": {
+        "lat": 48.183582,
+        "lng": 11.533974
+      },
+      "title": "Olympia EKZ Froschbrunnen 1",
+      "maxLinks": 8
+    },
+    {
+      "id": "6ec4b2d7e81546ebad350283bbd3513d.16",
+      "latlng": {
+        "lat": 48.183384,
+        "lng": 11.539914
+      },
+      "title": "Eingang Olympiapark",
+      "maxLinks": 8
+    },
+    {
+      "id": "1252901627864657a0260998f8dc4f3d.16",
+      "latlng": {
+        "lat": 48.180373,
+        "lng": 11.537151
+      },
+      "title": "Bulky Basketball Field",
+      "maxLinks": 8
+    },
+    {
+      "id": "d07c83c35f42400480c66fee378f2482.16",
+      "latlng": {
+        "lat": 48.183627,
+        "lng": 11.531426
+      },
+      "title": "OEZ",
+      "maxLinks": 8
+    },
+    {
+      "id": "3442f0bc3d944c87bde58edf1c5c5c24.16",
+      "latlng": {
+        "lat": 48.183631,
+        "lng": 11.537927
+      },
+      "title": "Ries Tower",
+      "maxLinks": 8
+    },
+    {
+      "id": "2fd4c00ba76147a4958e4ef95cb9ea65.16",
+      "latlng": {
+        "lat": 48.182371,
+        "lng": 11.542196
+      },
+      "title": "Sportplatz Olympiapark",
+      "maxLinks": 8
+    },
+    {
+      "id": "41bc5443b2134108814f50233fd56b2f.16",
+      "latlng": {
+        "lat": 48.182626,
+        "lng": 11.537635
+      },
+      "title": "Kleiner Springbrunnen",
+      "maxLinks": 8
+    },
+    {
+      "id": "95eab7f1fba74da996fe74ae62082645.11",
+      "latlng": {
+        "lat": 48.180671,
+        "lng": 11.536108
+      },
+      "title": "The Oracle",
+      "maxLinks": 8
+    },
+    {
+      "id": "b1e1aba304f6467fa48d44b13e5dd167.16",
+      "latlng": {
+        "lat": 48.182058,
+        "lng": 11.532397
+      },
+      "title": "Hinkelstein",
+      "maxLinks": 8
+    },
+    {
+      "id": "39ff130fc16f484798f8f8382f1864e8.11",
+      "latlng": {
+        "lat": 48.179922,
+        "lng": 11.536933
+      },
+      "title": "Berufsschule München Moosach",
+      "maxLinks": 8
+    },
+    {
+      "id": "1a23ce4f1b044044bf149058ca64b19b.16",
+      "latlng": {
+        "lat": 48.180068,
+        "lng": 11.536436
+      },
+      "title": "Marco Polo Reisen",
+      "maxLinks": 8
+    },
+    {
+      "id": "e0d3255816fa41d5a4301538a214fb02.16",
+      "latlng": {
+        "lat": 48.182002,
+        "lng": 11.53197
+      },
+      "title": "U-Bahn OEZ Süd",
+      "maxLinks": 8
+    },
+    {
+      "id": "e14a58279976425abe01df68cbec3a1e.11",
+      "latlng": {
+        "lat": 48.183311,
+        "lng": 11.537593
+      },
+      "title": "Brunnen Olympia Pressestadt",
+      "maxLinks": 8
+    },
+    {
+      "id": "deba001c9c4e43ec8a37c29b6b7c1e21.16",
+      "latlng": {
+        "lat": 48.182009,
+        "lng": 11.533472
+      },
+      "title": "Weinflasche ",
+      "maxLinks": 8
+    },
+    {
+      "id": "8d8d7a1f3982411cb34706045ca3618d.16",
+      "latlng": {
+        "lat": 48.184043,
+        "lng": 11.537996
+      },
+      "title": "Ries Schaukel",
+      "maxLinks": 8
+    },
+    {
+      "id": "f4285143e097497589fd860860a5f986.16",
+      "latlng": {
+        "lat": 48.179573,
+        "lng": 11.536299
+      },
+      "title": "88 North",
+      "maxLinks": 8
+    },
+    {
+      "id": "087c8a07e2d1452f8e5deccf2258daef.11",
+      "latlng": {
+        "lat": 48.18126,
+        "lng": 11.538317
+      },
+      "title": "Tischtennisplatte Olympia Pres",
+      "maxLinks": 8
+    },
+    {
+      "id": "f3df0afe71414e3c890d1ffba771af61.16",
+      "latlng": {
+        "lat": 48.182313,
+        "lng": 11.547396
+      },
+      "title": "Formen",
+      "maxLinks": 8
+    },
+    {
+      "id": "7b92dcb89d81428d945bd706ebcf496b.16",
+      "latlng": {
+        "lat": 48.179468,
+        "lng": 11.54732
+      },
+      "title": "Olympia 1972",
+      "maxLinks": 8
+    },
+    {
+      "id": "4d6cda6f408b4362a7505a17f3553774.16",
+      "latlng": {
+        "lat": 48.182997,
+        "lng": 11.545835
+      },
+      "title": "Infotafel",
+      "maxLinks": 8
+    },
+    {
+      "id": "092a820be3e94614a5732ae78c3faf7f.16",
+      "latlng": {
+        "lat": 48.181627,
+        "lng": 11.548885
+      },
+      "title": "Brunnen Nadistraße - OlyDorf",
+      "maxLinks": 8
+    },
+    {
+      "id": "0dc329c62f7045ee9eca53a9f907c442.16",
+      "latlng": {
+        "lat": 48.183656,
+        "lng": 11.547766
+      },
+      "title": "Weisse Stadt Olympiadorf",
+      "maxLinks": 8
+    },
+    {
+      "id": "0367efd486304a26a99894175ba7a25f.16",
+      "latlng": {
+        "lat": 48.183343,
+        "lng": 11.548496
+      },
+      "title": "Die Kugel",
+      "maxLinks": 8
+    },
+    {
+      "id": "913d55ca94824ea197a7ec1200e973af.16",
+      "latlng": {
+        "lat": 48.181462,
+        "lng": 11.542703
+      },
+      "title": "Sportplatz Olympiapark",
+      "maxLinks": 8
+    },
+    {
+      "id": "2263cd29576e4c37b0f8c5ef5f89e32b.11",
+      "latlng": {
+        "lat": 48.180874,
+        "lng": 11.547354
+      },
+      "title": "Dreiecksvariation (Krönchen)",
+      "maxLinks": 8
+    },
+    {
+      "id": "58750a33b60443b29129067be76a8917.16",
+      "latlng": {
+        "lat": 48.179862,
+        "lng": 11.549108
+      },
+      "title": "Der schwarze Brunnen",
+      "maxLinks": 8
+    },
+    {
+      "id": "701ff1d8926e4c3bb6daf99dd2cab2db.16",
+      "latlng": {
+        "lat": 48.181157,
+        "lng": 11.548428
+      },
+      "title": "Nadisee Olympiadorf ",
+      "maxLinks": 8
+    },
+    {
+      "id": "dc368e311fe642a78a016512ba2d0f2b.16",
+      "latlng": {
+        "lat": 48.182429,
+        "lng": 11.548599
+      },
+      "title": "Formen-Brunnen",
+      "maxLinks": 8
+    },
+    {
+      "id": "e9d547dd957446aea71e0b191329427d.16",
+      "latlng": {
+        "lat": 48.180504,
+        "lng": 11.545678
+      },
+      "title": "Le Diskuswerfer",
+      "maxLinks": 8
+    },
+    {
+      "id": "17598a68b0ad4bc8b25a27747f3bde38.16",
+      "latlng": {
+        "lat": 48.182947,
+        "lng": 11.548491
+      },
+      "title": "Kunstwerk Olympiadorf",
+      "maxLinks": 8
+    },
+    {
+      "id": "da09cbc8ab094289b927eec1cdc9ec3f.16",
+      "latlng": {
+        "lat": 48.184281,
+        "lng": 11.548512
+      },
+      "title": "?  Pitsch Patsch Blume ",
+      "maxLinks": 8
+    },
+    {
+      "id": "29bc6c784f844d1d845ef5e08efd4236.16",
+      "latlng": {
+        "lat": 48.184958,
+        "lng": 11.547775
+      },
+      "title": "Grüne Wasser",
+      "maxLinks": 8
+    },
+    {
+      "id": "c71afc9dd099452aa03c2c2c9a49fbcb.16",
+      "latlng": {
+        "lat": 48.17975,
+        "lng": 11.547782
+      },
+      "title": "Flying Diamond",
+      "maxLinks": 8
+    }
+  ],
+  [
+    {
+      "type": "polyline",
+      "latLngs": [
+        {
+          "lat": 48.186274,
+          "lng": 11.539864
+        },
+        {
+          "lat": 48.18126,
+          "lng": 11.538317
+        },
+        {
+          "lat": 48.182002,
+          "lng": 11.53197
+        },
+        {
+          "lat": 48.186274,
+          "lng": 11.539864
+        }
+      ],
+      "color": "#a24ac3"
+    }
+  ],
+  "ten"
+]

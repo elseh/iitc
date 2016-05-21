@@ -44,7 +44,7 @@ public class SetupSeed {
         RawData rawData = gson.fromJson(FileUtils.readFromCMD.apply("Enter points: "), RawData.class);
         setPoints(Arrays.asList(rawData.getPoints()));
         BaseSeed seed = parseDrawing(rawData.getDrawings());
-        String fileName = FileUtils.readFromCMD.apply("enter area name: ");
+        String fileName = rawData.getName();
 
         writeToFile(fileName, gson.toJson(seed));
         /*try {
@@ -61,7 +61,8 @@ public class SetupSeed {
         List<Link> links = new ArrayList<>();
         List<Triple<String>> triples = new ArrayList<>();
         for (FieldSerializer.Drawing d : drawings) {
-
+            System.out.println(d);
+            System.out.println(new Gson().toJson(d));
             List<Point> points = d.getLatLngs().stream().map(pointsByLat::get).collect(Collectors.toList());
             if (points.size() != 4 || points.get(0) != points.get(3)) {
                 System.out.println("Panic");

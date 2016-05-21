@@ -1,0 +1,46 @@
+{"labels":["Visit", "Destroy", "Deploy", "Make linkable", "Collect keys", "Link", "Defend", "Use ADA", "Use Jarvis", "Do nothing", "Meeting point"],
+"tasks":[
+#foreach($point in $keys.keySet())
+{
+    "title":"$point.title",
+    "description":"collect $keys.get($point) keys",
+    "portalUrl":"$util.toURL($point)",
+    "status":2,
+    "flowOrder":1,
+    "actionText":"",
+    "action": 4,
+    "linkTitle":"",
+	"linkUrl":"",
+    "executorTeam":"+1"
+},
+#end
+#foreach($point in $points)
+{
+    "title":"$point.title",
+    "description":"",
+    "portalUrl":"$util.toURL($point)",
+    "status":2,
+    "flowOrder":$index.get($point),
+    "actionText":"Make linkable",
+    "action": 3,
+    "linkTitle":"",
+	"linkUrl":"",
+    "executorTeam":"+1"
+},
+#end
+#foreach($link in $links)
+{
+    "title":"$link.from.title",
+    "description":"",
+    "portalUrl":"$util.toURL($link.from)",
+    "status":2,
+    "flowOrder":$link.linkNumber,
+    "actionText":"Link",
+    "action": 5,
+    "linkTitle":"$link.to.title",
+	"linkUrl":"$util.toURL($link.to)",
+    "executorTeam":"+1"
+} #if($velocityHasNext),#end
+#end
+]
+}

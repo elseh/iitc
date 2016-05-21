@@ -10,11 +10,11 @@ function store(name) {
             }
         }
     }
-    var s = JSON.stringify([
-            a,
-            JSON.parse(localStorage['plugin-draw-tools-layer']),
-            name
-        ]);
+    var s = JSON.stringify({
+            points:a,
+            drawings:JSON.parse(localStorage['plugin-draw-tools-layer']),
+            name: name
+    });
     console.info(s);
 }
 

@@ -19,7 +19,7 @@ public class DeployOrder {
         this.linksOrder = linksOrder;
     }
 
-    private static double length(Point a, Point b) {
+    public static double length(Point a, Point b) {
         double earthRadius = 3958.75;
         double latDiff = Math.toRadians(a.latlng.getLat() - b.latlng.getLat());
         double lngDiff = Math.toRadians(a.latlng.getLng() - b.latlng.getLng());

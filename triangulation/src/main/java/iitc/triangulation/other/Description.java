@@ -6,6 +6,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static java.util.Optional.ofNullable;
+
 /**
  * Created by Sigrlinn on 15.06.2015.
  */
@@ -53,9 +55,7 @@ public class Description {
     }
 
     private static int sum(Integer a, Integer b) {
-        a = a==null? 0 : a;
-        b = b==null? 0 : b;
-        return a+b;
+        return ofNullable(a).orElse(0) + ofNullable(b).orElse(0);
     }
 
     public boolean checkSumInTheInnerPoint() {
