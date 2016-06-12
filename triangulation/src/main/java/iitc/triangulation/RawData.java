@@ -6,7 +6,7 @@ package iitc.triangulation;
  */
 public class RawData {
     private Point[] points;
-    private FieldSerializer.Drawing[] drawings;
+    private Drawing[] drawings;
     private String name;
     public Point[] getPoints() {
         return points;
@@ -16,11 +16,11 @@ public class RawData {
         this.points = points;
     }
 
-    public FieldSerializer.Drawing[] getDrawings() {
+    public Drawing[] getDrawings() {
         return drawings;
     }
 
-    public void setDrawings(FieldSerializer.Drawing[] drawings) {
+    public void setDrawings(Drawing[] drawings) {
         this.drawings = drawings;
     }
 

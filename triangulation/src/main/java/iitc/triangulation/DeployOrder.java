@@ -75,11 +75,15 @@ public class DeployOrder {
     }
 
     private Optional<Point> searchSafe(Point last, Set<Point> all) {
+        Map<Point, Double> distance =
+                all.stream().collect(Collectors.toMap(
+                        p -> p,
+                        p -> length(p, last)
+                ));
         return  all
                 .stream()
                 .filter(p -> isSafeToAdd(p, all))
-                .sorted(Comparator.comparing(point1 -> length(point1, last)))
-                .findFirst();
+                .min(Comparator.comparing(distance::get));
     }
 
     private void movePoint(List<Point> result, Set<Point> all, Point point) {

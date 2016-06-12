@@ -1,0 +1,1 @@
+java -cp "lib\*" iitc.triangulation.runnables.StoreKeys %1

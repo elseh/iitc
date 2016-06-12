@@ -1,21 +1,21 @@
 -------------------------------
 
 Total points:
-$linksMap.size()
+$total
 
 Length of path:
 $numberTool.format("0", $length)m
 
-links amount:
+links amount: (keys, links))
 #foreach($linksE in $linksOrder.entrySet())
-    $linksE.key : $linksE.value.size()
+$storage.get($linksE.key) $util.tab()$requiredKeys.get($linksE.key), $linksE.value.size(): $util.tab()$linksE.key
 #end
 
 Links order:
 #foreach($point in $points)
     #set($subpoints = $linksOrder.get($point))
 $point.title : $subpoints.size()
-#foreach($point1 in $subpoints)    $point1.title
+#foreach($point1 in $subpoints)    $point1.title ($numberTool.format("0", $util.length($point, $point1))m)
 #end
 #end
 

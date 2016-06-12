@@ -2,9 +2,9 @@ package iitc.triangulation.runnables;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import iitc.triangulation.Drawing;
 import iitc.triangulation.Point;
 import iitc.triangulation.shapes.BaseSeed;
-import iitc.triangulation.FieldSerializer;
 import iitc.triangulation.RawData;
 import iitc.triangulation.shapes.LatLngs;
 import iitc.triangulation.shapes.Link;
@@ -57,10 +57,10 @@ public class SetupSeed {
         //System.out.println(gson.toJson(seed));
     }
 
-    private static BaseSeed parseDrawing(FieldSerializer.Drawing[] drawings) {
+    private static BaseSeed parseDrawing(Drawing[] drawings) {
         List<Link> links = new ArrayList<>();
         List<Triple<String>> triples = new ArrayList<>();
-        for (FieldSerializer.Drawing d : drawings) {
+        for (Drawing d : drawings) {
             System.out.println(d);
             System.out.println(new Gson().toJson(d));
             List<Point> points = d.getLatLngs().stream().map(pointsByLat::get).collect(Collectors.toList());
@@ -78,8 +78,8 @@ public class SetupSeed {
         return new BaseSeed(triples, new ArrayList<>(pointsById.values()), links);
     }
 
-    private static FieldSerializer.Drawing[] readDrawings(Path path) {
-        return gson.fromJson(FileUtils.readFromFile.apply(path), FieldSerializer.Drawing[].class);
+    private static Drawing[] readDrawings(Path path) {
+        return gson.fromJson(FileUtils.readFromFile.apply(path), Drawing[].class);
     }
 
     private static void writeToFile(String areaName, String serialize) {

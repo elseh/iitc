@@ -3,8 +3,8 @@
 // @name           IITC plugin: fielding tools
 // @version        0.1.1
 // @namespace      https://github.com/jonatkins/ingress-intel-total-conversion
-// @updateURL      http://rawgit.com/elseh/iitc/master/bundle/src/main/resources/fieldingPlugin.js
-// @downloadURL    http://rawgit.com/elseh/iitc/master/bundle/src/main/resources/fieldingPlugin.js
+// @updateURL      http://rawgit.com/elseh/iitc/master/bundle/src/main/resources/plugins/fieldingPlugin.js
+// @downloadURL    http://rawgit.com/elseh/iitc/master/bundle/src/main/resources/plugins/fieldingPlugin.js
 // @description    [Fielding tools] Allow import portals and drawings
 // @include        https://www.ingress.com/intel*
 // @include        http://www.ingress.com/intel*
@@ -40,18 +40,18 @@ window.plugin.fieldUtils.store = function() {
             }
         }
     }
-    var s = JSON.stringify([
-            a,
-            JSON.parse(localStorage['plugin-draw-tools-layer']),
-            window.plugin.fieldUtils.name
-        ]);
+    var s = JSON.stringify({
+        points:a,
+        drawings:JSON.parse(localStorage['plugin-draw-tools-layer']),
+        name: window.plugin.fieldUtils.name
+    });
     console.info(s);
     window.plugin.fieldUtils.value = s;
 }    
 
 window.plugin.fieldUtils.showName = function() {
     html = '<input type="text" value="' + window.plugin.fieldUtils.name + '" name="name" onChange="window.plugin.fieldUtils.name=this.value"/>';
-    html += '<button onclick="window.plugin.fieldUtils.showDrawings();">Copy drawings</button>'
+    html += '<button onclick="window.plugin.fieldUtils.downDrawings();">Download drawings</button>'
     
     dialog({
     html: html,
@@ -62,21 +62,21 @@ window.plugin.fieldUtils.showName = function() {
     
 }
 
-window.plugin.fieldUtils.showDrawings = function() {
+window.plugin.fieldUtils.downDrawings = function() {
     window.plugin.fieldUtils.store();
-    html = '<p><a onclick="$(\'.ui-dialog-fieldUtils-copy textarea\').select();">Select all</a> and press CTRL+C to copy it.</p>'
-                +'<textarea readonly onclick="$(\'.ui-dialog-fieldUtils-copy textarea\').select();">'+window.plugin.fieldUtils.value+'</textarea>'
-    
-    
-    dialog({
-    html: html,
-    id: 'plugin-fieldUtils-copy',
-    dialogClass: 'ui-dialog-fieldUtils-copy',
-    title: 'Copy value'
-  });
+    downloadTempFile(window.plugin.fieldUtils.name + ".json", window.plugin.fieldUtils.value, "plain/text");
     
 }
-    
+
+   var downloadTempFile = function(filename, data, type) {
+        var link = document.createElement("a");
+        link.setAttribute("href", "data:" + type + ";base64," + btoa(data));
+        link.setAttribute("download", filename);
+        link.style.display = "none";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
 
 
 var setup =  function() {

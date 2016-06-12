@@ -13,7 +13,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>triangulation</artifactId>
+    <artifactId>aspect</artifactId>
     <packaging>jar</packaging>
 
     <build>
@@ -27,7 +27,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.3.2</version>
                 <configuration>
-                    <finalName>triangulation</finalName>
+                    <finalName>aspect</finalName>
                 </configuration>
             </plugin>
             <plugin>
@@ -45,44 +45,15 @@
                         </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <aspectLibraries>
-                        <aspectLibrary>
-                            <groupId>iitc</groupId>
-                            <artifactId>aspect</artifactId>
-                        </aspectLibrary>
-                    </aspectLibraries>
-                </configuration>
             </plugin>
         </plugins>
-        <resources>
-            <resource>
-                <directory>bundle\src\main\resources</directory>
-            </resource>
-        </resources>
-
     </build>
     <dependencies>
         <!--  Gson: Java to Json conversion -->
         <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.3.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.velocity</groupId>
-            <artifactId>velocity-tools</artifactId>
-            <version>2.0</version>
-        </dependency>
-        <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
             <version>1.8.0</version>
-        </dependency>
-        <dependency>
-            <groupId>iitc</groupId>
-            <artifactId>aspect</artifactId>
-            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 </project>
