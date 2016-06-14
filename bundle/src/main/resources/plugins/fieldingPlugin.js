@@ -20,57 +20,57 @@
 
 function wrapper(plugin_info) {
 // ensure plugin framework is there, even if iitc is not yet loaded
-if(typeof window.plugin !== 'function') window.plugin = function() {};
+    if(typeof window.plugin !== 'function') window.plugin = function() {};
 // PLUGIN START ////////////////////////////////////////////////////////
 
     window.plugin.fieldUtils = {
         name: "newField"
-        
-    };
-    
-window.plugin.fieldUtils.store = function() {
-    var a = [];
 
-    for (var p in window.portals) {
-        if (window.portals.hasOwnProperty(p)) {
-            var port = window.portals[p];
-            var ll = port._latlng;
-            if (map.getBounds().contains(ll)) {
-                a.push({id: p, latlng: ll, title: port.options.data.title, maxLinks: 8});
+    };
+
+    window.plugin.fieldUtils.store = function() {
+        var a = [];
+
+        for (var p in window.portals) {
+            if (window.portals.hasOwnProperty(p)) {
+                var port = window.portals[p];
+                var ll = port._latlng;
+                if (map.getBounds().contains(ll)) {
+                    a.push({id: p, latlng: ll, title: port.options.data.title, maxLinks: 8});
+                }
             }
         }
-    }
-    var s = JSON.stringify({
-        points:a,
-        drawings:JSON.parse(localStorage['plugin-draw-tools-layer']),
-        name: window.plugin.fieldUtils.name
-    });
-    console.info(s);
-    window.plugin.fieldUtils.value = s;
-}    
+        var s = JSON.stringify({
+            points:a,
+            drawings:JSON.parse(localStorage['plugin-draw-tools-layer']),
+            name: window.plugin.fieldUtils.name
+        });
+        console.info(s);
+        window.plugin.fieldUtils.value = s;
+    };
 
-window.plugin.fieldUtils.showName = function() {
-    html = '<input type="text" value="' + window.plugin.fieldUtils.name + '" name="name" onChange="window.plugin.fieldUtils.name=this.value"/>';
-    html += '<button onclick="window.plugin.fieldUtils.downDrawings();">Download drawings</button>'
-    
-    dialog({
-    html: html,
-    id: 'plugin-fieldUtils-name',
-    dialogClass: 'ui-dialog-fieldUtilsSet',
-    title: 'Input name'
-  });
-    
-}
+    window.plugin.fieldUtils.showName = function() {
+        html = '<input type="text" value="' + window.plugin.fieldUtils.name + '" name="name" onChange="window.plugin.fieldUtils.name=this.value"/>';
+        html += '<button onclick="window.plugin.fieldUtils.downDrawings();">Download drawings</button>';
 
-window.plugin.fieldUtils.downDrawings = function() {
-    window.plugin.fieldUtils.store();
-    downloadTempFile(window.plugin.fieldUtils.name + ".json", window.plugin.fieldUtils.value, "plain/text");
-    
-}
+        dialog({
+            html: html,
+            id: 'plugin-fieldUtils-name',
+            dialogClass: 'ui-dialog-fieldUtilsSet',
+            title: 'Input name'
+        });
 
-   var downloadTempFile = function(filename, data, type) {
+    };
+
+    window.plugin.fieldUtils.downDrawings = function() {
+        window.plugin.fieldUtils.store();
+        downloadTempFile(window.plugin.fieldUtils.name + ".json", window.plugin.fieldUtils.value, "plain/text");
+
+    };
+
+    window.plugin.fieldUtils.downloadTempFile = function(filename, data, type) {
         var link = document.createElement("a");
-        link.setAttribute("href", "data:" + type + ";base64," + btoa(data));
+        link.setAttribute("href", "data:" + type + ";charset=UTF-8," + encodeURIComponent(data));
         link.setAttribute("download", filename);
         link.style.display = "none";
         document.body.appendChild(link);
@@ -79,19 +79,19 @@ window.plugin.fieldUtils.downDrawings = function() {
     };
 
 
-var setup =  function() {
-    $('#toolbox').append(' <a onclick="window.plugin.fieldUtils.showName();" title="Input name">Enter name</a>');
-}  
+    var setup =  function() {
+        $('#toolbox').append(' <a onclick="window.plugin.fieldUtils.showName();" title="Input name">Enter name</a>');
+    };
 
 
 // PLUGIN END //////////////////////////////////////////////////////////
 
 
-setup.info = plugin_info; //add the script info data to the function as a property
-if(!window.bootPlugins) window.bootPlugins = [];
-window.bootPlugins.push(setup);
+    setup.info = plugin_info; //add the script info data to the function as a property
+    if(!window.bootPlugins) window.bootPlugins = [];
+    window.bootPlugins.push(setup);
 // if IITC has already booted, immediately run the 'setup' function
-if(window.iitcLoaded && typeof setup === 'function') setup();
+    if(window.iitcLoaded && typeof setup === 'function') setup();
 } // wrapper end
 // inject code into site context
 var script = document.createElement('script');
