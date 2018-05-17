@@ -4,6 +4,7 @@ import iitc.triangulation.aspect.HasValues;
 import iitc.triangulation.aspect.Value;
 import iitc.triangulation.shapes.Field;
 import iitc.triangulation.shapes.KeysPriorities;
+import iitc.triangulation.shapes.Pair;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -22,10 +23,10 @@ public class OtherSerialization extends AbstractSerializer {
     private List<Point> order = new ArrayList<>();
     //private List<Point> shortOrder = new ArrayList<>();
     private Set<Point> outerPoints = new HashSet<>();
+
     @Value("other.maxKeys:8") private static int maxKeys;
     @Value("other.maxLinks:3") private static int maxLinks;
 
-    @Value("other.profile:ALL_KEYS") public static KeysPriorities priorities1;
 
     protected KeysPriorities priorities;
 
@@ -83,6 +84,7 @@ public class OtherSerialization extends AbstractSerializer {
                     requiredKeys.compute(p, (p1, i) -> Optional.ofNullable(i).orElse(0)+1);
                 }
         );
+
         linksOrder.put(point, linked);
         requiredKeys.computeIfAbsent(point, p -> 0);
         outerPoints.addAll(linked);
@@ -99,17 +101,68 @@ public class OtherSerialization extends AbstractSerializer {
         return true;
     }
 
-    private Integer keyCheck(Point p) {
-        int keysFor = keysStorage.keysFor(p);
-        int keys = requiredKeys.getOrDefault(p, 0);
-        int difference = keys - keysFor;
-        if (difference > maxKeys) return priorities.muchFarm;
-        if (difference == maxKeys) return priorities.maxFarm;
-        if (difference > 0) return priorities.needFarm;
-        if (difference == 0) return priorities.allKeys;
-        if (difference < 0) return priorities.haveKeys;
+    private void sortLinks(Point point, List<Point> linked) {
+        Map<Point, List<Point>> fields = new HashMap<>();
+        linked.forEach( p1 -> fields.put(p1, new ArrayList<>()));
+        linked.forEach( p1 -> {
+            linksOrder
+                    .getOrDefault(p1, emptyList())
+                    .stream()
+                    .forEach(p2 -> {
+                        if (fields.containsKey(p2)) {
+                            fields.get(p1).add(p2);
+                            fields.get(p2).add(p1);
+                        }
+                    });
+        });
+        emptyLinks.put(point, 0);
+        while (!fields.isEmpty()) {
+            List<Point> innerLinks = fields.entrySet()
+                    .stream()
+                    .filter(entry -> entry.getValue().size() == 2)
+                    .filter(entry -> {
+                        List<Point> value = entry.getValue();
+                        return GeoUtils.mult(point.getLatlng(), Pair.of(entry.getKey().getLatlng(), value.get(0).getLatlng())) *
+                                GeoUtils.mult(point.getLatlng(), Pair.of(entry.getKey().getLatlng(), value.get(1).getLatlng())) <0;
+                    })
+                    .map(Map.Entry::getKey).collect(Collectors.toList());
 
-        return keysFor - keys;
+
+            if (innerLinks.size() > 0) {
+                innerLinks.stream().forEach(l -> {
+                    linked.remove(l);
+                    linked.add(0, l);
+                    List<Point> near = fields.get(l);
+                    fields.remove(l);
+                    near.stream().forEach(p -> fields.get(p).remove(l));
+                });
+            } else {
+                List<Point> singleFields = fields.entrySet()
+                        .stream()
+                        .filter(entry -> entry.getValue().size() == 1)
+                        .map(Map.Entry::getKey).collect(Collectors.toList());
+                singleFields.forEach(p -> {
+                    if (fields.get(p).size() == 1) {
+                        Point p2 = fields.get(p).get(0);
+                        fields.get(p2).remove(p);
+                        linked.remove(p);
+                        linked.add(0, p);
+                        fields.remove(p);
+                    }
+                });
+
+                Set<Point> points = fields.keySet();
+                emptyLinks.put(point, points.size());
+                linked.removeAll(points);
+                linked.addAll(0, points);
+                fields.clear();
+            }
+        }
+
+    }
+
+    private Integer keyCheck(Point p) {
+        return priorities.weight(requiredKeys.getOrDefault(p, 0), keysStorage.keysFor(p), maxKeys);
     }
 
     public double process() {
@@ -120,6 +173,8 @@ public class OtherSerialization extends AbstractSerializer {
         for (int i = 0; i < 2; i++) {
             emptyPoints.forEach(this::insertPointBefore);
         }
+
+        linksOrder.forEach(this::sortLinks);
         //requiredKeys.keySet().stream().
         return length(order);
     }

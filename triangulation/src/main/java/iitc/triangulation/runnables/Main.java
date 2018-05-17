@@ -2,13 +2,9 @@ package iitc.triangulation.runnables;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import iitc.triangulation.AbstractSerializer;
-import iitc.triangulation.FieldSerializer;
+import iitc.triangulation.*;
 import iitc.triangulation.aspect.HasValues;
 import iitc.triangulation.aspect.Value;
-import iitc.triangulation.aspect.ValueInjector;
-import iitc.triangulation.OtherSerialization;
-import iitc.triangulation.Point;
 import iitc.triangulation.keys.KeysStorage;
 import iitc.triangulation.other.*;
 import iitc.triangulation.shapes.BaseSeed;
@@ -47,8 +43,42 @@ public class Main {
         KeysStorage keysStorage = new KeysStorage(storePath.resolve("keys.csv"), false);
         keysStorage.load();
         AbstractSerializer.setKeysStorage(keysStorage);
+
+        maxTriangulate(seed, filename);
         fullTriangulate(seed, filename);
         keysStorage.store();
+    }
+
+    private static void maxTriangulate(BaseSeed seed, String areaName) {
+        List<Point> points = seed.getPoints();
+        Map<String, Point> pointById = points
+                .stream()
+                .collect(Collectors.toMap(Point::getId, identity()));
+        Set<Triple<Point>> bases = seed.getBases()
+                .stream()
+                .map(t -> t.simplify(pointById::get))
+                .collect(Collectors.toSet());
+
+        bases.stream().forEach(b ->
+                        System.out.println(new Field(b, new ArrayList<>(pointById.values())).getInners().size())
+        );
+        TriangulationMax full = new TriangulationMax(points);
+        Set<Field> fields = bases.stream().map(b -> full.analyseSingleField(b.set())).collect(Collectors.toSet());
+        //System.out.println("fields: " + fields.stream().mapToDouble(GeoUtils::fieldArea).sum());
+        FieldSerializer serializer = new FieldSerializer();
+        fields.stream().forEach(serializer::insertField);
+        serializer.preSerialize();
+        writeToFile(areaName, serializer.serializeMaxField(), "-f-" + "-maxField.json", false);
+        writeToFile(areaName, serializer.serializeOldText("txt"), "-f-"  + "-result.txt", false);
+        for (KeysPriorities value : KeysPriorities.values) {
+            OtherSerialization os = new OtherSerialization(value);
+
+            fields.stream().forEach(os::insertField);
+            os.process();
+            os.printStatistics();
+            writeToFile(areaName, os.serializeMaxField(), "-f-" + value.getName() + "-maxField.json", false);
+            writeToFile(areaName, os.serializeOldText("txt"), "-f-" + value.getName() + "-result.txt", false);
+        }
     }
 
     private static void fullTriangulate(BaseSeed seed, String areaName) {
@@ -83,7 +113,7 @@ public class Main {
                 .filter(d -> !d.getLinkAmount().entrySet()
                         .stream().filter(e -> e.getValue() > e.getKey().getMaxLinks()).findFirst().isPresent())
                 .sorted(Comparator.comparing(d -> d.getLinkAmount().values().stream().mapToInt(i -> i).sum()))
-//                .limit(100)
+                .limit(100)
                 .map(d -> process(d, bases, full, fields))
                 .filter(s -> s != null)
                 .collect(Collectors.toList());
@@ -99,7 +129,7 @@ public class Main {
                 .get().getKey();
 
         writeToFile(areaName, goodSerializer.serializeMaxField(), "-maxField.json", false);
-            writeToFile(areaName, goodSerializer.serializeOldText(), "-result.txt", false);
+            writeToFile(areaName, goodSerializer.serializeOldText("txt"), "-result.txt", false);
 
             writeToFile(areaName, goodSerializer.serialiseSVG(), ".html", false);
 
@@ -125,11 +155,14 @@ public class Main {
             osMap.put(os, os.process());
         }
 
+        //System.out.println("fields: " + fields.stream().mapToDouble(GeoUtils::fieldArea).sum());
         OtherSerialization os = osMap.entrySet().stream()
                 .min(Comparator.comparingDouble(Map.Entry::getValue))
                 .get().getKey();
+        os.printStatistics();
         writeToFile(areaName, os.serializeMaxField(), "-alt-" + priorities.getName() + "-maxField.json", false);
-        writeToFile(areaName, os.serializeOldText(), "-alt-" + priorities.getName() + "-result.txt", false);
+        writeToFile(areaName, os.serializeOldText("txt"), "-alt-" + priorities.getName() + "-result.txt", false);
+        writeToFile(areaName, os.serializeOldText("html"), "-alt-" + priorities.getName() + "-result.html", false);
     }
 
     private static FieldSerializer process(Description description,

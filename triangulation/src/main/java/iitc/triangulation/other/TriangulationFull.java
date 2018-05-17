@@ -90,7 +90,7 @@ public class TriangulationFull {
         return !d.getLinkAmount().entrySet()
                 .stream()
                 .filter(e -> e.getValue() > e.getKey().getMaxLinks())
-                .findFirst().isPresent()/* && d.checkSumInTheInnerPoint()*/;
+                .findFirst().isPresent() && d.checkSumInTheInnerPoint();
     }
 
     public void restore(Description d, Field f) {

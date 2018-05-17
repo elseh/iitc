@@ -1,0 +1,90 @@
+<html>
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <style>
+        .blockDescription {
+            margin-left: 2.5em;
+            margin-top: -1em;
+            margin-bottom: 0;
+        }
+        .linkFrom {
+            border-bottom: 1px solid greenyellow;
+        }
+        ul {
+            padding:0;
+            margin-top: .6em;
+            margin-bottom: 1.2em;
+        }
+        li {
+            margin-left: 2.5em;
+        }
+        .negative {
+            color: lightgray;
+        }
+    </style>
+    <style>
+    body {
+        counter-reset: linkStep;
+    }
+
+    .linkFrom:before {
+        counter-increment: linkStep;
+        content: counter(linkStep) ': ';
+    }
+
+    @media print {
+        .linkBlock {
+            break-inside: avoid-column;
+
+        }
+        .portalTable {
+            break-after: page;
+        }
+    }
+
+    @media print and (orientation:landscape) {
+        .linksOrder {
+            column-count: 3;
+        }
+    }
+
+    @media print and (orientation:portrait) {
+        .linksOrder {
+            column-count: 2;
+        }
+    }
+    </style>
+</head>
+<body>
+<p>Total points: $total</p>
+<p>Length of path: $numberTool.format("0", $length)m</p>
+<table class="portalTable">
+    <tr><td>farm</td><td>keys</td><td>links</td><td>Name</td></tr>
+    #foreach($point in $sorted)
+        <tr>
+            <td #if( $storage.get($point) < 1 )class="negative"#end>$storage.get($point)</td>
+            <td #if( $requiredKeys.get($point) < 1 )class="negative"#end>$requiredKeys.get($point)</td>
+            <td #if( $linksOrder.get($point).size() < 1 )class="negative"#end>$linksOrder.get($point).size()</td>
+            <td>$point</td>
+        </tr>
+    #end
+</table>
+
+<h3>Links order:</h3>
+<div class="linksOrder">
+    #foreach($point in $points)
+        #set($subpoints = $linksOrder.get($point))
+    <div class="linkBlock">
+    <p class="linkFrom">$point.title</p>
+    <p class="blockDescription">links: $subpoints.size(), empty: $emptyLinks.get($point), req: $requiredKeys.get($point)</p>
+
+    <ul class="blockLinks">
+        #foreach($point1 in $subpoints)
+            <li>$point1.title</li>
+        #end
+    </ul>
+    </div>
+    #end
+</div>
+</body>
+</html>

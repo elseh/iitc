@@ -6,43 +6,23 @@ import iitc.triangulation.aspect.Profile;
  * @author epavlova
  * @version 07.06.2016
  */
-public class KeysPriorities implements Profile {
-    public static final KeysPriorities[] values = new KeysPriorities[] {
-            new KeysPriorities(0, 0, 0, 0, 1, "ALL_KEYS"),
-            new KeysPriorities(0, 1, 2, 3, 4, "DEFAULT"),
-            new KeysPriorities(1, 0, 0, 0, 0, "SHORT"),
-            new KeysPriorities(0, 0, 0, 0, 0, "RECKLESS")
+public interface KeysPriorities extends Profile {
+    KeysPriorities[] values = new KeysPriorities[]{
+            new FarmedPriorities(0, 0, 0, 0, 1, "ALL_KEYS"),
+            new FarmedPriorities(0, 1, 2, 3, 4, "DEFAULT"),
+            new FarmedPriorities(1, 0, 0, 0, 0, "SHORT"),
+            new FarmedPriorities(0, 0, 0, 0, 0, "RECKLESS"),
+            new FixedPriorities(3, "3-KEYS"),
+            new FixedPriorities(4, "4-KEYS"),
+            new FixedPriorities(5, "5-KEYS"),
+            new FixedPriorities(6, "6-KEYS"),
+            new FixedPriorities(7, "7-KEYS"),
+            new FixedPriorities(8, "8-KEYS"),
+            new FixedPriorities(9, "9-KEYS"),
+            new FixedPriorities(10, "10-KEYS"),
+            new FixedPriorities(13, "13-KEYS")
     };
-    public int muchFarm;
-    public int maxFarm;
-    public int needFarm;
-    public int allKeys;
-    public int haveKeys;
-    public String name;
 
-    public KeysPriorities(int muchFarm, int maxFarm, int needFarm, int allKeys, int haveKeys, String name) {
-        this.muchFarm = muchFarm;
-        this.maxFarm = maxFarm;
-        this.needFarm = needFarm;
-        this.allKeys = allKeys;
-        this.haveKeys = haveKeys;
-        this.name = name;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public String toString() {
-        return "KeysPriorities{" +
-                "muchFarm=" + muchFarm +
-                ", maxFarm=" + maxFarm +
-                ", needFarm=" + needFarm +
-                ", allKeys=" + allKeys +
-                ", haveKeys=" + haveKeys +
-                ", name='" + name + '\'' +
-                '}';
-    }
+    int weight(int required, int available, int maxKeys);
 }
+

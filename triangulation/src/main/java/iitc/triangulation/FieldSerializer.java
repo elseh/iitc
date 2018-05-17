@@ -1,17 +1,15 @@
 package iitc.triangulation;
 
-import com.google.gson.Gson;
 import iitc.triangulation.shapes.Field;
 import iitc.triangulation.shapes.Triple;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
-import org.apache.velocity.tools.generic.NumberTool;
 
 import java.io.StringWriter;
 import java.util.*;
 
-import static iitc.triangulation.DeployOrder.*;
+import static iitc.triangulation.DeployOrder.length;
 
 /**
  * Created by Sigrlinn on 31.05.2015.
@@ -50,7 +48,6 @@ public class FieldSerializer extends AbstractSerializer {
         Triple<Point> bases = field.getBases();
         bases.stream().forEach(v -> linksOrder.computeIfAbsent(v, a-> new ArrayList<>()).add(innerPoint));
         linksOrder.computeIfAbsent(innerPoint, a-> new ArrayList<>());
-        bases.stream().forEach(v -> lineList.add(new Drawing("polyline", innerPoint, v)));
         requiredKeys.put(innerPoint, 3);
     }
 

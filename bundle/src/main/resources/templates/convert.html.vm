@@ -1,0 +1,46 @@
+<html>
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <style>
+        .blockDescription {
+            margin-left: 2.5em;
+            margin-top: -1em;
+            margin-bottom: 0;
+        }
+        .linkFrom {
+            border-bottom: 1px solid greenyellow;
+        }
+        ul {
+            padding:0;
+            margin-top: .6em;
+            margin-bottom: 1.2em;
+        }
+        li {
+            margin-left: 2.5em;
+        }
+    </style>
+</head>
+<body>
+<table class="portalTable">
+    <tr><td>farm</td><td>Name</td></tr>
+    #foreach($key in $keyOrder)
+        <tr>
+            <td>$keys.get($key)</td>
+            <td>$key</td>
+        </tr>
+    #end
+</table>
+
+<p>Links order:</p>
+
+    #foreach($point in $path)
+        #set($subpoints = $links.get($velocityCount))
+    <p class="linkFrom">$point</p>
+    <ul class="blockLinks">
+        #foreach($point1 in $subpoints)
+            <li>$point1</li>
+        #end
+    </ul>
+    #end
+</body>
+</html>

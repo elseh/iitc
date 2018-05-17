@@ -1,6 +1,8 @@
 package iitc.triangulation;
 
 import com.google.gson.Gson;
+import iitc.triangulation.aspect.HasValues;
+import iitc.triangulation.aspect.Value;
 import iitc.triangulation.keys.KeysStorage;
 import iitc.triangulation.shapes.Field;
 import iitc.triangulation.shapes.Triple;
@@ -19,6 +21,7 @@ import static iitc.triangulation.DeployOrder.length;
  * @author epavlova
  * @version 22.05.2016
  */
+@HasValues
 public abstract class AbstractSerializer {
     static {
         try {
@@ -33,8 +36,11 @@ public abstract class AbstractSerializer {
     protected Map<Point, Integer> requiredKeys = new HashMap<>();
 
     protected Map<Point, List<Point>> linksOrder = new HashMap<>();
+    protected Map<Point, Integer> emptyLinks = new HashMap<>();
     private Set<Point> allPoints = new HashSet<>();
     protected static KeysStorage keysStorage;
+
+    @Value("other.players:1") private static int players;
 
     public static void setKeysStorage(KeysStorage keysStorage) {
         AbstractSerializer.keysStorage = keysStorage;
@@ -65,6 +71,7 @@ public abstract class AbstractSerializer {
         //System.out.println(innerPoint + " " + field.getInners());
         if (innerPoint != null) {
             onSplitField(field, innerPoint);
+            bases.stream().forEach(v -> lineList.add(new Drawing("polyline", innerPoint, v)));
             field.getSmallerFields().stream().forEach(this::splitField);
         }
     }
@@ -73,15 +80,14 @@ public abstract class AbstractSerializer {
 
 
 
-    public String serializeOldText() {
+    public String serializeOldText(String type) {
         VelocityContext context = new VelocityContext();
 
-        Map<Point, Integer> keyDiff = linksOrder.keySet()
+        Map<Point, Integer> keyDiff = getKeyDiff();
+        List<Point> sorted = linksOrder.keySet()
                 .stream()
-                .collect(Collectors.toMap(
-                        p -> p,
-                        p -> requiredKeys.get(p) - keysStorage.keysFor(p)
-                ));
+                .sorted(Comparator.comparing(Point::getTitle))
+                .collect(Collectors.toList());
         context.put("fields", fieldList);
         context.put("links", lineList);
         context.put("numberTool", new NumberTool());
@@ -95,22 +101,43 @@ public abstract class AbstractSerializer {
         context.put("total", allPoints.size());
         context.put("linksOrder", linksOrder);
         context.put("storage", keyDiff);
+        context.put("emptyLinks", emptyLinks);
+        context.put("sorted", sorted);
         Template template = null;
 
-        System.out.println(keyDiff.values().stream().filter(v -> v > 0).collect(Collectors.summarizingInt(v -> v)));
-        System.out.println(length(order));
-        if (this instanceof OtherSerialization) {
-            System.out.println(((OtherSerialization)this).priorities);
-        }
         try {
             StringWriter sw = new StringWriter();
-            template = Velocity.getTemplate("templates/result.txt.vm");
+            template = Velocity.getTemplate("templates/result." + type + ".vm");
             template.merge(context, sw);
             return sw.toString();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return "";
+    }
+
+    public Map<Point, Integer> getKeyDiff() {
+        return linksOrder.keySet()
+                .stream()
+                .collect(Collectors.toMap(
+                        p -> p,
+                        p -> requiredKeys.getOrDefault(p, 0) - keysStorage.keysFor(p)
+                ));
+    }
+
+    public void printStatistics() {
+        List<Point> order = getPointsOrder();
+        Map<Point, Integer> keyDiff = getKeyDiff();
+
+        if (this instanceof OtherSerialization) {
+            System.out.println(((OtherSerialization)this).priorities);
+        }
+        System.out.println("  path length :   " + (int) length(order));
+        System.out.print("  keys statistics:    ");
+        System.out.println(requiredKeys.values().stream().filter(v -> v > 0).collect(Collectors.summarizingInt(v -> v)));
+        System.out.print("  farm statistics:    ");
+        System.out.println(keyDiff.values().stream().filter(v -> v > 0).collect(Collectors.summarizingInt(v -> v)));
+        System.out.println("    emptyLinks: " + emptyLinks.values().stream().mapToInt(i -> i).sum());
     }
 
     public String serializeMaxField() {

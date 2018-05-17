@@ -7,15 +7,16 @@ Length of path:
 $numberTool.format("0", $length)m
 
 links amount: (keys, links))
-#foreach($linksE in $linksOrder.entrySet())
-$storage.get($linksE.key) $util.tab()$requiredKeys.get($linksE.key), $linksE.value.size(): $util.tab()$linksE.key
+#foreach($point in $sorted)
+$storage.get($point) $util.tab()$requiredKeys.get($point), $linksOrder.get($point).size(): $util.tab()$point
 #end
 
 Links order:
 #foreach($point in $points)
-    #set($subpoints = $linksOrder.get($point))
-$point.title : $subpoints.size()
-#foreach($point1 in $subpoints)    $point1.title ($numberTool.format("0", $util.length($point, $point1))m)
+#set($subpoints = $linksOrder.get($point))
+$point.title :
+$util.tab() [links: $subpoints.size(), empty: $emptyLinks.get($point), req: $requiredKeys.get($point)]
+#foreach($point1 in $subpoints)   - $point1.title
 #end
 #end
 

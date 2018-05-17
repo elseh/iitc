@@ -1,5 +1,6 @@
 package iitc.triangulation;
 
+import iitc.triangulation.shapes.LatLngs;
 import iitc.triangulation.shapes.Triple;
 
 import java.util.*;
@@ -25,6 +26,19 @@ public class DeployOrder {
         double lngDiff = Math.toRadians(a.latlng.getLng() - b.latlng.getLng());
         double alpha = Math.sin(latDiff / 2) * Math.sin(latDiff / 2) +
                 Math.cos(Math.toRadians(a.latlng.getLat())) * Math.cos(Math.toRadians(b.latlng.getLat())) *
+                        Math.sin(lngDiff / 2) * Math.sin(lngDiff / 2);
+        double beta = 2 * Math.atan2(Math.sqrt(alpha), Math.sqrt(1 - alpha));
+        double distance = earthRadius * beta;
+        int meterConversion = 1609;
+        return distance * meterConversion;
+    }
+
+    public static double length(LatLngs a, LatLngs b) {
+        double earthRadius = 3958.75;
+        double latDiff = Math.toRadians(a.getLat() - b.getLat());
+        double lngDiff = Math.toRadians(a.getLng() - b.getLng());
+        double alpha = Math.sin(latDiff / 2) * Math.sin(latDiff / 2) +
+                Math.cos(Math.toRadians(a.getLat())) * Math.cos(Math.toRadians(b.getLat())) *
                         Math.sin(lngDiff / 2) * Math.sin(lngDiff / 2);
         double beta = 2 * Math.atan2(Math.sqrt(alpha), Math.sqrt(1 - alpha));
         double distance = earthRadius * beta;
