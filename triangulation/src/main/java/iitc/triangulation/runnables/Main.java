@@ -15,6 +15,9 @@ import iitc.triangulation.shapes.Triple;
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 import static java.util.function.Function.identity;
@@ -32,6 +35,7 @@ public class Main {
 
     public static void main(String[] args) {
         initAll();
+
         System.out.println(priorities);
         Locale.setDefault(Locale.ENGLISH);
         if (filename == null || "".equals(filename)) {
@@ -45,8 +49,13 @@ public class Main {
         AbstractSerializer.setKeysStorage(keysStorage);
 
         maxTriangulate(seed, filename);
-        fullTriangulate(seed, filename);
-        keysStorage.store();
+        fullTriangulate(seed, filename).thenRun(() -> {
+            System.out.println("Storing keys");
+            keysStorage.store();
+            System.out.println("done");
+        });
+
+
     }
 
     private static void maxTriangulate(BaseSeed seed, String areaName) {
@@ -59,29 +68,29 @@ public class Main {
                 .map(t -> t.simplify(pointById::get))
                 .collect(Collectors.toSet());
 
-        bases.stream().forEach(b ->
+        bases.forEach(b ->
                         System.out.println(new Field(b, new ArrayList<>(pointById.values())).getInners().size())
         );
         TriangulationMax full = new TriangulationMax(points);
         Set<Field> fields = bases.stream().map(b -> full.analyseSingleField(b.set())).collect(Collectors.toSet());
         //System.out.println("fields: " + fields.stream().mapToDouble(GeoUtils::fieldArea).sum());
         FieldSerializer serializer = new FieldSerializer();
-        fields.stream().forEach(serializer::insertField);
+        fields.forEach(serializer::insertField);
         serializer.preSerialize();
         writeToFile(areaName, serializer.serializeMaxField(), "-f-" + "-maxField.json", false);
         writeToFile(areaName, serializer.serializeOldText("txt"), "-f-"  + "-result.txt", false);
-        for (KeysPriorities value : KeysPriorities.values) {
-            OtherSerialization os = new OtherSerialization(value);
+        for (KeysPriorities priority : KeysPriorities.values) {
+            OtherSerialization os = new OtherSerialization(priority);
 
-            fields.stream().forEach(os::insertField);
+            fields.forEach(os::insertField);
             os.process();
             os.printStatistics();
-            writeToFile(areaName, os.serializeMaxField(), "-f-" + value.getName() + "-maxField.json", false);
-            writeToFile(areaName, os.serializeOldText("txt"), "-f-" + value.getName() + "-result.txt", false);
+            writeToFile(areaName, os.serializeMaxField(), "-f-" + priority.getName() + "-maxField.json", false);
+            writeToFile(areaName, os.serializeOldText("txt"), "-f-" + priority.getName() + "-result.txt", false);
         }
     }
 
-    private static void fullTriangulate(BaseSeed seed, String areaName) {
+    private static CompletableFuture<Void> fullTriangulate(BaseSeed seed, String areaName) {
         List<Point> points = seed.getPoints();
         Map<String, Point> pointById = points
                 .stream()
@@ -89,65 +98,93 @@ public class Main {
         Set<Triple<Point>> bases = seed.getBases()
                 .stream()
                 .map(t -> t.simplify(pointById::get))
-                .collect(Collectors.toSet());
+                        .collect(Collectors.toSet());
 
-        bases.stream().forEach(b ->
+
+        bases.forEach(b ->
             System.out.println(new Field(b, new ArrayList<>(pointById.values())).getInners().size())
         );
-        TriangulationFull full = new TriangulationFull(points);
-        bases.stream().forEach(b -> full.analyseSingleField(b.set()));
-        Set<Description> descriptions = full.calculateFields(bases.stream().map(Triple::set).collect(Collectors.toSet()));
 
-/*        FrameGenerator g = new FrameGenerator();
-        Description testD = Description.makeEmptyBase(bases.stream().findAny().get().set());
-        testD.test();
-        for (int i = 0; i < 10; i++) {
-            System.out.println(testD.testAdd(g.makeFrame(testD, new HashSet<>(bases)).get()));
-        }*/
+        AllFields allFields = new AllFields();
+        long l = System.currentTimeMillis();
+        allFields.pushBases(bases, points);
+        AtomicReference<CompletableFuture<Void>> future = new AtomicReference<>(allFields.onComplete());
+        do {
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        } while (!future.compareAndSet(future.get(), allFields.onComplete()));
+        return future.get().thenRun(() -> {
+            System.out.println("All fields populated in " + (System.currentTimeMillis()-l) + "ms");
+            fullTriangulate(areaName, points, bases, allFields);
+        });
+    }
 
-        System.out.println(descriptions.size());
-        List<Field> fields = bases.stream().map(b -> new Field(b, points)).collect(Collectors.toList());
+    private static void fullTriangulate(String areaName, List<Point> points, Set<Triple<Point>> bases, AllFields allFields) {
+        TriangulationFull full = new TriangulationFull(allFields);
+
+        System.out.println( "Fields size: " + allFields.size());
+        long time  = System.currentTimeMillis();
+        System.out.println("start calculations: " + new Date());
+        full.startBasesProcessing(bases);
+
+        full.getAnalyzeFinished().thenRun(() -> {
+            System.out.println("here1 " + ((System.currentTimeMillis()-time)) + "ms");
+            Set<Description> descriptions = null;
+            try {
+                descriptions = full.calculateFields(bases.stream().map(Triple::set).collect(Collectors.toSet())).get();
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println(descriptions.size());
+            List<Field> fields = bases.stream().map(b -> new Field(b, points)).collect(Collectors.toList());
 
 
-        List<FieldSerializer> serializers = descriptions.stream()
-                .filter(d -> !d.getLinkAmount().entrySet()
-                        .stream().filter(e -> e.getValue() > e.getKey().getMaxLinks()).findFirst().isPresent())
-                .sorted(Comparator.comparing(d -> d.getLinkAmount().values().stream().mapToInt(i -> i).sum()))
-                .limit(100)
-                .map(d -> process(d, bases, full, fields))
-                .filter(s -> s != null)
-                .collect(Collectors.toList());
+            List<FieldSerializer> serializers = descriptions.stream()
+                    .filter(d -> d.getLinkAmount().entrySet()
+                            .stream().noneMatch(e -> e.getValue() > e.getKey().getMaxLinks()))
+                    .sorted(Comparator.comparing(d -> d.getLinkAmount().values().stream().mapToInt(i -> i).sum()))
+                    .limit(100)
+                    .map(d -> process(d, bases, full, fields))
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toList());
 
-        System.out.println(serializers.size());
-        Map<FieldSerializer, Double> map = new HashMap<>();
-        for (FieldSerializer serializer : serializers) {
-            map.put(serializer, serializer.preSerialize());
-        }
+            System.out.println(serializers.size());
+            Map<FieldSerializer, Double> map = new HashMap<>();
+            for (FieldSerializer serializer : serializers) {
+                map.put(serializer, serializer.preSerialize());
+            }
 
-        FieldSerializer goodSerializer = map.entrySet().stream()
-        .min(Comparator.comparingDouble(Map.Entry::getValue))
-                .get().getKey();
+            FieldSerializer goodSerializer = map.entrySet().stream()
+                    .min(Comparator.comparingDouble(Map.Entry::getValue))
+                    .get().getKey();
 
-        writeToFile(areaName, goodSerializer.serializeMaxField(), "-maxField.json", false);
+            writeToFile(areaName, goodSerializer.serializeMaxField(), "-maxField.json", false);
             writeToFile(areaName, goodSerializer.serializeOldText("txt"), "-result.txt", false);
 
             writeToFile(areaName, goodSerializer.serialiseSVG(), ".html", false);
 
-        for (KeysPriorities priorities : KeysPriorities.values) {
-            serializeOtherByType(areaName, priorities, descriptions, fields, full);
-        }
-       // goodSerializer.runOtherSerializer();
+            for (KeysPriorities priorities : KeysPriorities.values) {
+                serializeOtherByType(areaName, priorities, descriptions, fields, full);
+            }
+            System.out.println("Almost all");
+            full.printState();
+        });
+
+
     }
 
     private static void serializeOtherByType(String areaName, KeysPriorities priorities, Set<Description> descriptions,
                                       List<Field> fields, TriangulationFull full) {
         List<OtherSerialization> oss = descriptions.stream()
-                .filter(d -> !d.getLinkAmount().entrySet()
+                .filter(d -> d.getLinkAmount().entrySet()
                         .stream()
-                        .filter(e -> e.getValue() > e.getKey().getMaxLinks())
-                        .findFirst().isPresent())
+                        .noneMatch(e -> e.getValue() > e.getKey().getMaxLinks()))
                 .map(d -> processOther(d, full, fields, priorities))
-                .filter(s -> s != null)
+                .filter(Objects::nonNull)
                 .collect(Collectors.toList());
 
         Map<OtherSerialization, Double> osMap = new HashMap<>();
@@ -176,7 +213,7 @@ public class Main {
         serializer.insertFrame(frame.get());
 
         full.restore(description, fields);
-        fields.stream().forEach(serializer::insertField);
+        fields.forEach(serializer::insertField);
         return serializer;
     }
 
@@ -186,7 +223,7 @@ public class Main {
                                            KeysPriorities priorities) {
         OtherSerialization serializer = new OtherSerialization(priorities);
         full.restore(description, fields);
-        fields.stream().forEach(serializer::insertField);
+        fields.forEach(serializer::insertField);
         return serializer.baseCheck() ? serializer : null;
     }
 

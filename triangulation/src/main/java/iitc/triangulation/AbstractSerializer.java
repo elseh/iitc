@@ -50,7 +50,6 @@ public abstract class AbstractSerializer {
         Triple<Point> bases = field.getBases();
         bases
                 .split()
-                .stream()
                 .forEach(v -> lineList.add(new Drawing("polyline", v.v1, v.v2)));
         allPoints.addAll(field.getInners());
         allPoints.addAll(field.getBases().set());
@@ -95,7 +94,7 @@ public abstract class AbstractSerializer {
         context.put("gson", new Gson());
         List<Point> order = getPointsOrder();
         context.put("points", order);
-        context.put("path", new Drawing("polyline", order.toArray(new Point[order.size()])).setColor("green"));
+        context.put("path", new Drawing("polyline", order.toArray(new Point[0])).setColor("green"));
         context.put("length", length(order));
         context.put("requiredKeys", requiredKeys);
         context.put("total", allPoints.size());
@@ -134,21 +133,19 @@ public abstract class AbstractSerializer {
         }
         System.out.println("  path length :   " + (int) length(order));
         System.out.print("  keys statistics:    ");
-        System.out.println(requiredKeys.values().stream().filter(v -> v > 0).collect(Collectors.summarizingInt(v -> v)));
+        System.out.println("" + requiredKeys.values().stream().filter(v -> v > 0).collect(Collectors.summarizingInt(v -> v)));
         System.out.print("  farm statistics:    ");
-        System.out.println(keyDiff.values().stream().filter(v -> v > 0).collect(Collectors.summarizingInt(v -> v)));
+        System.out.println("" + keyDiff.values().stream().filter(v -> v > 0).collect(Collectors.summarizingInt(v -> v)));
         System.out.println("    emptyLinks: " + emptyLinks.values().stream().mapToInt(i -> i).sum());
     }
 
     public String serializeMaxField() {
         // Brunnen; https://www.ingress.com/intel?ll=52.357459,9.660858&z=17&pll=52.357459,9.660858
         // Link, Agent, MapNumOrigin, OriginName, MapNumDestination, DestinationName
-        List<Point> points = new ArrayList<>();
+
         HashMap<Point, Integer> pointsIndex = new HashMap<>();
         HashMap<Point, Integer> keys = new HashMap<>();
-        for (Point p : linksOrder.keySet()) {
-            points.add(p);
-        }
+        List<Point> points = new ArrayList<>(linksOrder.keySet());
 
         int i = 20;
         List<FieldSerializer.NumberedLink> links = new ArrayList<>();

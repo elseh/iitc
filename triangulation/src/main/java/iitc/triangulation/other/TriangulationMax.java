@@ -28,7 +28,8 @@ public class TriangulationMax {
             double sum = field.getSmallerFields().stream()
                     .mapToDouble(f -> f.getInners().size() * getArea(f.getBases().simplify(Point::getLatlng)))
                     .sum();
-            if (sum > bestWeight) {
+            if (bestWeight == -1) bestWeight = sum;
+            if (sum >= bestWeight) {
                 bestWeight = sum;
                 bestPoint = point;
             }
