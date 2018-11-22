@@ -82,8 +82,36 @@ public class TriangulationFull {
         finishFieldProcessing(bases);
     }
 
-    public Set<Description> analyseSingleField(Set<Point> set) {
-        Field field = get(set);
+    Map<Set<Point>, Set<Point>> interned = new HashMap<>();
+
+    private Set<Point> intern(Set<Point> points) {
+        return interned.computeIfAbsent(points, p -> points);
+    }
+
+    private void finishFieldProcessing(Set<Point> bases) {
+        Set<Point> iBases = intern(bases);
+        boolean wasDone = undone.get(iBases).compareAndSet(0, -1);
+        if (!wasDone) return;
+        startAnalyse(iBases).thenRun(() -> notifyWaiters(iBases));
+    }
+
+    private void notifyWaiters(Set<Point> bases) {
+        List<Set<Point>> waiters = requiredFor.get(bases);
+        if (waiters == null) {
+            int left = fieldsToAnalyse.decrementAndGet();
+            System.out.println("Decremented " + left + " " + doneDescriptions.get());
+            if (left == 0) {
+                analyzeFinished.complete(null);
+            }
+            return;
+        }
+        waiters.forEach(bigger -> {
+            int undoneLeft = undone.get(bigger).decrementAndGet();
+            if (undoneLeft == 0) {
+                CompletableFuture.runAsync(() -> finishFieldProcessing(bigger), getExecutor());
+            }
+        });
+    }
 
     private CompletableFuture<Void> startAnalyse(Set<Point> set) {
         return descriptionCalculators

@@ -22,19 +22,17 @@ public class FieldSerializer extends AbstractSerializer {
     private Map<Point, Set<Point>> frame;
 
     public void insertFrame(Map<Point, Set<Point>> frame) {
-        frame.entrySet()
-                .stream()
-                .forEach((e) -> {
-                    linksOrder
-                            .computeIfAbsent(e.getKey(), a -> new ArrayList<>())
-                            .addAll(e.getValue());
+        frame.forEach((key, value) -> {
+            linksOrder
+                    .computeIfAbsent(key, a -> new ArrayList<>())
+                    .addAll(value);
 
-                    e.getValue().stream().forEach(p ->
-                            requiredKeys.compute(p, (p1, i) -> Optional.ofNullable(i).orElse(0)+1)
-                    );
-                    requiredKeys.computeIfAbsent(e.getKey(), p -> 0);
+            value.forEach(p ->
+                    requiredKeys.compute(p, (p1, i) -> Optional.ofNullable(i).orElse(0) + 1)
+            );
+            requiredKeys.putIfAbsent(key, 0);
 
-                });
+        });
         this.frame = frame;
 
     }

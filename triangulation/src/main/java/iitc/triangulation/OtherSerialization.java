@@ -21,7 +21,6 @@ import static java.util.Collections.emptyList;
 public class OtherSerialization extends AbstractSerializer {
     private Map<Point, List<Point>> links = new HashMap<>();
     private List<Point> order = new ArrayList<>();
-    //private List<Point> shortOrder = new ArrayList<>();
     private Set<Point> outerPoints = new HashSet<>();
 
     @Value("other.maxKeys:8") private static int maxKeys;
@@ -39,7 +38,6 @@ public class OtherSerialization extends AbstractSerializer {
     @Override
     protected void onInsertField(Field field) {
         field.getBases().split()
-                .stream()
                 .forEach(p -> addLink(p.v1, p.v2));
         outerPoints.addAll(field.getBases().set());
     }
@@ -71,14 +69,14 @@ public class OtherSerialization extends AbstractSerializer {
                 outerPoints.stream()
                 .min(Comparator
                                 .<Point, Boolean>comparing(p -> links.getOrDefault(p, emptyList()).size() > maxLinks)
-                                .<Integer>thenComparing(this::keyCheck)
-                                .<Point>thenComparingDouble(p -> order.isEmpty() ? 0 : length(p, order.get(0)))
+                                .thenComparing(this::keyCheck)
+                                .thenComparingDouble(p -> order.isEmpty() ? 0 : length(p, order.get(0)))
                 ).get();
 
         order.add(0,point);
 
         List<Point> linked = new ArrayList<>(Optional.ofNullable(links.get(point)).orElse(emptyList()));
-        linked.stream().forEach(
+        linked.forEach(
                 p -> {
                     removeLink(point, p);
                     requiredKeys.compute(p, (p1, i) -> Optional.ofNullable(i).orElse(0)+1);
@@ -86,7 +84,7 @@ public class OtherSerialization extends AbstractSerializer {
         );
 
         linksOrder.put(point, linked);
-        requiredKeys.computeIfAbsent(point, p -> 0);
+        requiredKeys.putIfAbsent(point, 0);
         outerPoints.addAll(linked);
         outerPoints.remove(point);
 
@@ -104,17 +102,14 @@ public class OtherSerialization extends AbstractSerializer {
     private void sortLinks(Point point, List<Point> linked) {
         Map<Point, List<Point>> fields = new HashMap<>();
         linked.forEach( p1 -> fields.put(p1, new ArrayList<>()));
-        linked.forEach( p1 -> {
-            linksOrder
-                    .getOrDefault(p1, emptyList())
-                    .stream()
-                    .forEach(p2 -> {
-                        if (fields.containsKey(p2)) {
-                            fields.get(p1).add(p2);
-                            fields.get(p2).add(p1);
-                        }
-                    });
-        });
+        linked.forEach( p1 -> linksOrder
+                .getOrDefault(p1, emptyList())
+                .forEach(p2 -> {
+                    if (fields.containsKey(p2)) {
+                        fields.get(p1).add(p2);
+                        fields.get(p2).add(p1);
+                    }
+                }));
         emptyLinks.put(point, 0);
         while (!fields.isEmpty()) {
             List<Point> innerLinks = fields.entrySet()
@@ -129,12 +124,12 @@ public class OtherSerialization extends AbstractSerializer {
 
 
             if (innerLinks.size() > 0) {
-                innerLinks.stream().forEach(l -> {
+                innerLinks.forEach(l -> {
                     linked.remove(l);
                     linked.add(0, l);
                     List<Point> near = fields.get(l);
                     fields.remove(l);
-                    near.stream().forEach(p -> fields.get(p).remove(l));
+                    near.forEach(p -> fields.get(p).remove(l));
                 });
             } else {
                 List<Point> singleFields = fields.entrySet()
@@ -198,7 +193,6 @@ public class OtherSerialization extends AbstractSerializer {
 
     public boolean baseCheck() {
         return outerPoints.stream()
-                .filter(p -> links.get(p).size() <= maxLinks)
-                .findAny().isPresent();
+                .anyMatch(p -> links.get(p).size() <= maxLinks);
     }
 }

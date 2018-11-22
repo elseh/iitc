@@ -3,7 +3,10 @@ package iitc.triangulation.shapes;
 import iitc.triangulation.GeoUtils;
 import iitc.triangulation.Point;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -41,6 +44,15 @@ public class Field {
                 new Field(Triple.of(p, pairs.get(2)), inner)
         );
         innerPoint = p;
+    }
+
+    private Map<Point, List<Set<Point>>> interned = new HashMap<>();
+
+    public List<Set<Point>> smallerTriangles(Point p) {
+        return interned.computeIfAbsent(p, point -> bases.split()
+                .stream()
+                .map(pair -> Triple.of(p, pair).set())
+                .collect(Collectors.toList()));
     }
 
     public void resetSmallerFields() {
