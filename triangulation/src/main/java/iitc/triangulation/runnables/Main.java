@@ -16,8 +16,6 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 import static java.util.function.Function.identity;
@@ -54,8 +52,6 @@ public class Main {
             keysStorage.store();
             System.out.println("done");
         });
-
-
     }
 
     private static void maxTriangulate(BaseSeed seed, String areaName) {
@@ -108,41 +104,30 @@ public class Main {
         AllFields allFields = new AllFields();
         long l = System.currentTimeMillis();
         allFields.pushBases(bases, points);
-        AtomicReference<CompletableFuture<Void>> future = new AtomicReference<>(allFields.onComplete());
-        do {
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        } while (!future.compareAndSet(future.get(), allFields.onComplete()));
-        return future.get().thenRun(() -> {
-            System.out.println("All fields populated in " + (System.currentTimeMillis()-l) + "ms");
-            fullTriangulate(areaName, points, bases, allFields);
-        });
+        System.out.println("All fields populated in " + (System.currentTimeMillis()-l) + "ms");
+        return fullTriangulate(areaName, points, bases, allFields);
     }
 
-    private static void fullTriangulate(String areaName, List<Point> points, Set<Triple<Point>> bases, AllFields allFields) {
+    private static CompletableFuture<Void> fullTriangulate(String areaName, List<Point> points, Set<Triple<Point>> bases, AllFields allFields) {
         TriangulationFull full = new TriangulationFull(allFields);
 
         System.out.println( "Fields size: " + allFields.size());
         long time  = System.currentTimeMillis();
         System.out.println("start calculations: " + new Date());
-        full.startBasesProcessing(bases);
+        try {
+            full.startBasesProcessing(bases);
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            throw e;
+        }
 
-        full.getAnalyzeFinished().thenRun(() -> {
+        return full.getAnalyzeFinished().thenRun(() -> {
             System.out.println("here1 " + ((System.currentTimeMillis()-time)) + "ms");
-            Set<Description> descriptions = null;
-            try {
-                descriptions = full.calculateFields(bases.stream().map(Triple::set).collect(Collectors.toSet())).get();
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-            }
-
+            Set<Description> descriptions = full.calculateFields(bases.stream().map(Triple::set).collect(Collectors.toSet()));
             System.out.println(descriptions.size());
             List<Field> fields = bases.stream().map(b -> new Field(b, points)).collect(Collectors.toList());
 
-
+            System.out.println("fields finished");
             List<FieldSerializer> serializers = descriptions.stream()
                     .filter(d -> d.getLinkAmount().entrySet()
                             .stream().noneMatch(e -> e.getValue() > e.getKey().getMaxLinks()))
@@ -152,7 +137,7 @@ public class Main {
                     .filter(Objects::nonNull)
                     .collect(Collectors.toList());
 
-            System.out.println(serializers.size());
+            System.out.println("Serializers: " + serializers.size());
             Map<FieldSerializer, Double> map = new HashMap<>();
             for (FieldSerializer serializer : serializers) {
                 map.put(serializer, serializer.preSerialize());
@@ -211,7 +196,6 @@ public class Main {
         if (!frame.isPresent()) return null;
         FieldSerializer serializer = new FieldSerializer();
         serializer.insertFrame(frame.get());
-
         full.restore(description, fields);
         fields.forEach(serializer::insertField);
         return serializer;

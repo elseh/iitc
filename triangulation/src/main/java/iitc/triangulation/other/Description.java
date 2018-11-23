@@ -15,15 +15,27 @@ public class Description {
     private Map<Point, Integer> linkAmount = new HashMap<>();
     private Set<Description> sumOf = new HashSet<>();
 
+    private Description() {
+    }
+
+    public void makeFinal() {
+        linkAmount = Collections.unmodifiableMap(linkAmount);
+        sumOf = Collections.unmodifiableSet(sumOf);
+        counted = false;
+        getSumInTheInnerPoint();
+    }
+
     public static Description skipAll(Set<Point> pointSet) {
         Description description = new Description();
         pointSet.stream().forEach(p -> description.linkAmount.put(p, 0));
+        description.makeFinal();
         return description;
     }
 
     public static Description makeBase(Set<Point> pointSet) {
         Description description = new Description();
         pointSet.stream().forEach(p -> description.linkAmount.put(p, 1));
+        description.makeFinal();
         return description;
     }
 
@@ -37,6 +49,7 @@ public class Description {
         Description r = sum(this, d);
         r.sumOf = new HashSet<>(sumOf);
         r.sumOf.add(d);
+        r.makeFinal();
         return r;
     }
 
@@ -45,12 +58,14 @@ public class Description {
         description.linkAmount = Stream.of(a, b)
                 .flatMap(x -> x.linkAmount.entrySet().stream())
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, Description::sum));
+        description.makeFinal();
         return description;
     }
 
     public static Description reverse(Description d) {
         Description description = new Description();
         d.linkAmount.forEach((k, v) -> description.linkAmount.put(k, k.getMaxLinks()-v));
+        description.makeFinal();
         return description;
     }
 
@@ -58,42 +73,37 @@ public class Description {
         return ofNullable(a).orElse(0) + ofNullable(b).orElse(0);
     }
 
-    public boolean checkSumInTheInnerPoint() {
-        Set<Point> allPoints = getSumOf()
-                .stream()
-                .flatMap(s -> s.getLinkAmount().keySet().stream())
-                .collect(Collectors.toSet());
-        allPoints.removeAll(getLinkAmount().keySet());
-        Optional<Point> first = allPoints.stream().findFirst();
-        if (first.isPresent() && allPoints.size() == 1) {
-            Point p = first.get();
-            int sum = getSumOf().stream().mapToInt(i -> i.getLinkAmount().get(p)).sum();
-            boolean b = sum <= p.getMaxLinks();
-            if (!b) {
-                System.out.println("fail in: " + this + " " + sum);
-            }
-            return b;
-        }
-        return true;
+    public boolean checkDescriptionGoodness() {
+        if (!counted)
+            getSumInTheInnerPoint();
+        return isGoodDescription;
     }
 
     private int sumInInner = 0;
+    private Point innerPoint;
+    private boolean counted = false;
+    private boolean isGoodDescription;
     public int getSumInTheInnerPoint() {
-        if (sumInInner != 0) return sumInInner;
-        Set<Point> allPoints = getSumOf()
-                .stream()
-                .flatMap(s -> s.getLinkAmount().keySet().stream())
-                .collect(Collectors.toSet());
-        allPoints.removeAll(getLinkAmount().keySet());
-        Optional<Point> first = allPoints.stream().findFirst();
-        if (first.isPresent() && allPoints.size() == 1) {
-            Point p = first.get();
-            sumInInner = getSumOf().stream().mapToInt(i -> i.getLinkAmount().get(p)).sum();
+        if (counted) return sumInInner;
+        Map<Point, Integer> sum = new HashMap<>();
+        getSumOf().forEach(description -> description.getLinkAmount()
+                .forEach((key, value) -> {
+                    if (!linkAmount.containsKey(key)) sum.merge(key, value, (value1, value2) -> value1+value2);
+                })
+        );
+        isGoodDescription = getLinkAmount().entrySet().stream().noneMatch(entry ->
+                entry.getKey().getMaxLinks() < entry.getValue()
+        );
+        if (sum.size() == 1) {
+            for (Map.Entry<Point, Integer> entry : sum.entrySet()) {
+                innerPoint = entry.getKey();
+                sumInInner = entry.getValue();
+                isGoodDescription &= innerPoint.getMaxLinks() >= sumInInner;
+            }
         }
+        counted = true;
         return sumInInner;
     }
-
-
 
     public static Description min(Description a, Description b) {
         return a.getSumInTheInnerPoint() < b.getSumInTheInnerPoint() ? a : b;
@@ -103,6 +113,7 @@ public class Description {
         Description d = new Description();
         pointSet.stream().forEach(p -> d.linkAmount.put(p, a.linkAmount.get(p)));
         d.sumOf = a.sumOf;
+        d.makeFinal();
         return d;
     }
 
