@@ -115,7 +115,7 @@ public class Main {
         long time  = System.currentTimeMillis();
         System.out.println("start calculations: " + new Date());
         try {
-            full.startBasesProcessing(bases);
+            full.startBasesProcessing();
         } catch (RuntimeException e) {
             e.printStackTrace();
             throw e;
