@@ -134,9 +134,10 @@ public abstract class AbstractSerializer {
         }
         System.out.println("  path length :   " + (int) length(order));
         System.out.print("  keys statistics:    ");
-        System.out.println(requiredKeys.values().stream().filter(v -> v > 0).collect(Collectors.summarizingInt(v -> v)));
+        System.out.println(" " + requiredKeys.values().stream()
+            .filter(v -> v > 0).collect(Collectors.summarizingInt(v -> v)));
         System.out.print("  farm statistics:    ");
-        System.out.println(keyDiff.values().stream().filter(v -> v > 0).collect(Collectors.summarizingInt(v -> v)));
+        System.out.println(" " + keyDiff.values().stream().filter(v -> v > 0).collect(Collectors.summarizingInt(v -> v)));
         System.out.println("    emptyLinks: " + emptyLinks.values().stream().mapToInt(i -> i).sum());
     }
 

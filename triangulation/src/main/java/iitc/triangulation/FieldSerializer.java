@@ -23,13 +23,12 @@ public class FieldSerializer extends AbstractSerializer {
 
     public void insertFrame(Map<Point, Set<Point>> frame) {
         frame.entrySet()
-                .stream()
                 .forEach((e) -> {
                     linksOrder
                             .computeIfAbsent(e.getKey(), a -> new ArrayList<>())
                             .addAll(e.getValue());
 
-                    e.getValue().stream().forEach(p ->
+                    e.getValue().forEach(p ->
                             requiredKeys.compute(p, (p1, i) -> Optional.ofNullable(i).orElse(0)+1)
                     );
                     requiredKeys.computeIfAbsent(e.getKey(), p -> 0);

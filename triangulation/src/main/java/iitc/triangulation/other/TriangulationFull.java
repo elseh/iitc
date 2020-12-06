@@ -66,7 +66,7 @@ public class TriangulationFull {
                     Collection<Description> values = base.stream()
                             .flatMap(element -> set
                                     .stream()
-                                    .map(e1 -> element.insert(e1)))
+                                    .map(element::insert))
                             .filter(this::goodDescription)
                             .collect(Collectors.toMap(
                                             Description::getLinkAmount,
@@ -87,10 +87,9 @@ public class TriangulationFull {
     }
 
     private boolean goodDescription(Description d) {
-        return !d.getLinkAmount().entrySet()
+        return d.getLinkAmount().entrySet()
                 .stream()
-                .filter(e -> e.getValue() > e.getKey().getMaxLinks())
-                .findFirst().isPresent() && d.checkSumInTheInnerPoint();
+                .noneMatch(e -> e.getValue() > e.getKey().getMaxLinks()) && d.checkSumInTheInnerPoint();
     }
 
     public void restore(Description d, Field f) {
@@ -114,7 +113,7 @@ public class TriangulationFull {
 
     public void restore(Description d, List<Field> fields) {
         Map<Set<Point>, Description> small = d.getSumOf().stream().collect(Collectors.toMap(desc -> desc.getLinkAmount().keySet(), desc -> desc));
-        fields.stream().forEach(sm -> restore(small.get(sm.getBases().set()), sm));
+        fields.forEach(sm -> restore(small.get(sm.getBases().set()), sm));
     }
 
 

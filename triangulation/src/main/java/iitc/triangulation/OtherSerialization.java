@@ -34,12 +34,11 @@ public class OtherSerialization extends AbstractSerializer {
         this.priorities = priorities;
     }
 
-    private Map<Point, Point> emptyPoints = new HashMap<>();
+    private final Map<Point, Point> emptyPoints = new HashMap<>();
 
     @Override
     protected void onInsertField(Field field) {
         field.getBases().split()
-                .stream()
                 .forEach(p -> addLink(p.v1, p.v2));
         outerPoints.addAll(field.getBases().set());
     }
@@ -78,7 +77,7 @@ public class OtherSerialization extends AbstractSerializer {
         order.add(0,point);
 
         List<Point> linked = new ArrayList<>(Optional.ofNullable(links.get(point)).orElse(emptyList()));
-        linked.stream().forEach(
+        linked.forEach(
                 p -> {
                     removeLink(point, p);
                     requiredKeys.compute(p, (p1, i) -> Optional.ofNullable(i).orElse(0)+1);
@@ -107,7 +106,6 @@ public class OtherSerialization extends AbstractSerializer {
         linked.forEach( p1 -> {
             linksOrder
                     .getOrDefault(p1, emptyList())
-                    .stream()
                     .forEach(p2 -> {
                         if (fields.containsKey(p2)) {
                             fields.get(p1).add(p2);
@@ -129,12 +127,12 @@ public class OtherSerialization extends AbstractSerializer {
 
 
             if (innerLinks.size() > 0) {
-                innerLinks.stream().forEach(l -> {
+                innerLinks.forEach(l -> {
                     linked.remove(l);
                     linked.add(0, l);
                     List<Point> near = fields.get(l);
                     fields.remove(l);
-                    near.stream().forEach(p -> fields.get(p).remove(l));
+                    near.forEach(p -> fields.get(p).remove(l));
                 });
             } else {
                 List<Point> singleFields = fields.entrySet()
@@ -198,7 +196,6 @@ public class OtherSerialization extends AbstractSerializer {
 
     public boolean baseCheck() {
         return outerPoints.stream()
-                .filter(p -> links.get(p).size() <= maxLinks)
-                .findAny().isPresent();
+                .anyMatch(p -> links.get(p).size() <= maxLinks);
     }
 }

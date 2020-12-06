@@ -118,7 +118,7 @@ public class DeployOrder {
 
         List<Point> affected = linksOrder.get(p);
 
-        Stream<Triple<Point>> rStream = Stream.of(
+        Stream<Triple<Point>> rStream = Stream.<Stream<Triple<Point>>>of(
                 affected.stream()
                         .flatMap(a -> oneLinkCandidates.stream()
                                         .filter(b -> links.get(b).contains(a))
@@ -132,11 +132,10 @@ public class DeployOrder {
                         )
         ).flatMap(s -> s);
 
-        return !rStream
+        return rStream
                 .flatMap(t -> all.stream().filter(a -> GeoUtils.isPointInsideField(a, t)))
                 .distinct()
                 .filter(all::contains)
-                .filter(a -> !linksOrder.get(a).isEmpty())
-                .findAny().isPresent();
+                .allMatch(a -> linksOrder.get(a).isEmpty());
     }
 }
