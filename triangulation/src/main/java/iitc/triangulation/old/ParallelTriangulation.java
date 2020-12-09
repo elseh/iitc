@@ -1,9 +1,13 @@
 package iitc.triangulation.old;
 
 import iitc.triangulation.Point;
+import iitc.triangulation.keys.KeysStorage;
 import iitc.triangulation.shapes.Field;
 import iitc.triangulation.shapes.Triple;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import java.text.MessageFormat;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Stream;
@@ -16,6 +20,8 @@ import static java.util.stream.Collectors.toList;
  * Created by epavlova on 6/10/2015.
  */
 public class ParallelTriangulation {
+    private static Logger log = LogManager.getLogger(ParallelTriangulation.class);
+
     private Map<Point, Set<Point>> outComingLinks = new HashMap<>();
     private List<Field> baseFields;
     private long counter = 0;
@@ -94,11 +100,14 @@ public class ParallelTriangulation {
         List<Field> openFields = extractOpenFields();
         List<List<Point>> pointsToPlace = extractPointsToPlace(openFields);
         if (openFields.size() == 0) {
-            System.out.println(counter);
+            log.info(counter);
             return true;
         }
         if (counter % 1000 == 0) {
-            System.out.println("fields: " + openFields.size() + " points: " + pointsToPlace.stream().mapToInt(List::size).sum() + " vars: " + pointsToPlace.stream().mapToInt(List::size).max());
+            log.info("fields: {} points: {} vars: {}", openFields.size(),
+                pointsToPlace.stream()
+                    .mapToInt(List::size).sum(),
+                pointsToPlace.stream().mapToInt(List::size).max());
         }
         Map<Point, Long> requiredLinks = openFields
                 .stream()

@@ -1,1 +1,1 @@
-java -cp "lib\*" iitc.triangulation.runnables.Main
+java -cp "lib\*"  -Dlog4j.configurationFile="log4j2.xml" iitc.triangulation.runnables.Main

@@ -6,6 +6,8 @@ import iitc.triangulation.aspect.Value;
 import iitc.triangulation.keys.KeysStorage;
 import iitc.triangulation.shapes.Field;
 import iitc.triangulation.shapes.Triple;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -23,6 +25,7 @@ import static iitc.triangulation.DeployOrder.length;
  */
 @HasValues
 public abstract class AbstractSerializer {
+    private static Logger log = LogManager.getLogger(AbstractSerializer.class);
     static {
         try {
             Velocity.init();
@@ -50,7 +53,6 @@ public abstract class AbstractSerializer {
         Triple<Point> bases = field.getBases();
         bases
                 .split()
-                .stream()
                 .forEach(v -> lineList.add(new Drawing("polyline", v.v1, v.v2)));
         allPoints.addAll(field.getInners());
         allPoints.addAll(field.getBases().set());
@@ -64,11 +66,9 @@ public abstract class AbstractSerializer {
         Triple<Point> bases = field.getBases();
         fieldList.add(new Drawing("polygon", bases.v1, bases.v2, bases.v3));
         Point innerPoint = field.getInnerPoint();
-        //writeDown(deep, innerPoint);
         if (field.getInners().isEmpty()) {
             return;
         }
-        //System.out.println(innerPoint + " " + field.getInners());
         if (innerPoint != null) {
             onSplitField(field, innerPoint);
             bases.stream().forEach(v -> lineList.add(new Drawing("polyline", innerPoint, v)));
@@ -95,7 +95,7 @@ public abstract class AbstractSerializer {
         context.put("gson", new Gson());
         List<Point> order = getPointsOrder();
         context.put("points", order);
-        context.put("path", new Drawing("polyline", order.toArray(new Point[order.size()])).setColor("green"));
+        context.put("path", new Drawing("polyline", order.toArray(new Point[0])).setColor("green"));
         context.put("length", length(order));
         context.put("requiredKeys", requiredKeys);
         context.put("total", allPoints.size());
@@ -128,28 +128,39 @@ public abstract class AbstractSerializer {
     public void printStatistics() {
         List<Point> order = getPointsOrder();
         Map<Point, Integer> keyDiff = getKeyDiff();
-
+        StringBuilder message = new StringBuilder("\n");
         if (this instanceof OtherSerialization) {
-            System.out.println(((OtherSerialization)this).priorities);
+            message.append(((OtherSerialization)this).priorities).append("\n");
         }
-        System.out.println("  path length :   " + (int) length(order));
-        System.out.print("  keys statistics:    ");
-        System.out.println(" " + requiredKeys.values().stream()
-            .filter(v -> v > 0).collect(Collectors.summarizingInt(v -> v)));
-        System.out.print("  farm statistics:    ");
-        System.out.println(" " + keyDiff.values().stream().filter(v -> v > 0).collect(Collectors.summarizingInt(v -> v)));
-        System.out.println("    emptyLinks: " + emptyLinks.values().stream().mapToInt(i -> i).sum());
+
+        message
+            .append("\tpath length:\t")
+            .append((int) length(order))
+            .append("\n");
+        IntSummaryStatistics keyStatistics = requiredKeys.values().stream()
+            .filter(v -> v > 0).collect(Collectors.summarizingInt(v -> v));
+        message.append("\tkeys statistics:\t")
+            .append(keyStatistics)
+            .append("\n");
+
+        IntSummaryStatistics farmStatistics = keyDiff.values().stream()
+            .filter(v -> v > 0).collect(Collectors.summarizingInt(v -> v));
+        message.append("\tfarm statistics:\t")
+            .append(farmStatistics)
+            .append("\n");
+        int emptyLinks = this.emptyLinks.values().stream().mapToInt(i -> i).sum();
+        message.append("\temptyLinks:\t")
+            .append(emptyLinks)
+            .append("\n");
+        log.info(message);
     }
 
     public String serializeMaxField() {
         // Brunnen; https://www.ingress.com/intel?ll=52.357459,9.660858&z=17&pll=52.357459,9.660858
         // Link, Agent, MapNumOrigin, OriginName, MapNumDestination, DestinationName
-        List<Point> points = new ArrayList<>();
         HashMap<Point, Integer> pointsIndex = new HashMap<>();
         HashMap<Point, Integer> keys = new HashMap<>();
-        for (Point p : linksOrder.keySet()) {
-            points.add(p);
-        }
+        List<Point> points = new ArrayList<>(linksOrder.keySet());
 
         int i = 20;
         List<FieldSerializer.NumberedLink> links = new ArrayList<>();

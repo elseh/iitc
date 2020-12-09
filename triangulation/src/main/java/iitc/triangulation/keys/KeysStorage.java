@@ -2,6 +2,8 @@ package iitc.triangulation.keys;
 
 import iitc.triangulation.Point;
 import iitc.triangulation.shapes.LatLngs;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.net.StandardSocketOptions;
@@ -20,7 +22,7 @@ public class KeysStorage {
     public static final Path STORAGE_PATH = FileSystems.getDefault().getPath("keys", "keys.csv");
     public static KeysStorage INSTANCE = new KeysStorage(STORAGE_PATH, true);
     private Map<String, Key> storage = new HashMap<>();
-
+    private static Logger log = LogManager.getLogger(KeysStorage.class);
     private Path path;
     private boolean isMain;
     public KeysStorage(Path path, boolean isMain) {
@@ -32,7 +34,7 @@ public class KeysStorage {
         try {
             if (Files.exists(path)) {
                 List<String> keysList = Files.readAllLines(path);
-                keysList.stream().forEach(
+                keysList.forEach(
                         s -> {
                             Key key = new Key().fromString(s);
                             if (key != null) {
@@ -48,7 +50,7 @@ public class KeysStorage {
         if (!isMain) {
             INSTANCE.load();
         }
-        System.out.println("load: " + isMain + " " + storage.size());
+        log.debug("load: {} {}", isMain, storage.size());
     }
 
     public int keysFor(Point point) {

@@ -1,9 +1,13 @@
 package iitc.triangulation.other;
 
 import iitc.triangulation.Point;
+import iitc.triangulation.shapes.Pair;
 import iitc.triangulation.shapes.Triple;
 import iitc.triangulation.shapes.Field;
+import org.apache.logging.log4j.*;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -11,8 +15,10 @@ import java.util.stream.Collectors;
  * Created by Sigrlinn on 16.06.2015.
  */
 public class TriangulationFull {
+    private static final Logger log = LogManager.getLogger(TriangulationFull.class);
     private HashMap<Set<Point>, Set<Description>> allDescriptions = new HashMap<>();
-    private HashMap<Set<Point>, Field> allFields = new HashMap<>();
+    private FieldsStorage storage = new FieldsStorage();
+
     private List<Point> allPoints;
 
     public TriangulationFull(List<Point> allPoints) {
@@ -20,7 +26,7 @@ public class TriangulationFull {
     }
 
     public Set<Description> analyseSingleField(Set<Point> set) {
-        Field field = get(set);
+        Field field = storage.get(set);
 
         if (allDescriptions.containsKey(set)) {
             return allDescriptions.get(set);
@@ -36,7 +42,7 @@ public class TriangulationFull {
         }
         allDescriptions.put(set, values);
         if (allDescriptions.size() % 100 == 0) {
-            System.out.println("size: " + allDescriptions.size() + " " + new Date());
+            log.info("size: {} ", allDescriptions.size());
         }
         return values;
     }
@@ -116,14 +122,23 @@ public class TriangulationFull {
         fields.forEach(sm -> restore(small.get(sm.getBases().set()), sm));
     }
 
+    public void pushBase(Set<Point> set) {
+        storage.addField(set,
+            field -> {
+                List<Pair<Point>> pairs = field.getBases().split();
+                return field.getInners().stream()
+                    .flatMap(p -> pairs.stream().map(pair -> Triple.of(p, pair)))
+                    .map(Triple::set);
+            },
+            allPoints);
+    }
 
-    private Field get(Set<Point> set) {
-        if (!allFields.containsKey(set)) {
-            Point[] points = set.toArray(new Point[3]);
-            Triple<Point> t = Triple.of(points[0], points[1], points[2]);
-            Field f = new Field(t, allPoints);
-            allFields.put(set, f);
-        }
-        return allFields.get(set);
+    public void startComputation() {
+        Instant start = Instant.now();
+        storage.streamBySize().forEach(list -> {
+            log.info("To compute: {} of ({})", list.size(), storage.size());
+            list.forEach(this::analyseSingleField);
+        });
+        log.info("Everything computed in : {}", Duration.between(start, Instant.now()));
     }
 }

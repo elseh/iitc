@@ -1,7 +1,10 @@
 package iitc.triangulation;
 
+import iitc.triangulation.keys.KeysStorage;
 import iitc.triangulation.shapes.LatLngs;
 import iitc.triangulation.shapes.Triple;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -11,6 +14,7 @@ import java.util.stream.Stream;
  * Created by epavlova on 6/2/2015.
  */
 public class DeployOrder {
+    private static Logger log = LogManager.getLogger(DeployOrder.class);
 
     private Map<Point, List<Point>> linksOrder;
 
@@ -79,7 +83,7 @@ public class DeployOrder {
         while (!all.isEmpty()) {
             Optional<Point> opt = searchSafe(last, all);
             if (!opt.isPresent()) {
-                System.out.println("ops " + result.size() + " " + all.size() + " " + result);
+                log.error("ops {} {} {}", result.size(), all.size(), result);
                 return result;
             }
             movePoint(result, all, opt.get());

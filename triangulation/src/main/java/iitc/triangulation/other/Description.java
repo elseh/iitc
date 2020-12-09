@@ -1,6 +1,9 @@
 package iitc.triangulation.other;
 
 import iitc.triangulation.Point;
+import iitc.triangulation.keys.KeysStorage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -12,24 +15,25 @@ import static java.util.Optional.ofNullable;
  * Created by Sigrlinn on 15.06.2015.
  */
 public class Description {
+    private static Logger log = LogManager.getLogger(KeysStorage.class);
     private Map<Point, Integer> linkAmount = new HashMap<>();
     private Set<Description> sumOf = new HashSet<>();
 
     public static Description skipAll(Set<Point> pointSet) {
         Description description = new Description();
-        pointSet.stream().forEach(p -> description.linkAmount.put(p, 0));
+        pointSet.forEach(p -> description.linkAmount.put(p, 0));
         return description;
     }
 
     public static Description makeBase(Set<Point> pointSet) {
         Description description = new Description();
-        pointSet.stream().forEach(p -> description.linkAmount.put(p, 1));
+        pointSet.forEach(p -> description.linkAmount.put(p, 1));
         return description;
     }
 
     public static Description makeEmptyBase(Set<Point> pointSet) {
         Description description = new Description();
-        pointSet.stream().forEach(p -> description.linkAmount.put(p, 0));
+        pointSet.forEach(p -> description.linkAmount.put(p, 0));
         return description;
     }
 
@@ -70,7 +74,7 @@ public class Description {
             int sum = getSumOf().stream().mapToInt(i -> i.getLinkAmount().get(p)).sum();
             boolean b = sum <= p.getMaxLinks();
             if (!b) {
-                System.out.println("fail in: " + this + " " + sum);
+                log.error("fail in: {} {}", this, sum);
             }
             return b;
         }
@@ -101,7 +105,7 @@ public class Description {
 
     public static Description reduce(Description a, Set<Point> pointSet) {
         Description d = new Description();
-        pointSet.stream().forEach(p -> d.linkAmount.put(p, a.linkAmount.get(p)));
+        pointSet.forEach(p -> d.linkAmount.put(p, a.linkAmount.get(p)));
         d.sumOf = a.sumOf;
         return d;
     }
@@ -121,7 +125,7 @@ public class Description {
 
         Description that = (Description) o;
 
-        return !(linkAmount != null ? !linkAmount.equals(that.linkAmount) : that.linkAmount != null);
+        return Objects.equals(linkAmount, that.linkAmount);
 
     }
 

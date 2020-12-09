@@ -11,6 +11,8 @@ import iitc.triangulation.shapes.BaseSeed;
 import iitc.triangulation.shapes.Field;
 import iitc.triangulation.shapes.KeysPriorities;
 import iitc.triangulation.shapes.Triple;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.*;
 import java.nio.file.*;
@@ -24,6 +26,8 @@ import static java.util.function.Function.identity;
  */
 @HasValues
 public class Main {
+    private static Logger log = LogManager.getLogger(Main.class);
+
     private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static Path storePath;
 
@@ -31,7 +35,7 @@ public class Main {
     @Value("other.profile:ALL_KEYS") public static KeysPriorities priorities;
 
     public static void main(String[] args) {
-        System.out.println(priorities);
+        log.info(priorities);
         Locale.setDefault(Locale.ENGLISH);
         if (filename == null || "".equals(filename)) {
             filename = FileUtils.readFromCMD.apply("Enter area name: ");
@@ -58,9 +62,7 @@ public class Main {
                 .map(t -> t.simplify(pointById::get))
                 .collect(Collectors.toSet());
 
-        bases.forEach(b ->
-                        System.out.println(new Field(b, new ArrayList<>(pointById.values())).getInners().size())
-        );
+        bases.forEach(b -> log.info(new Field(b, new ArrayList<>(pointById.values())).getInners().size()));
         TriangulationMax full = new TriangulationMax(points);
         Set<Field> fields = bases.stream().map(b -> full.analyseSingleField(b.set())).collect(Collectors.toSet());
         //System.out.println("fields: " + fields.stream().mapToDouble(GeoUtils::fieldArea).sum());
@@ -90,21 +92,15 @@ public class Main {
                 .map(t -> t.simplify(pointById::get))
                 .collect(Collectors.toSet());
 
-        bases.forEach(b ->
-            System.out.println(new Field(b, new ArrayList<>(pointById.values())).getInners().size())
-        );
+        bases.forEach(b ->log.info(new Field(b, new ArrayList<>(pointById.values())).getInners().size()));
         TriangulationFull full = new TriangulationFull(points);
-        bases.forEach(b -> full.analyseSingleField(b.set()));
+
+        bases.forEach(b -> full.pushBase(b.set()));
+        full.startComputation();
+
         Set<Description> descriptions = full.calculateFields(bases.stream().map(Triple::set).collect(Collectors.toSet()));
 
-/*        FrameGenerator g = new FrameGenerator();
-        Description testD = Description.makeEmptyBase(bases.stream().findAny().get().set());
-        testD.test();
-        for (int i = 0; i < 10; i++) {
-            System.out.println(testD.testAdd(g.makeFrame(testD, new HashSet<>(bases)).get()));
-        }*/
-
-        System.out.println(descriptions.size());
+        log.info(descriptions.size());
         List<Field> fields = bases.stream().map(b -> new Field(b, points)).collect(Collectors.toList());
 
 
@@ -117,7 +113,7 @@ public class Main {
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
 
-        System.out.println(serializers.size());
+        log.info(serializers.size());
         Map<FieldSerializer, Double> map = new HashMap<>();
         for (FieldSerializer serializer : serializers) {
             map.put(serializer, serializer.preSerialize());
@@ -195,8 +191,7 @@ public class Main {
             Files.createDirectories(directory);
             try (BufferedWriter bw = Files.newBufferedWriter(result, StandardOpenOption.WRITE, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
                 bw.write(serialize);
-                bw.close();
-            }catch (FileNotFoundException ex) {
+            } catch (FileNotFoundException ex) {
                 ex.printStackTrace();
             }
         } catch (IOException e) {
@@ -204,7 +199,7 @@ public class Main {
         }
 
         if (show) {
-            System.out.println(serialize);
+            log.info(serialize);
         }
     }
 }

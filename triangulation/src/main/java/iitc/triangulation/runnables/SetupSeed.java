@@ -4,11 +4,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import iitc.triangulation.Drawing;
 import iitc.triangulation.Point;
+import iitc.triangulation.keys.KeysStorage;
 import iitc.triangulation.shapes.BaseSeed;
 import iitc.triangulation.RawData;
 import iitc.triangulation.shapes.LatLngs;
 import iitc.triangulation.shapes.Link;
 import iitc.triangulation.shapes.Triple;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -26,6 +29,8 @@ import static java.util.function.Function.identity;
  * Created by epavlova on 6/5/2015.
  */
 public class SetupSeed {
+    private static Logger log = LogManager.getLogger(SetupSeed.class);
+
     private static Map<String, Point> pointsById = new HashMap<>();
     private static Map<LatLngs, Point> pointsByLat = new HashMap<>();
     private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -61,11 +66,11 @@ public class SetupSeed {
         List<Link> links = new ArrayList<>();
         List<Triple<String>> triples = new ArrayList<>();
         for (Drawing d : drawings) {
-            System.out.println(d);
-            System.out.println(new Gson().toJson(d));
+            log.info(d);
+            log.info(new Gson().toJson(d));
             List<Point> points = d.getLatLngs().stream().map(pointsByLat::get).collect(Collectors.toList());
             if (points.size() != 4 || points.get(0) != points.get(3)) {
-                System.out.println("Panic");
+                log.error("Point list size is not 4 {} or last point != first point {}", points.size(), points);
             }
             for (int i = 1; i < points.size(); i++) {
                 links.add(new Link(points.get(i - 1), points.get(i)));
@@ -88,7 +93,6 @@ public class SetupSeed {
 
             try (BufferedWriter bw = Files.newBufferedWriter(result, StandardOpenOption.WRITE, StandardOpenOption.CREATE)) {
                 bw.write(serialize);
-                bw.close();
             }catch (FileNotFoundException ex) {
                 ex.printStackTrace();
             }

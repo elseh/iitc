@@ -1,5 +1,8 @@
 package iitc.triangulation.aspect;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.IOException;
 import java.lang.reflect.*;
 import java.nio.file.FileSystems;
@@ -16,14 +19,15 @@ import java.util.stream.Stream;
 public class ValueInjector {
     private Properties properties = new Properties();
     public static ValueInjector INSTANCE = new ValueInjector();
+    private static Logger log = LogManager.getLogger(ValueInjector.class);
 
     static {
         try {
             Path path = FileSystems.getDefault().getPath("tri.properties");
-            System.out.println(path.toAbsolutePath());
+            log.info("Path to load: {}" ,path.toAbsolutePath());
             INSTANCE.properties.load(Files.newBufferedReader(path));
         } catch (IOException e) {
-            System.out.println("failed to load properties");
+            log.error("failed to load properties", e);
         }
     }
 
@@ -47,6 +51,7 @@ public class ValueInjector {
         String[] split = annotation.value().split(":");
         String key = split[0];
         String value = properties.getProperty(key, split.length > 1 ? split[1] : "");
+        log.debug("Injecting: {} : '{}'", key, value);
         Object[] values = matchValues(new Class[]{field.getType()}, new String[]{value});
         try {
             if (field.getType() == int.class) {
@@ -94,8 +99,7 @@ public class ValueInjector {
             Object[] paramValues = matchValues(paramTypes, paramStrings);
             return constructor.newInstance(paramValues);
         } catch (NoSuchFieldException e) {
-            System.out.println("Profile should have static 'values' field");
-            e.printStackTrace();
+            log.error("Profile should have static 'values' field", e);
         } catch (IllegalAccessException | InstantiationException | InvocationTargetException e) {
             e.printStackTrace();
         }
