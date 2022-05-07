@@ -1,0 +1,10 @@
+description = 'triangulation-parent'
+
+allprojects{
+    repositories {
+        mavenLocal()
+        maven {
+            url = uri('https://repo.maven.apache.org/maven2/')
+        }
+    }
+}

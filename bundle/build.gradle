@@ -1,0 +1,39 @@
+
+plugins {
+    id 'distribution'
+}
+
+configurations {
+    libs
+}
+
+dependencies {
+    libs project(':triangulation')
+}
+description = 'bundle'
+
+distributions {
+    main {
+        distributionBaseName = 'tri'
+        contents {
+            from ('src/main/resources/')
+            from (configurations.libs) {
+                into 'lib/'
+            }
+        }
+    }
+}
+
+task deployTri {
+    var root = "${project.rootDir}/result";
+    dependsOn installDist {
+        destinationDir = file("${root}/tri")
+        preserve{
+            include "areas/**"
+            include "tri.properties"
+        }
+    }
+    dependsOn distZip {
+        destinationDirectory = file("${root}")
+    }
+}

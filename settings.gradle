@@ -1,0 +1,4 @@
+rootProject.name = 'triangulation-parent'
+include(':bundle')
+include(':aspect')
+include(':triangulation')

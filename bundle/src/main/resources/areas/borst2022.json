@@ -1,0 +1,571 @@
+{
+  "bases": [
+    {
+      "v1": "d76772deea434a1b979c3005d63c7fdd.16",
+      "v2": "3095dbd251594880803a90db4cb5dfa8.16",
+      "v3": "7c251de5932e49aeb80667b60dbd39e7.16"
+    }
+  ],
+  "points": [
+    {
+      "id": "b7fff1f4c00e4b298b65303bb897425c.16",
+      "title": "Bären Jagd",
+      "latlng": {
+        "lat": 48.170251,
+        "lng": 11.533109
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "4f4d9d97ce0e4f3c92a974b60421780c.16",
+      "title": "Creepy Ghost",
+      "latlng": {
+        "lat": 48.169411,
+        "lng": 11.531984
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "800c9016cc9a4edc860ad1897b724d5e.16",
+      "title": "Pagenkopf über Haustür",
+      "latlng": {
+        "lat": 48.169321,
+        "lng": 11.53153
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "7c251de5932e49aeb80667b60dbd39e7.16",
+      "title": "Säulenkunst am Sapporobogen",
+      "latlng": {
+        "lat": 48.167911,
+        "lng": 11.536633
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "56a9ecf14e19449080ebb97c7d70113a.16",
+      "title": "Wandskulpturen",
+      "latlng": {
+        "lat": 48.169405,
+        "lng": 11.532893
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "1e60732e39ed4f5aa09b68f2fdb828e7.12",
+      "title": "Goldener Hahn",
+      "latlng": {
+        "lat": 48.169559,
+        "lng": 11.53421
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "987b416a955144edb314def9686907e3.16",
+      "title": "Skulptur",
+      "latlng": {
+        "lat": 48.169707,
+        "lng": 11.534194
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "999397b42dd74490abb38663906c1459.16",
+      "title": "Borstei",
+      "latlng": {
+        "lat": 48.169639,
+        "lng": 11.53747
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "41731fa09c514ab384c13612d44f5243.16",
+      "title": "Blumen Mädel",
+      "latlng": {
+        "lat": 48.170046,
+        "lng": 11.533468
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "634d64c6d42d4ce4a22cb386783d3be5.16",
+      "title": "Bischof Der Stadt München",
+      "latlng": {
+        "lat": 48.16868,
+        "lng": 11.534174
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "6032196ed039484f8969f31d40303bcc.16",
+      "title": "Wildsau Töter",
+      "latlng": {
+        "lat": 48.170159,
+        "lng": 11.533242
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "cbb5f6caa1b64185bf6ac8649cb52bc6.16",
+      "title": "Fontain I",
+      "latlng": {
+        "lat": 48.169924,
+        "lng": 11.536518
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "98ac3d767b2d4bc18546ff287d54c347.16",
+      "title": "Flötenspieler",
+      "latlng": {
+        "lat": 48.170573,
+        "lng": 11.534097
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "540c1d5b8e084343b5cb594f32d8f8ad.16",
+      "title": "Brunnen in der Borstei",
+      "latlng": {
+        "lat": 48.169675,
+        "lng": 11.533901
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "9706e3a12b9f4379bcac847a28dcfa02.16",
+      "title": "Dog at the Borstei",
+      "latlng": {
+        "lat": 48.169677,
+        "lng": 11.535088
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "64abaf698c004e8b9a55a8049d66876f.16",
+      "title": "Woman with Sheep",
+      "latlng": {
+        "lat": 48.169951,
+        "lng": 11.534835
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "201521b038794aaca17365a4fab63fe1.16",
+      "title": "Man Without Head",
+      "latlng": {
+        "lat": 48.169909,
+        "lng": 11.535119
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "676d863a35b0441a879e9d003cd6a52f.16",
+      "title": "Spielplatz Bei SWM",
+      "latlng": {
+        "lat": 48.171337,
+        "lng": 11.532764
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "e4019ce889314173824f1851c9db834c.16",
+      "title": "Wand Malerei",
+      "latlng": {
+        "lat": 48.169201,
+        "lng": 11.53414
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "048f984c644849e6b71ee9960c9874b8.16",
+      "title": "Fighting Woman",
+      "latlng": {
+        "lat": 48.169361,
+        "lng": 11.534429
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "f9d9a49dd7874e20b2a3a8e76ad1eaaa.16",
+      "title": "Gute Reise Mit Christphorus",
+      "latlng": {
+        "lat": 48.170359,
+        "lng": 11.532826
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "c02d40b7fbaf4c8da4388d0574e61a47.16",
+      "title": "Skulptur im Hof",
+      "latlng": {
+        "lat": 48.170775,
+        "lng": 11.533921
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "a6f7f6c9ad444d73aae82b34f58b879a.16",
+      "title": "Wand Malerei",
+      "latlng": {
+        "lat": 48.169499,
+        "lng": 11.534797
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "b650e1f7c0a94d739c7361a3ec76668d.16",
+      "title": "Golden Portal",
+      "latlng": {
+        "lat": 48.170556,
+        "lng": 11.536563
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "af39ecb681a14e92930eb261788cc6e2.16",
+      "title": "Verträumter Musiker in der Borstei",
+      "latlng": {
+        "lat": 48.169815,
+        "lng": 11.537414
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "1bf17986f72a4d3c8e310a491892439b.16",
+      "title": "Wildsau in der Borstei",
+      "latlng": {
+        "lat": 48.170125,
+        "lng": 11.537398
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "917d61bea73943fba9b4013248922720.16",
+      "title": "Kletterrutsche",
+      "latlng": {
+        "lat": 48.168591,
+        "lng": 11.531901
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "1ea784afa84d400780689dfa54f6e571.16",
+      "title": "Statue Kind mit Trauben",
+      "latlng": {
+        "lat": 48.170328,
+        "lng": 11.534343
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "307f65952155491287de7e2dcf7a3c9a.16",
+      "title": "Bavaria Skulptur in der Borstei",
+      "latlng": {
+        "lat": 48.170148,
+        "lng": 11.534865
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "1979bb11dfb7457d8587984daf0583ce.16",
+      "title": "Pferdemensch",
+      "latlng": {
+        "lat": 48.169709,
+        "lng": 11.534457
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "07ab6bebe1664dbeb2b28b7aa446b6b7.16",
+      "title": "Die Sonne",
+      "latlng": {
+        "lat": 48.169743,
+        "lng": 11.53669
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "45e13935c8bf4c0883b2a5f42f958e9f.16",
+      "title": "Bernhard Borst Staute",
+      "latlng": {
+        "lat": 48.169878,
+        "lng": 11.534501
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "3095dbd251594880803a90db4cb5dfa8.16",
+      "title": "Lese Stunde",
+      "latlng": {
+        "lat": 48.17109,
+        "lng": 11.537534
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "cce4f6d59df9466598dcfe9923f90e16.16",
+      "title": "Hennenskulptur in der Borstei",
+      "latlng": {
+        "lat": 48.170408,
+        "lng": 11.536461
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "306a24ca13524ae7bd26a415f697a522.16",
+      "title": "Der Winter",
+      "latlng": {
+        "lat": 48.170359,
+        "lng": 11.534334
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "88abac6db00e45cd8b2a5a4388cb7f31.16",
+      "title": "Spielplatz Borstei",
+      "latlng": {
+        "lat": 48.171319,
+        "lng": 11.537461
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "d76772deea434a1b979c3005d63c7fdd.16",
+      "title": "Caring Old Guy",
+      "latlng": {
+        "lat": 48.170814,
+        "lng": 11.531939
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "bfd03df215764b1f881a1a3a34a77964.16",
+      "title": "Hirte",
+      "latlng": {
+        "lat": 48.170311,
+        "lng": 11.535093
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "7143917534aa4ae29ff04b5a2f244825.16",
+      "title": "Paintings on the Wall",
+      "latlng": {
+        "lat": 48.17022,
+        "lng": 11.536553
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "e068b0e7620d4252847b6da6df1af0a9.16",
+      "title": "Unsere Weide War Hier",
+      "latlng": {
+        "lat": 48.170159,
+        "lng": 11.53277
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "7c0da9435d73413e9bbb2d0774579c60.16",
+      "title": "SC Amicitia Fussballverein",
+      "latlng": {
+        "lat": 48.168445,
+        "lng": 11.531791
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "a1283a1965584563aafe15bae176bece.16",
+      "title": "Wandmalerei Borstei",
+      "latlng": {
+        "lat": 48.170477,
+        "lng": 11.53474
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "527f3ad1f3074b73a1c18eb78488c904.16",
+      "title": "Seepferdchenbrunnen",
+      "latlng": {
+        "lat": 48.170578,
+        "lng": 11.53285
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "66e599ddc8714d71a134a1fa406c5c41.16",
+      "title": "Akkordeon Spieler",
+      "latlng": {
+        "lat": 48.170781,
+        "lng": 11.534376
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "6aab909ac21947db9564e4db44ca1b63.16",
+      "title": "Man",
+      "latlng": {
+        "lat": 48.169652,
+        "lng": 11.534587
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "422159ea153540e9a4d6c005b482dd8f.16",
+      "title": "Bernhard und Erna Borst Denkmal",
+      "latlng": {
+        "lat": 48.170429,
+        "lng": 11.536074
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "7c44e93adfad426fa56cc3ceaa512f28.16",
+      "title": "Borstei Museum",
+      "latlng": {
+        "lat": 48.17068,
+        "lng": 11.537899
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "2383d663c84f4c00b184e20b27ef9ccd.16",
+      "title": "Der Tulpenweg",
+      "latlng": {
+        "lat": 48.170815,
+        "lng": 11.530559
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "08759f6f8760425f978f0db495061f57.12",
+      "title": "Sculpture at the Borstei Housi",
+      "latlng": {
+        "lat": 48.169958,
+        "lng": 11.536667
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "ed25020e42704db786a4806ea971741b.16",
+      "title": "Friends",
+      "latlng": {
+        "lat": 48.170604,
+        "lng": 11.536318
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "cba7ac8a7a294563a5f1e8bc96ad115a.16",
+      "title": "Teich in der Borstei",
+      "latlng": {
+        "lat": 48.170434,
+        "lng": 11.536545
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "74bec48c7ea949a891286ff47324b093.16",
+      "title": "Statue In Der Wand",
+      "latlng": {
+        "lat": 48.170973,
+        "lng": 11.533431
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "e68fe502f97c468c9690f8829667949b.12",
+      "title": "Sculpture at the Borstei Housing",
+      "latlng": {
+        "lat": 48.170133,
+        "lng": 11.5357
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "2fcf6b111b2e4cf1983e4953b030ab9c.16",
+      "title": "Naked Woman",
+      "latlng": {
+        "lat": 48.170237,
+        "lng": 11.536243
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "7a73606d0f584bb9865f55be3fd08f58.16",
+      "title": "Getreide-Junge",
+      "latlng": {
+        "lat": 48.170224,
+        "lng": 11.534286
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "7b175d1b6a1b4de7bd957977aec3d99f.16",
+      "title": "Christophorus In Der Borstei",
+      "latlng": {
+        "lat": 48.169667,
+        "lng": 11.535311
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "546d12b406cd448dbe9a11ccebaa9885.16",
+      "title": "Spielplatz an der Borstei",
+      "latlng": {
+        "lat": 48.171351,
+        "lng": 11.536037
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "7c2ec51418f94842ac992de096fb2cdc.16",
+      "title": "Fontaine at Borstei",
+      "latlng": {
+        "lat": 48.169886,
+        "lng": 11.535853
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "e6964c6e06244d5699d2754e462a85a9.16",
+      "title": "Engelsskulptur",
+      "latlng": {
+        "lat": 48.169725,
+        "lng": 11.535424
+      },
+      "maxLinks": 8
+    },
+    {
+      "id": "656ecc7bb8854cf3a5bcd8229574895e.16",
+      "title": "Fairy Tale Painting",
+      "latlng": {
+        "lat": 48.170486,
+        "lng": 11.535495
+      },
+      "maxLinks": 8
+    }
+  ],
+  "links": [
+    {
+      "name": "Caring Old Guy - Lese Stunde",
+      "from": "d76772deea434a1b979c3005d63c7fdd.16",
+      "to": "3095dbd251594880803a90db4cb5dfa8.16",
+      "isReverse": false
+    },
+    {
+      "name": "Lese Stunde - Säulenkunst am Sapporobogen",
+      "from": "3095dbd251594880803a90db4cb5dfa8.16",
+      "to": "7c251de5932e49aeb80667b60dbd39e7.16",
+      "isReverse": false
+    },
+    {
+      "name": "Säulenkunst am Sapporobogen - Caring Old Guy",
+      "from": "7c251de5932e49aeb80667b60dbd39e7.16",
+      "to": "d76772deea434a1b979c3005d63c7fdd.16",
+      "isReverse": false
+    }
+  ]
+}
