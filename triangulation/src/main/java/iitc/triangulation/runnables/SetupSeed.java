@@ -52,14 +52,6 @@ public class SetupSeed {
         String fileName = rawData.getName();
 
         writeToFile(fileName, gson.toJson(seed));
-        /*try {
-            Path areas = FileSystems.getDefault().getPath("areas", fileName + ".json");
-            Files.createFile(areas);
-            Files.write(areas, gson.toJson(seed).getBytes());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-        //System.out.println(gson.toJson(seed));
     }
 
     private static BaseSeed parseDrawing(Drawing[] drawings) {

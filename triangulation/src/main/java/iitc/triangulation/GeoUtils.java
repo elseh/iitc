@@ -5,6 +5,7 @@ import iitc.triangulation.shapes.Pair;
 import iitc.triangulation.shapes.Triple;
 import iitc.triangulation.shapes.LatLngs;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -13,7 +14,19 @@ import java.util.stream.Collectors;
  */
 public class GeoUtils {
     public static boolean isPointInsideField(Point p, Triple<Point> triple) {
-        return triple.split().stream().map(pp -> Math.signum(mult(p.getLatlng(), pp.simplify(Point::getLatlng)))).collect(Collectors.toSet()).size() == 1;
+        return triple.split().stream()
+            .map(pp -> Math.signum(mult(p.getLatlng(), pp.simplify(Point::getLatlng))))
+            .collect(Collectors.toSet()).size() == 1;
+    }
+
+    public static boolean isPointInsideDrawing(Point p, List<LatLngs> drawing) {
+        LatLngs prev = drawing.get(drawing.size()-1);
+        int sum = 0;
+        for (LatLngs l : drawing) {
+            sum += Math.signum(mult(p.getLatlng(), Pair.of(prev, l)));
+            prev = l;
+        }
+        return Math.abs(sum) == drawing.size();
     }
 
     public static double mult(LatLngs c, Pair<LatLngs> ends) {
