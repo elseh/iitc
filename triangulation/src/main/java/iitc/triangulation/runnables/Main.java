@@ -7,10 +7,7 @@ import iitc.triangulation.aspect.HasValues;
 import iitc.triangulation.aspect.Value;
 import iitc.triangulation.keys.KeysStorage;
 import iitc.triangulation.other.*;
-import iitc.triangulation.shapes.BaseSeed;
-import iitc.triangulation.shapes.Field;
-import iitc.triangulation.shapes.KeysPriorities;
-import iitc.triangulation.shapes.Triple;
+import iitc.triangulation.shapes.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,24 +29,40 @@ public class Main {
     private static Path storePath;
 
     @Value("areaName:") private static String filename;
+    @Value("clusterName") private static String clusterName;
     @Value("other.profile:ALL_KEYS") public static KeysPriorities priorities;
 
     public static void main(String[] args) {
         log.info(priorities);
         Locale.setDefault(Locale.ENGLISH);
+        BaseSeed seed = getSeed();
+        KeysStorage keysStorage = new KeysStorage(storePath.resolve("keys.csv"), false);
+        keysStorage.load();
+        AbstractSerializer.setKeysStorage(keysStorage);
+        Clusters clusters = getClusters(seed);
+        maxTriangulate(seed, filename);
+        fullTriangulate(seed, filename, clusters);
+        keysStorage.store();
+    }
+
+    private static Clusters getClusters(BaseSeed seed) {
+        if (clusterName == null || "".equals(clusterName)) {
+            Clusters c = new Clusters();
+            c.addCluster(seed.getPoints());
+            return c;
+        }
+        storePath = FileSystems.getDefault().getPath("clusters", clusterName);
+        Path path = storePath.resolve(clusterName + ".json");
+        return gson.fromJson(FileUtils.readFromFile.apply(path), Clusters.class);
+    }
+
+    private static BaseSeed getSeed() {
         if (filename == null || "".equals(filename)) {
             filename = FileUtils.readFromCMD.apply("Enter area name: ");
         }
         storePath = FileSystems.getDefault().getPath("areas", filename);
         Path path = FileSystems.getDefault().getPath("areas", filename + ".json");
-        BaseSeed seed = gson.fromJson(FileUtils.readFromFile.apply(path), BaseSeed.class);
-        KeysStorage keysStorage = new KeysStorage(storePath.resolve("keys.csv"), false);
-        keysStorage.load();
-        AbstractSerializer.setKeysStorage(keysStorage);
-
-        maxTriangulate(seed, filename);
-        fullTriangulate(seed, filename);
-        keysStorage.store();
+        return gson.fromJson(FileUtils.readFromFile.apply(path), BaseSeed.class);
     }
 
     private static void maxTriangulate(BaseSeed seed, String areaName) {
@@ -82,7 +95,7 @@ public class Main {
         }
     }
 
-    private static void fullTriangulate(BaseSeed seed, String areaName) {
+    private static void fullTriangulate(BaseSeed seed, String areaName, Clusters clusters) {
         List<Point> points = seed.getPoints();
         Map<String, Point> pointById = points
                 .stream()
@@ -108,19 +121,19 @@ public class Main {
                 .filter(d -> d.getLinkAmount().entrySet()
                         .stream().noneMatch(e -> e.getValue() > e.getKey().getMaxLinks()))
                 .sorted(Comparator.comparing(d -> d.getLinkAmount().values().stream().mapToInt(i -> i).sum()))
-                .limit(100)
                 .map(d -> process(d, bases, full, fields))
                 .filter(Objects::nonNull)
+                .limit(100)
                 .collect(Collectors.toList());
 
         log.info(serializers.size());
-        Map<FieldSerializer, Double> map = new HashMap<>();
+        Map<FieldSerializer, AbstractSerializer.Summary> map = new HashMap<>();
         for (FieldSerializer serializer : serializers) {
             map.put(serializer, serializer.preSerialize());
         }
 
         FieldSerializer goodSerializer = map.entrySet().stream()
-        .min(Comparator.comparingDouble(Map.Entry::getValue))
+        .min(Map.Entry.comparingByValue())
                 .get().getKey();
 
         writeToFile(areaName, goodSerializer.serializeMaxField(), "-maxField.json", false);
@@ -129,13 +142,13 @@ public class Main {
             writeToFile(areaName, goodSerializer.serialiseSVG(), ".html", false);
 
         for (KeysPriorities priorities : KeysPriorities.values) {
-            serializeOtherByType(areaName, priorities, descriptions, fields, full);
+            serializeOtherByType(areaName, priorities, descriptions, fields, full, clusters);
         }
        // goodSerializer.runOtherSerializer();
     }
 
     private static void serializeOtherByType(String areaName, KeysPriorities priorities, Set<Description> descriptions,
-                                      List<Field> fields, TriangulationFull full) {
+                                             List<Field> fields, TriangulationFull full, Clusters clusters) {
         List<OtherSerialization> oss = descriptions.stream()
                 .filter(d -> d.getLinkAmount().entrySet()
                         .stream()

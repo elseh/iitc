@@ -45,6 +45,7 @@ public abstract class AbstractSerializer {
 
     @Value("other.players:1") private static int players;
 
+
     public static void setKeysStorage(KeysStorage keysStorage) {
         AbstractSerializer.keysStorage = keysStorage;
     }
@@ -155,6 +156,11 @@ public abstract class AbstractSerializer {
         log.info(message);
     }
 
+    public int getRequiredMax() {
+        return requiredKeys.values().stream()
+            .filter(v -> v > 0).mapToInt(v -> v).max().getAsInt();
+    }
+
     public String serializeMaxField() {
         // Brunnen; https://www.ingress.com/intel?ll=52.357459,9.660858&z=17&pll=52.357459,9.660858
         // Link, Agent, MapNumOrigin, OriginName, MapNumDestination, DestinationName
@@ -195,4 +201,22 @@ public abstract class AbstractSerializer {
     }
 
     protected abstract List<Point> getPointsOrder();
+
+    public static class Summary implements Comparable<Summary> {
+        double distance;
+        int maxKey;
+
+        public Summary(double distance, int maxKey) {
+            this.distance = distance;
+            this.maxKey = maxKey;
+        }
+
+        @Override
+        public int compareTo(Summary o) {
+            int result = Double.compare(distance, o.distance);
+            if (result == 0)
+                result = Integer.compare(maxKey, o.maxKey);
+            return result;
+        }
+    }
 }

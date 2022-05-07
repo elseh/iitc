@@ -90,22 +90,18 @@ public class FrameGenerator {
                 .stream()
                 .filter(l -> inPoints.contains(l.pair.v1)/* || inPoints.contains(l.pair.v2)*/)
                 .collect(Collectors.toSet());
-        /*inLinks
-                .stream()
-                .filter(l -> inPoints.contains(l.pair.v2))
-                .forEach(l -> l.pair = l.pair.reverse());*/
         return inLinks;
     }
 
     private Description substract(Description reverse, Set<LinkSmall> outLinks) {
-        Description d = Description.makeEmptyBase(reverse.getLinkAmount().keySet());
+        Description d = new Description(reverse.getLinkAmount().keySet());
         reverse.getLinkAmount().forEach((k, v) -> d.getLinkAmount().put(k, v));
         group(outLinks).forEach((k, v) -> d.getLinkAmount().put(k, reverse.getLinkAmount().get(k) - v.size()));
         return d;
     }
 
     private Description substract(Description reverse, LinkSmall link) {
-        Description d = Description.makeEmptyBase(reverse.getLinkAmount().keySet());
+        Description d = new Description(reverse.getLinkAmount().keySet());
         reverse.getLinkAmount().forEach((k, v) -> d.getLinkAmount().put(k, v));
         d.getLinkAmount().put(link.pair.v1, d.getLinkAmount().get(link.pair.v1) - 1);
         return d;
